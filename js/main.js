@@ -15,6 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showPage(name) {
     pages.forEach((p) => p.classList.toggle("active", p.id === "page-" + name));
+    navLinks.forEach((link) => {
+      const target = link.getAttribute("data-nav");
+      link.classList.toggle("active", target === name);
+    });
     window.scrollTo({
       top: 0,
       behavior: "instant" in document.documentElement.style ? "instant" : "auto",
