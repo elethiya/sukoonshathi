@@ -493,9 +493,16 @@ section {
 
       .heart {
         color: var(--gold);
-        font-size: 1.25rem;
-        margin-bottom: 6px;
-        display: block;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+
+        svg {
+          width: 20px;
+          height: 20px;
+          stroke: var(--gold);
+          display: block;
+        }
       }
 
       p {
@@ -522,9 +529,16 @@ section {
       letter-spacing: 0.3px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       box-shadow: 0 4px 14px rgba(15, 61, 52, 0.2);
       z-index: 2;
+
+      svg {
+        width: 13px;
+        height: 13px;
+        flex-shrink: 0;
+        display: block;
+      }
     }
   }
 }
@@ -669,7 +683,19 @@ section {
 
     .mini-heart {
       color: var(--gold);
-      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      margin-top: 1px;
+
+      svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--gold);
+        display: block;
+      }
     }
 
     h3 {
@@ -811,6 +837,17 @@ section {
       color: var(--forest);
       flex-shrink: 0;
       margin-top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+
+      svg {
+        width: 18px;
+        height: 18px;
+        display: block;
+      }
     }
 
     strong {
@@ -833,6 +870,20 @@ section {
     gap: 10px;
     color: var(--ink-soft);
     font-size: 0.88rem;
+
+    .assurance-ic {
+      color: var(--forest);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      svg {
+        width: 15px;
+        height: 15px;
+        display: block;
+      }
+    }
   }
 }
 

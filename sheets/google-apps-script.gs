@@ -14,7 +14,7 @@
  * 8. Paste that URL into SHEET_ENDPOINT in main.js
  */
 
-// ⚠️ Set this to the email address that should get notified on every submission
+// NOTE: Set this to the email address that should get notified on every submission
 const NOTIFY_EMAIL = "you@example.com";
 
 function doGet(e) {
