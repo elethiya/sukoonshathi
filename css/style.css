@@ -445,36 +445,38 @@ section {
   border-radius: 22px;
   overflow: hidden;
   aspect-ratio: 4/5;
-  background:
-    radial-gradient(circle at 75% 18%, rgba(201, 163, 92, 0.35), transparent 45%),
-    linear-gradient(160deg, var(--forest) 0%, var(--forest-2) 55%, #163f36 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: var(--forest);
+  box-shadow: 0 20px 48px rgba(15, 61, 52, 0.18);
 }
 
-.hero-visual .visual-mark {
-  width: 46%;
-  max-width: 190px;
-  opacity: 0.9;
-  margin-bottom: 60px;
-}
-
-.hero-visual .visual-mark svg {
+.hero-visual .hero-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   display: block;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hero-visual:hover .hero-img {
+  transform: scale(1.03);
 }
 
 .hero-visual .quote-card {
   position: absolute;
   left: 24px;
   bottom: 24px;
-  right: 24px;
-  background: var(--paper);
+  max-width: 260px;
+  background: rgba(255, 253, 248, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 16px;
-  padding: 20px 22px;
+  padding: 16px 20px;
   box-shadow: 0 16px 36px rgba(15, 30, 25, 0.2);
+  z-index: 2;
 }
 
 .hero-visual .quote-card .heart {
@@ -496,16 +498,20 @@ section {
   position: absolute;
   top: 18px;
   right: 18px;
-  background: rgba(245, 238, 225, 0.14);
+  background: rgba(15, 61, 52, 0.84);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(245, 238, 225, 0.35);
   color: #f5eee1;
-  padding: 7px 13px;
+  padding: 7px 14px;
   border-radius: 999px;
   font-size: 0.76rem;
   letter-spacing: 0.3px;
   display: flex;
   align-items: center;
   gap: 6px;
+  box-shadow: 0 4px 14px rgba(15, 61, 52, 0.2);
+  z-index: 2;
 }
 
 /* ---------- Feature Strip ---------- */
@@ -1001,9 +1007,9 @@ footer {
   }
 
   .hero .hero-visual {
-    aspect-ratio: 16/10;
+    aspect-ratio: 4/3;
     order: -1;
-    max-height: 380px;
+    max-height: 400px;
   }
 
   .features {
@@ -1122,15 +1128,17 @@ footer {
   }
 
   .hero .hero-visual {
-    aspect-ratio: 16/11;
+    aspect-ratio: 1 / 1;
     border-radius: 18px;
+    max-height: 360px;
   }
 
   .hero .hero-visual .quote-card {
     left: 14px;
     bottom: 14px;
-    right: 14px;
-    padding: 14px 16px;
+    right: auto;
+    max-width: calc(100% - 28px);
+    padding: 12px 14px;
     border-radius: 12px;
   }
 
