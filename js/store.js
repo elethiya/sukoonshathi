@@ -631,7 +631,6 @@ class SukoonStore {
     this.saveStorage("sukoon_cart", this.cart);
     this.updateCounters();
     this.renderCartDrawer();
-    this.showToast(`Added <strong>${prod.title}</strong> to cart!`);
   }
 
   updateItemQty(productId, variant, delta) {
@@ -927,9 +926,8 @@ class SukoonStore {
               Available Store Offers
             </div>
             <ul class="offers-list">
-              <li><strong>Coupon Offer:</strong> Apply code <strong>SUKOON15</strong> at checkout for 15% instant savings.</li>
-              <li><strong>First Order Offer:</strong> Apply code <strong>FIRST50</strong> for flat ₹50 off on this purchase.</li>
-              <li><strong>Delivery Promise:</strong> Dispatched in tamper-evident protective box with free returns.</li>
+              <li><strong>Free Shipping:</strong> Instant contactless delivery across India with full transit protection.</li>
+              <li><strong>Verified Authenticity:</strong> Premium mindfulness craftsmanship designed for daily wellness.</li>
             </ul>
           </div>
 
@@ -1312,29 +1310,6 @@ class SukoonStore {
           })
           .join("")}
       </div>
-
-      <!-- Coupon Promo Box -->
-      <div class="cart-coupon-box" style="margin-top: 14px;">
-        <div class="coupon-input-row">
-          <input type="text" class="coupon-input" id="cartCouponInput" placeholder="Enter coupon code (SUKOON15)">
-          <button class="coupon-apply-btn" id="cartCouponApplyBtn">Apply</button>
-        </div>
-        ${
-          this.appliedCoupon
-            ? `
-          <div class="applied-coupon-pill">
-            <span>Coupon <strong>${this.appliedCoupon.code}</strong> applied (-₹${totals.couponDiscount})</span>
-            <button style="background:transparent; border:none; color:var(--forest); font-weight:700; cursor:pointer;" id="cartRemoveCouponBtn">&times;</button>
-          </div>
-        `
-            : `
-          <div class="coupon-chips-row">
-            <span class="coupon-chip" data-quick-coupon="SUKOON15">Apply SUKOON15 (15% OFF)</span>
-            <span class="coupon-chip" data-quick-coupon="FIRST50">FIRST50 (₹50 OFF)</span>
-          </div>
-        `
-        }
-      </div>
     `;
 
     footer.innerHTML = `
@@ -1347,16 +1322,6 @@ class SukoonStore {
           <span>Store Savings</span>
           <span>-₹${totals.dealDiscount.toLocaleString("en-IN")}</span>
         </div>
-        ${
-          totals.couponDiscount > 0
-            ? `
-          <div class="cart-bill-row discount">
-            <span>Coupon Discount (${this.appliedCoupon?.code})</span>
-            <span>-₹${totals.couponDiscount.toLocaleString("en-IN")}</span>
-          </div>
-        `
-            : ""
-        }
         <div class="cart-bill-row">
           <span>Delivery Charges</span>
           <span style="color: #1f5c4f; font-weight: 600;">FREE</span>
@@ -1393,22 +1358,6 @@ class SukoonStore {
         const id = b.getAttribute("data-cart-remove");
         const variant = b.getAttribute("data-cart-variant");
         this.removeItem(id, variant);
-      });
-    });
-
-    document.getElementById("cartCouponApplyBtn")?.addEventListener("click", () => {
-      const code = document.getElementById("cartCouponInput")?.value;
-      this.applyCoupon(code);
-    });
-
-    document.getElementById("cartRemoveCouponBtn")?.addEventListener("click", () => {
-      this.removeCoupon();
-    });
-
-    document.querySelectorAll("[data-quick-coupon]").forEach((chip) => {
-      chip.addEventListener("click", () => {
-        const code = chip.getAttribute("data-quick-coupon");
-        this.applyCoupon(code);
       });
     });
 
@@ -1625,23 +1574,6 @@ class SukoonStore {
       })
       .join("");
 
-    const couponSectionHtml = this.appliedCoupon
-      ? `
-        <div class="checkout-coupon-applied-card">
-          <div class="applied-coupon-info">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-            <span><strong>${this.appliedCoupon.code}</strong> applied (${this.appliedCoupon.discountPct ? `${this.appliedCoupon.discountPct}% OFF` : `₹${this.appliedCoupon.discountFlat} OFF`})</span>
-          </div>
-          <button type="button" class="btn-remove-coupon" id="checkoutRemoveCouponBtn" aria-label="Remove coupon">&times;</button>
-        </div>
-      `
-      : `
-        <div class="checkout-coupon-input-wrap">
-          <input type="text" id="checkoutCouponInput" placeholder="Discount code (e.g. SUKOON15)" aria-label="Discount code">
-          <button type="button" id="checkoutCouponApplyBtn">Apply</button>
-        </div>
-      `;
-
     return `
       <div class="checkout-summary-head">
         <h3 class="checkout-summary-title">Order Summary</h3>
@@ -1650,10 +1582,6 @@ class SukoonStore {
 
       <div class="checkout-summary-items-list">
         ${itemsHtml}
-      </div>
-
-      <div class="checkout-summary-coupon-box">
-        ${couponSectionHtml}
       </div>
 
       <div class="checkout-summary-breakdown">
@@ -1665,12 +1593,6 @@ class SukoonStore {
           <span>Sukoon Offer Price</span>
           <span>₹${totals.subtotalDeal.toLocaleString("en-IN")}</span>
         </div>
-        ${totals.couponDiscount > 0 ? `
-          <div class="breakdown-row discount-row">
-            <span>Coupon Discount</span>
-            <span>-₹${totals.couponDiscount.toLocaleString("en-IN")}</span>
-          </div>
-        ` : ""}
         <div class="breakdown-row">
           <span>Delivery Charges</span>
           <span class="free-delivery-badge">FREE</span>
@@ -1682,21 +1604,6 @@ class SukoonStore {
         </div>
         <div class="total-savings-tag">
           You're saving ₹${totals.totalSavings.toLocaleString("en-IN")} on this order
-        </div>
-      </div>
-
-      <div class="checkout-summary-trust-strip">
-        <div class="trust-item">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span>7-Day Hassle-Free Replacement</span>
-        </div>
-        <div class="trust-item">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Dispatches Within 24 Hours</span>
-        </div>
-        <div class="trust-item">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span>100% Genuine Ayurvedic & Wellness</span>
         </div>
       </div>
     `;
@@ -1751,11 +1658,6 @@ class SukoonStore {
           <textarea id="chk-notes" name="notes" placeholder="Optional delivery instructions (e.g. Leave with security, ring bell twice)">${data.notes || ""}</textarea>
         </div>
 
-        <label class="checkout-checkbox-row">
-          <input type="checkbox" id="chk-save-details" checked>
-          <span>Save this delivery address for faster 1-click checkout</span>
-        </label>
-
         <div class="checkout-bottom-sticky-bar">
           <button type="submit" class="btn-checkout-primary">
             <span>Continue to Payment (₹${totals.totalFinal.toLocaleString("en-IN")})</span>
@@ -1769,7 +1671,6 @@ class SukoonStore {
   getStep2PaymentHtml(totals) {
     const method = this.selectedPaymentMethod || "upi";
     const upiMode = this.upiMode || "qr";
-    const selectedBank = this.selectedBank || "HDFC Bank";
 
     // Crisp Vector SVG QR Code Frame with Sukoon Leaf Emblem
     const qrSvg = `
@@ -1811,7 +1712,7 @@ class SukoonStore {
     return `
       <h3 class="checkout-form-title">Select Payment Method</h3>
       <p class="checkout-form-subtitle">
-        100% Encrypted & Safe Static Transaction Simulation. Choose an option:
+        Select your preferred payment option below:
       </p>
 
       <div class="payment-methods-accordion">
@@ -1870,85 +1771,7 @@ class SukoonStore {
           </div>
         </div>
 
-        <!-- 2. Cards -->
-        <div class="payment-method-item ${method === 'card' ? 'active' : ''}" data-method="card">
-          <div class="payment-method-header">
-            <div class="pm-header-left">
-              <input type="radio" name="payMethodOption" value="card" ${method === 'card' ? 'checked' : ''} id="pm-card">
-              <div class="pm-title-wrap">
-                <strong>Credit or Debit Card</strong>
-                <span>Visa, MasterCard, RuPay, Maestro</span>
-              </div>
-            </div>
-            <div class="pm-header-badges">
-              <span class="pm-badge-chip">Cards</span>
-            </div>
-          </div>
-          <div class="payment-method-content">
-            <div class="card-fields-grid">
-              <div class="field">
-                <label style="font-size: 0.8rem; font-weight: 600; color: var(--forest);">Card Number</label>
-                <input type="text" id="chkCardNum" placeholder="4532 8901 2345 6789" maxlength="19" value="${this.enteredCardNum || ''}" style="height: 42px; font-family: monospace; letter-spacing: 1px;">
-              </div>
-              <div class="card-field-row">
-                <div class="field">
-                  <label style="font-size: 0.8rem; font-weight: 600; color: var(--forest);">Expiry Date</label>
-                  <input type="text" id="chkCardExpiry" placeholder="MM / YY" maxlength="7" value="${this.enteredCardExpiry || ''}" style="height: 42px;">
-                </div>
-                <div class="field">
-                  <label style="font-size: 0.8rem; font-weight: 600; color: var(--forest);">CVV / CVC</label>
-                  <input type="password" id="chkCardCvv" placeholder="•••" maxlength="4" value="${this.enteredCardCvv || ''}" style="height: 42px;">
-                </div>
-              </div>
-              <div class="field">
-                <label style="font-size: 0.8rem; font-weight: 600; color: var(--forest);">Name on Card</label>
-                <input type="text" id="chkCardName" placeholder="Cardholder Name" value="${this.enteredCardName || (this.checkoutData?.name || '')}" style="height: 42px;">
-              </div>
-              <div class="card-security-note">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                <span>Encrypted 256-bit SSL transaction. Card details never stored.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 3. Net Banking -->
-        <div class="payment-method-item ${method === 'netbanking' ? 'active' : ''}" data-method="netbanking">
-          <div class="payment-method-header">
-            <div class="pm-header-left">
-              <input type="radio" name="payMethodOption" value="netbanking" ${method === 'netbanking' ? 'checked' : ''} id="pm-netbanking">
-              <div class="pm-title-wrap">
-                <strong>Net Banking</strong>
-                <span>All Major Indian Public & Private Banks</span>
-              </div>
-            </div>
-            <div class="pm-header-badges">
-              <span class="pm-badge-chip">50+ Banks</span>
-            </div>
-          </div>
-          <div class="payment-method-content">
-            <div style="font-size: 0.8rem; font-weight: 600; color: var(--forest); margin-bottom: 8px;">Popular Indian Banks:</div>
-            <div class="bank-quick-grid">
-              ${["HDFC Bank", "State Bank of India", "ICICI Bank", "Axis Bank", "Kotak Mahindra", "Punjab National"].map((b) => `
-                <button type="button" class="bank-select-btn ${selectedBank === b ? 'active' : ''}" data-bank-name="${b}">
-                  ${b}
-                </button>
-              `).join("")}
-            </div>
-            <select id="otherBanksSelect" style="width: 100%; height: 40px; border: 1.5px solid var(--line); border-radius: 8px; font-size: 0.84rem; background: #fffdf8; padding: 0 10px;">
-              <option value="">-- Or Select from Other Banks --</option>
-              <option value="Bank of Baroda">Bank of Baroda</option>
-              <option value="Canara Bank">Canara Bank</option>
-              <option value="Union Bank of India">Union Bank of India</option>
-              <option value="IndusInd Bank">IndusInd Bank</option>
-              <option value="IDBI Bank">IDBI Bank</option>
-              <option value="Federal Bank">Federal Bank</option>
-              <option value="Yes Bank">Yes Bank</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- 4. Cash on Delivery (COD) -->
+        <!-- 2. Cash on Delivery (COD) -->
         <div class="payment-method-item ${method === 'cod' ? 'active' : ''}" data-method="cod">
           <div class="payment-method-header">
             <div class="pm-header-left">
@@ -1968,19 +1791,11 @@ class SukoonStore {
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
               </div>
               <div class="cod-text">
-                <strong>Free Doorstep Verification:</strong>
-                <p>No prepayment needed. Pay via Cash or UPI directly to the Blue Dart / Delhivery courier partner upon physical parcel receipt.</p>
+                <strong>Doorstep Payment on Delivery:</strong>
+                <p>No advance payment required. Pay via Cash or UPI directly to the courier partner upon physical parcel receipt.</p>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="checkout-guarantee-banner">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <div>
-          <strong>Sukoon Saathi Buyer Protection:</strong>
-          Free 7-day hassle-free replacement if damaged during transit. 100% genuine guaranteed.
         </div>
       </div>
 
@@ -2010,8 +1825,6 @@ class SukoonStore {
 
     const paymentLabel = {
       upi: "UPI / Instant QR",
-      card: "Credit / Debit Card",
-      netbanking: `Net Banking (${this.selectedBank || "HDFC Bank"})`,
       cod: "Cash on Delivery (Doorstep)"
     }[this.selectedPaymentMethod || "upi"];
 
@@ -2084,7 +1897,7 @@ class SukoonStore {
             <span>Continue Shopping</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
-          <button type="button" class="btn-checkout-secondary" onclick="window.print()">
+          <button type="button" class="btn-checkout-secondary" id="btnPrintTaxInvoice">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
             <span>Print Tax Invoice</span>
           </button>
@@ -2110,20 +1923,7 @@ class SukoonStore {
       });
     }
 
-    // 2. Coupon Apply & Remove
-    document.getElementById("checkoutCouponApplyBtn")?.addEventListener("click", () => {
-      const code = document.getElementById("checkoutCouponInput")?.value;
-      if (this.applyCoupon(code)) {
-        this.renderCheckoutCurrentStep();
-      }
-    });
-
-    document.getElementById("checkoutRemoveCouponBtn")?.addEventListener("click", () => {
-      this.removeCoupon();
-      this.renderCheckoutCurrentStep();
-    });
-
-    // 3. Step 1: Form submission
+    // 2. Step 1: Form submission
     if (step === 1) {
       document.getElementById("checkoutFormStep1")?.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -2135,7 +1935,7 @@ class SukoonStore {
       });
     }
 
-    // 4. Step 2: Payment method selection & interactions
+    // 3. Step 2: Payment method selection & interactions
     if (step === 2) {
       // Payment method card radio selector
       document.querySelectorAll(".payment-method-item").forEach((item) => {
@@ -2193,44 +1993,6 @@ class SukoonStore {
         this.showToast("UPI ID verified successfully!");
       });
 
-      // Card inputs auto-formatting
-      const cardNumInput = document.getElementById("chkCardNum");
-      cardNumInput?.addEventListener("input", (e) => {
-        let val = e.target.value.replace(/\D/g, "");
-        if (val.length > 16) val = val.substring(0, 16);
-        const formatted = val.match(/.{1,4}/g)?.join(" ") || val;
-        e.target.value = formatted;
-        this.enteredCardNum = formatted;
-      });
-
-      document.getElementById("chkCardExpiry")?.addEventListener("input", (e) => {
-        let val = e.target.value.replace(/\D/g, "");
-        if (val.length > 4) val = val.substring(0, 4);
-        if (val.length >= 3) {
-          e.target.value = val.substring(0, 2) + " / " + val.substring(2);
-        } else {
-          e.target.value = val;
-        }
-        this.enteredCardExpiry = e.target.value;
-      });
-
-      // Bank quick selector
-      document.querySelectorAll(".bank-select-btn").forEach((btn) => {
-        btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          document.querySelectorAll(".bank-select-btn").forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-          this.selectedBank = btn.getAttribute("data-bank-name");
-        });
-      });
-
-      document.getElementById("otherBanksSelect")?.addEventListener("change", (e) => {
-        if (e.target.value) {
-          this.selectedBank = e.target.value;
-          document.querySelectorAll(".bank-select-btn").forEach((b) => b.classList.remove("active"));
-        }
-      });
-
       // Back to step 1
       document.getElementById("checkoutBackStep1")?.addEventListener("click", () => {
         this.currentCheckoutStep = 1;
@@ -2243,7 +2005,7 @@ class SukoonStore {
       });
     }
 
-    // 5. Step 3: Confirmation actions
+    // 4. Step 3: Confirmation actions
     if (step === 3) {
       document.getElementById("btnCopyOrderId")?.addEventListener("click", (e) => {
         const orderId = e.currentTarget.getAttribute("data-order-id");
@@ -2255,6 +2017,10 @@ class SukoonStore {
             e.currentTarget.textContent = "Copy";
           }, 2000);
         }
+      });
+
+      document.getElementById("btnPrintTaxInvoice")?.addEventListener("click", () => {
+        this.printTaxInvoice();
       });
 
       document.getElementById("checkoutFinishBtn")?.addEventListener("click", () => {
@@ -2274,8 +2040,12 @@ class SukoonStore {
       `;
     }
 
+    const totals = this.getCalculatedTotals();
+
     setTimeout(() => {
       this.confirmedOrderId = "OD-SUKOON-" + Math.floor(100000 + Math.random() * 900000);
+      this.lastConfirmedCart = [...this.cart];
+      this.lastConfirmedTotals = { ...totals };
       this.cart = [];
       this.appliedCoupon = null;
       localStorage.removeItem("sukoon_cart");
@@ -2285,6 +2055,179 @@ class SukoonStore {
       this.currentCheckoutStep = 3;
       this.renderCheckoutCurrentStep();
     }, 700);
+  }
+
+  printTaxInvoice() {
+    const totals = this.lastConfirmedTotals || this.getCalculatedTotals();
+    const orderId = this.confirmedOrderId || ("OD-SUKOON-" + Math.floor(100000 + Math.random() * 900000));
+    const now = new Date();
+    const invoiceDateStr = now.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
+
+    const paymentLabel = {
+      upi: "UPI / Instant QR",
+      cod: "Cash on Delivery (COD)"
+    }[this.selectedPaymentMethod || "upi"];
+
+    const invoiceContainer = document.getElementById("printableInvoice");
+    if (!invoiceContainer) {
+      window.print();
+      return;
+    }
+
+    const cartItems = (this.lastConfirmedCart && this.lastConfirmedCart.length > 0)
+      ? this.lastConfirmedCart
+      : (this.cart.length > 0 ? this.cart : [{ id: "ss-mindful-journal", qty: 1 }]);
+
+    const itemsRows = cartItems.map((item, idx) => {
+      const p = PRODUCTS_DATA.find((x) => x.id === item.id) || {
+        title: "Sukoon 90-Day Mindful Reflection & Gratitude Journal",
+        price: 599,
+        mrp: 999
+      };
+      const lineTotal = p.price * item.qty;
+      return `
+        <tr>
+          <td style="text-align: center;">${idx + 1}</td>
+          <td>
+            <strong>${p.title}</strong>
+            ${item.variant ? `<div style="font-size: 8pt; color: #555;">Variant: ${item.variant}</div>` : ""}
+          </td>
+          <td style="text-align: center;">4901</td>
+          <td style="text-align: center;">${item.qty}</td>
+          <td style="text-align: right;">₹${p.price.toLocaleString("en-IN")}.00</td>
+          <td style="text-align: right; font-weight: 600;">₹${lineTotal.toLocaleString("en-IN")}.00</td>
+        </tr>
+      `;
+    }).join("");
+
+    invoiceContainer.innerHTML = `
+      <div class="invoice-page">
+        <!-- Header -->
+        <div class="inv-header">
+          <div class="inv-brand">
+            <h1 class="inv-logo">SUKOON SAATHI</h1>
+            <p class="inv-company-sub">Sukoon Living Wellness Pvt. Ltd.</p>
+            <p class="inv-company-addr">
+              104 Lotus Park, Indiranagar, Bengaluru, Karnataka - 560038<br>
+              GSTIN: 29AABCS1234F1Z8 &bull; CIN: U74999KA2024PTC183921<br>
+              Email: support@sukoonsaathi.com &bull; Web: sukoonsaathi.com
+            </p>
+          </div>
+          <div class="inv-meta">
+            <div class="inv-badge">TAX INVOICE</div>
+            <table class="inv-meta-table">
+              <tr>
+                <td><strong>Invoice No:</strong></td>
+                <td>INV-${orderId.replace("OD-SUKOON-", "2026-")}</td>
+              </tr>
+              <tr>
+                <td><strong>Invoice Date:</strong></td>
+                <td>${invoiceDateStr}</td>
+              </tr>
+              <tr>
+                <td><strong>Order ID:</strong></td>
+                <td>${orderId}</td>
+              </tr>
+              <tr>
+                <td><strong>Payment Mode:</strong></td>
+                <td>${paymentLabel}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="inv-divider"></div>
+
+        <!-- Bill / Ship To -->
+        <div class="inv-parties-grid">
+          <div class="inv-party-col">
+            <div class="inv-section-title">BILL TO &amp; SHIP TO (CONSIGNEE)</div>
+            <div class="inv-party-name">${this.checkoutData?.name || "Customer"}</div>
+            <div class="inv-party-detail">
+              ${this.checkoutData?.address || "Address"}<br>
+              ${this.checkoutData?.city || "City"} - ${this.checkoutData?.pincode || ""}<br>
+              <strong>Phone:</strong> +91 ${this.checkoutData?.phone || ""}<br>
+              <strong>Email:</strong> ${this.checkoutData?.email || ""}
+            </div>
+          </div>
+          <div class="inv-party-col">
+            <div class="inv-section-title">DISPATCH &amp; SHIPPING DETAILS</div>
+            <div class="inv-party-detail">
+              <strong>Carrier:</strong> Express Courier Partner (Blue Dart / Delhivery)<br>
+              <strong>Place of Supply:</strong> Karnataka (29)<br>
+              <strong>Shipping Type:</strong> Direct Contactless Delivery<br>
+              <strong>Order Status:</strong> Confirmed &bull; Preparing for Dispatch
+            </div>
+          </div>
+        </div>
+
+        <!-- Items Table -->
+        <table class="inv-items-table">
+          <thead>
+            <tr>
+              <th style="width: 6%; text-align: center;">#</th>
+              <th style="width: 48%; text-align: left;">Item Description</th>
+              <th style="width: 12%; text-align: center;">HSN</th>
+              <th style="width: 8%; text-align: center;">Qty</th>
+              <th style="width: 13%; text-align: right;">Rate (₹)</th>
+              <th style="width: 13%; text-align: right;">Amount (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemsRows}
+          </tbody>
+        </table>
+
+        <!-- Totals & Taxes Summary -->
+        <div class="inv-summary-container">
+          <div class="inv-notes">
+            <div class="inv-section-title">TERMS &amp; CONDITIONS</div>
+            <ul class="inv-terms-list">
+              <li>All taxes (CGST / SGST / IGST) are inclusive as per Indian GST slabs.</li>
+              <li>This is a computer-generated tax invoice and requires no physical signature.</li>
+              <li>For any order support or queries, reach us at support@sukoonsaathi.com.</li>
+            </ul>
+          </div>
+          <div class="inv-totals-box">
+            <table class="inv-totals-table">
+              <tr>
+                <td>Subtotal:</td>
+                <td style="text-align: right;">₹${(totals.subtotalDeal || totals.totalFinal).toLocaleString("en-IN")}.00</td>
+              </tr>
+              <tr>
+                <td>GST (Inclusive @ 18%):</td>
+                <td style="text-align: right;">₹${Math.round(((totals.subtotalDeal || totals.totalFinal) * 18) / 118).toLocaleString("en-IN")}.00</td>
+              </tr>
+              <tr>
+                <td>Shipping Charges:</td>
+                <td style="text-align: right; color: #1f5c4f; font-weight: 600;">FREE</td>
+              </tr>
+              <tr class="inv-grand-total-row">
+                <td><strong>Grand Total:</strong></td>
+                <td style="text-align: right; font-size: 11pt; font-weight: 700; color: #0f3d34;">₹${totals.totalFinal.toLocaleString("en-IN")}.00</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="inv-footer">
+          <div class="inv-footer-thankyou">
+            Thank you for welcoming calm and balance into your daily life with <strong>Sukoon Saathi</strong>.
+          </div>
+          <div class="inv-signature-block">
+            <div class="inv-company-sign">For Sukoon Living Wellness Pvt. Ltd.</div>
+            <div class="inv-sign-stamp">[Authorized Signatory]</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    window.print();
   }
 
   closeCheckoutModal() {

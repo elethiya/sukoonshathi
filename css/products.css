@@ -3555,3 +3555,272 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================
+   PRINT STYLESHEET — DEDICATED 1-PAGE TAX INVOICE
+   ========================================================== */
+.printable-invoice-container {
+  display: none;
+}
+
+@media print {
+  /* Standard single A4 page setup */
+  @page {
+    size: A4 portrait;
+    margin: 10mm 14mm;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111111 !important;
+    font-size: 10pt !important;
+    line-height: 1.35 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Hide entire regular landing page and floating modals */
+  header,
+  footer,
+  nav,
+  section,
+  .topbar,
+  #menuOverlay,
+  #pdpModalOverlay,
+  .checkout-modal-overlay,
+  .store-toast,
+  .checkout-modal-card,
+  button,
+  .no-print {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Show only the dedicated printable invoice */
+  #printableInvoice.printable-invoice-container {
+    display: block !important;
+    visibility: visible !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-inside: avoid !important;
+    page-break-after: avoid !important;
+    page-break-before: avoid !important;
+  }
+
+  #printableInvoice * {
+    visibility: visible !important;
+  }
+
+  .invoice-page {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    page-break-inside: avoid !important;
+  }
+
+  .inv-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .inv-logo {
+    font-family: Georgia, serif;
+    font-size: 18pt;
+    font-weight: 700;
+    color: #0f3d34;
+    margin: 0 0 2px 0;
+    letter-spacing: 0.5px;
+  }
+
+  .inv-company-sub {
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #242019;
+    margin: 0 0 3px 0;
+  }
+
+  .inv-company-addr {
+    font-size: 7.5pt;
+    color: #555555;
+    margin: 0;
+    line-height: 1.35;
+  }
+
+  .inv-meta {
+    text-align: right;
+  }
+
+  .inv-badge {
+    display: inline-block;
+    background: #0f3d34;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    font-size: 10pt;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .inv-meta-table {
+    margin-left: auto;
+    font-size: 8pt;
+    border-collapse: collapse;
+  }
+
+  .inv-meta-table td {
+    padding: 1.5px 4px;
+    text-align: right;
+  }
+
+  .inv-divider {
+    height: 2px;
+    background: #0f3d34;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    margin: 8px 0 12px 0;
+  }
+
+  .inv-parties-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 14px;
+    background: #fbf8f2;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #e2dac9;
+  }
+
+  .inv-section-title {
+    font-size: 7.5pt;
+    font-weight: 700;
+    color: #0f3d34;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+    border-bottom: 1px solid #e2dac9;
+    padding-bottom: 2px;
+  }
+
+  .inv-party-name {
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #111111;
+    margin-bottom: 2px;
+  }
+
+  .inv-party-detail {
+    font-size: 8pt;
+    color: #333333;
+    line-height: 1.35;
+  }
+
+  /* Items Table */
+  .inv-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+    font-size: 8pt;
+  }
+
+  .inv-items-table th {
+    background: #0f3d34;
+    color: #ffffff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    padding: 5px 8px;
+    font-weight: 600;
+    font-size: 8pt;
+    text-transform: uppercase;
+  }
+
+  .inv-items-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #222222;
+  }
+
+  .inv-summary-container {
+    display: grid;
+    grid-template-columns: 1fr 240px;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .inv-terms-list {
+    margin: 3px 0 0 14px;
+    padding: 0;
+    font-size: 7pt;
+    color: #666666;
+    line-height: 1.35;
+  }
+
+  .inv-totals-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8pt;
+  }
+
+  .inv-totals-table td {
+    padding: 2.5px 5px;
+  }
+
+  .inv-grand-total-row {
+    border-top: 1.5px solid #0f3d34;
+    border-bottom: 1.5px solid #0f3d34;
+  }
+
+  .inv-grand-total-row td {
+    padding: 5px;
+  }
+
+  .inv-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px dashed #cccccc;
+    font-size: 7.5pt;
+  }
+
+  .inv-footer-thankyou {
+    font-style: italic;
+    color: #444444;
+    max-width: 60%;
+  }
+
+  .inv-signature-block {
+    text-align: right;
+  }
+
+  .inv-company-sign {
+    font-size: 7pt;
+    color: #555555;
+    margin-bottom: 18px;
+  }
+
+  .inv-sign-stamp {
+    font-size: 8pt;
+    font-weight: 700;
+    color: #0f3d34;
+  }
+}
