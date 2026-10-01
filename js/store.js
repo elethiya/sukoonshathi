@@ -1499,239 +1499,800 @@ class SukoonStore {
     document.body.style.overflow = "";
   }
 
-  // Static Checkout Modal (100% Client-Side)
-  openCheckoutModal() {
+  // ==========================================================
+  // STATIC CHECKOUT MODAL & PAYMENT FLOATING WINDOW
+  // ==========================================================
+  openCheckoutModal(step = 1) {
     const totals = this.getCalculatedTotals();
     if (totals.count === 0) {
       this.showToast("Your cart is empty! Add products to proceed.");
       return;
     }
 
+    this.currentCheckoutStep = step;
+    this.checkoutData = this.checkoutData || {};
+    this.selectedPaymentMethod = this.selectedPaymentMethod || "upi";
+    this.upiMode = this.upiMode || "qr";
+    this.selectedBank = this.selectedBank || "HDFC Bank";
+    this.isMobileSummaryOpen = false;
+
     const modal = document.getElementById("checkoutModalOverlay");
-    const container = document.getElementById("checkoutModalContent");
-    if (!modal || !container) return;
+    if (modal) {
+      modal.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
 
-    container.innerHTML = `
-      <div class="checkout-steps-bar">
-        <div class="checkout-step-indicator active">
-          <span class="step-num-badge">1</span> Delivery Details
-        </div>
-        <div class="checkout-step-indicator">
-          <span class="step-num-badge">2</span> Payment Method
-        </div>
-        <div class="checkout-step-indicator">
-          <span class="step-num-badge">3</span> Confirmation
-        </div>
-      </div>
-
-      <div id="checkoutStepContainer">
-        <!-- Step 1: Delivery Address -->
-        <h3 class="checkout-form-title">Step 1: Enter Shipping & Contact Address</h3>
-        <p style="font-size: 0.88rem; color: var(--ink-soft); margin-bottom: 18px;">
-          Your order invoice and delivery tracking details will be dispatched to these contact details.
-        </p>
-
-        <form id="checkoutFormStep1">
-          <div class="two-col">
-            <div class="field">
-              <label for="chk-name">Full Name *</label>
-              <input id="chk-name" name="name" type="text" required placeholder="Full Name">
-            </div>
-            <div class="field">
-              <label for="chk-phone">Phone / WhatsApp Number *</label>
-              <input id="chk-phone" name="phone" type="tel" required placeholder="10-digit mobile number">
-            </div>
-          </div>
-          <div class="field">
-            <label for="chk-email">Email Address *</label>
-            <input id="chk-email" name="email" type="email" required placeholder="name@example.com">
-          </div>
-          <div class="field">
-            <label for="chk-address">Delivery Address (Street / Flat / Colony) *</label>
-            <input id="chk-address" name="address" type="text" required placeholder="Flat, Building, Street Area">
-          </div>
-          <div class="two-col">
-            <div class="field">
-              <label for="chk-city">City *</label>
-              <input id="chk-city" name="city" type="text" required placeholder="City">
-            </div>
-            <div class="field">
-              <label for="chk-pincode">PIN Code *</label>
-              <input id="chk-pincode" name="pincode" type="text" required placeholder="6-digit PIN" maxlength="6">
-            </div>
-          </div>
-          <div class="field">
-            <label for="chk-notes">Delivery Instructions / Gift Note (Optional)</label>
-            <textarea id="chk-notes" name="notes" placeholder="Optional delivery instructions or gift card greeting."></textarea>
-          </div>
-
-          <div style="background: var(--cream); border-radius: 10px; padding: 14px; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--forest); font-size: 1.05rem;">
-              <span>Total Payable:</span>
-              <span>₹${totals.totalFinal.toLocaleString("en-IN")}</span>
-            </div>
-          </div>
-
-          <button type="submit" class="btn-proceed-checkout">
-            Continue to Payment
-          </button>
-        </form>
-      </div>
-    `;
-
-    document.getElementById("checkoutFormStep1")?.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const data = Object.fromEntries(new FormData(form).entries());
-      this.checkoutData = data;
-      this.renderCheckoutStep2();
-    });
-
-    modal.classList.add("open");
-    document.body.style.overflow = "hidden";
+    this.renderCheckoutCurrentStep();
   }
 
-  renderCheckoutStep2() {
-    const container = document.getElementById("checkoutStepContainer");
+  renderCheckoutCurrentStep() {
+    const container = document.getElementById("checkoutModalContent");
     if (!container) return;
+
     const totals = this.getCalculatedTotals();
+    const step = this.currentCheckoutStep || 1;
 
-    const stepIndicators = document.querySelectorAll(".checkout-step-indicator");
-    if (stepIndicators[1]) stepIndicators[1].classList.add("active");
-
-    container.innerHTML = `
-      <h3 class="checkout-form-title">Step 2: Select Payment Method</h3>
-      <p style="font-size: 0.88rem; color: var(--ink-soft); margin-bottom: 16px;">
-        100% Encrypted & Safe Static Transaction Simulation.
-      </p>
-
-      <div class="payment-methods-grid">
-        <label class="payment-method-card active">
-          <input type="radio" name="payMethod" value="upi" checked>
-          <div>
-            <strong>UPI / QR Code</strong>
-            <div style="font-size: 0.74rem; color: var(--ink-soft);">GPay, PhonePe, Paytm, BHIM</div>
-          </div>
-        </label>
-
-        <label class="payment-method-card">
-          <input type="radio" name="payMethod" value="card">
-          <div>
-            <strong>Credit / Debit Card</strong>
-            <div style="font-size: 0.74rem; color: var(--ink-soft);">Visa, MasterCard, RuPay</div>
-          </div>
-        </label>
-
-        <label class="payment-method-card">
-          <input type="radio" name="payMethod" value="netbanking">
-          <div>
-            <strong>Net Banking</strong>
-            <div style="font-size: 0.74rem; color: var(--ink-soft);">All Major Indian Banks</div>
-          </div>
-        </label>
-
-        <label class="payment-method-card">
-          <input type="radio" name="payMethod" value="cod">
-          <div>
-            <strong>Cash on Delivery (COD)</strong>
-            <div style="font-size: 0.74rem; color: var(--ink-soft);">Pay upon parcel receipt</div>
-          </div>
-        </label>
-      </div>
-
-      <div style="background: #fbf5e7; border: 1px solid #c9a35c; border-radius: 12px; padding: 14px; margin-bottom: 20px;">
-        <div style="font-size: 0.82rem; color: var(--forest); line-height: 1.4;">
-          <strong>Buyer Protection:</strong> Free 7-day replacement guarantee if the product arrives damaged or defective.
+    // Mobile Collapsible Summary Toggle Strip
+    const mobileSummaryStripHtml = `
+      <button type="button" class="checkout-mobile-summary-strip ${this.isMobileSummaryOpen ? 'expanded' : ''}" id="checkoutMobileSummaryToggle" aria-expanded="${this.isMobileSummaryOpen}">
+        <div class="cms-left">
+          <span class="cms-cart-badge">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            ${totals.count}
+          </span>
+          <span id="cmsLabelText">${this.isMobileSummaryOpen ? 'Hide order summary' : 'Show order summary'}</span>
+          <svg class="cms-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-      </div>
+        <div class="cms-right">
+          <span class="cms-total">₹${totals.totalFinal.toLocaleString("en-IN")}</span>
+        </div>
+      </button>
+    `;
 
-      <div style="display: flex; gap: 10px;">
-        <button type="button" class="btn-amz-cart" id="checkoutBackStep1" style="flex: 0 0 100px;">
-          Back
-        </button>
-        <button type="button" class="btn-proceed-checkout" id="checkoutConfirmOrderBtn" style="flex: 1;">
-          Confirm Order & Pay ₹${totals.totalFinal.toLocaleString("en-IN")}
-        </button>
+    // Stepper Progress Bar
+    const stepperHtml = `
+      <div class="checkout-stepper-bar">
+        <div class="step-pill ${step >= 1 ? (step > 1 ? 'completed' : 'active') : ''}">
+          <span class="step-badge">${step > 1 ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : '1'}</span>
+          <span class="step-title">Delivery Details</span>
+        </div>
+        <div class="step-line ${step >= 2 ? 'filled' : ''}"></div>
+        <div class="step-pill ${step >= 2 ? (step > 2 ? 'completed' : 'active') : ''}">
+          <span class="step-badge">${step > 2 ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : '2'}</span>
+          <span class="step-title">Payment Method</span>
+        </div>
+        <div class="step-line ${step >= 3 ? 'filled' : ''}"></div>
+        <div class="step-pill ${step === 3 ? 'active completed' : ''}">
+          <span class="step-badge">${step === 3 ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : '3'}</span>
+          <span class="step-title">Order Confirmed</span>
+        </div>
       </div>
     `;
 
-    document.querySelectorAll(".payment-method-card").forEach((card) => {
-      card.addEventListener("click", () => {
-        document.querySelectorAll(".payment-method-card").forEach((c) => c.classList.remove("active"));
-        card.classList.add("active");
+    // Flow Content for Active Step
+    let stepContentHtml = "";
+    if (step === 1) {
+      stepContentHtml = this.getStep1FormHtml(totals);
+    } else if (step === 2) {
+      stepContentHtml = this.getStep2PaymentHtml(totals);
+    } else {
+      stepContentHtml = this.getStep3ConfirmationHtml(totals);
+    }
+
+    const summarySidebarHtml = this.renderOrderSummaryHtml(totals);
+
+    container.innerHTML = `
+      ${mobileSummaryStripHtml}
+      ${stepperHtml}
+      <div class="checkout-main-grid">
+        <div class="checkout-flow-column">
+          ${stepContentHtml}
+        </div>
+        <div class="checkout-summary-column ${this.isMobileSummaryOpen ? 'mobile-open' : ''}" id="checkoutSummaryColumn">
+          ${summarySidebarHtml}
+        </div>
+      </div>
+    `;
+
+    this.bindCheckoutEventListeners(step);
+  }
+
+  renderOrderSummaryHtml(totals) {
+    const itemsHtml = this.cart
+      .map((item) => {
+        const p = PRODUCTS_DATA.find((x) => x.id === item.id) || {
+          title: "Sukoon Wellness Item",
+          price: 599,
+          mrp: 999,
+          image: "assets/hero.webp"
+        };
+        return `
+          <div class="checkout-summary-item">
+            <div class="summary-item-img-wrap">
+              <img src="${p.image}" alt="${p.title}">
+              <span class="summary-item-qty">${item.qty}</span>
+            </div>
+            <div class="summary-item-details">
+              <h4 class="summary-item-title">${p.title}</h4>
+              ${item.variant ? `<div class="summary-item-variant">Variant: ${item.variant}</div>` : ""}
+              <div class="summary-item-price-row">
+                <span class="summary-item-price">₹${(p.price * item.qty).toLocaleString("en-IN")}</span>
+                ${p.mrp > p.price ? `<span class="summary-item-mrp">₹${(p.mrp * item.qty).toLocaleString("en-IN")}</span>` : ""}
+              </div>
+            </div>
+          </div>
+        `;
+      })
+      .join("");
+
+    const couponSectionHtml = this.appliedCoupon
+      ? `
+        <div class="checkout-coupon-applied-card">
+          <div class="applied-coupon-info">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+            <span><strong>${this.appliedCoupon.code}</strong> applied (${this.appliedCoupon.discountPct ? `${this.appliedCoupon.discountPct}% OFF` : `₹${this.appliedCoupon.discountFlat} OFF`})</span>
+          </div>
+          <button type="button" class="btn-remove-coupon" id="checkoutRemoveCouponBtn" aria-label="Remove coupon">&times;</button>
+        </div>
+      `
+      : `
+        <div class="checkout-coupon-input-wrap">
+          <input type="text" id="checkoutCouponInput" placeholder="Discount code (e.g. SUKOON15)" aria-label="Discount code">
+          <button type="button" id="checkoutCouponApplyBtn">Apply</button>
+        </div>
+      `;
+
+    return `
+      <div class="checkout-summary-head">
+        <h3 class="checkout-summary-title">Order Summary</h3>
+        <span class="checkout-summary-badge">${totals.count} ${totals.count === 1 ? "item" : "items"}</span>
+      </div>
+
+      <div class="checkout-summary-items-list">
+        ${itemsHtml}
+      </div>
+
+      <div class="checkout-summary-coupon-box">
+        ${couponSectionHtml}
+      </div>
+
+      <div class="checkout-summary-breakdown">
+        <div class="breakdown-row">
+          <span>Subtotal (MRP)</span>
+          <span class="strikethrough-mrp">₹${totals.subtotalMrp.toLocaleString("en-IN")}</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Sukoon Offer Price</span>
+          <span>₹${totals.subtotalDeal.toLocaleString("en-IN")}</span>
+        </div>
+        ${totals.couponDiscount > 0 ? `
+          <div class="breakdown-row discount-row">
+            <span>Coupon Discount</span>
+            <span>-₹${totals.couponDiscount.toLocaleString("en-IN")}</span>
+          </div>
+        ` : ""}
+        <div class="breakdown-row">
+          <span>Delivery Charges</span>
+          <span class="free-delivery-badge">FREE</span>
+        </div>
+        <div class="breakdown-divider"></div>
+        <div class="breakdown-total-row">
+          <span>Total Payable</span>
+          <span class="total-payable-amount">₹${totals.totalFinal.toLocaleString("en-IN")}</span>
+        </div>
+        <div class="total-savings-tag">
+          You're saving ₹${totals.totalSavings.toLocaleString("en-IN")} on this order
+        </div>
+      </div>
+
+      <div class="checkout-summary-trust-strip">
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>7-Day Hassle-Free Replacement</span>
+        </div>
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Dispatches Within 24 Hours</span>
+        </div>
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>100% Genuine Ayurvedic & Wellness</span>
+        </div>
+      </div>
+    `;
+  }
+
+  getStep1FormHtml(totals) {
+    const data = this.checkoutData || {};
+    return `
+      <h3 class="checkout-form-title">Shipping & Contact Details</h3>
+      <p class="checkout-form-subtitle">
+        Enter delivery address to receive your Sukoon wellness package and live tracking updates.
+      </p>
+
+      <form id="checkoutFormStep1" class="checkout-form-grid">
+        <div class="two-col">
+          <div class="field">
+            <label for="chk-name">Full Name *</label>
+            <input id="chk-name" name="name" type="text" required placeholder="e.g. Aarav Sharma" value="${data.name || ""}">
+          </div>
+          <div class="field">
+            <label for="chk-phone">Mobile / WhatsApp Number *</label>
+            <div class="phone-input-wrap">
+              <span class="phone-prefix">+91</span>
+              <input id="chk-phone" name="phone" type="tel" required placeholder="98765 43210" pattern="[0-9]{10}" maxlength="10" value="${data.phone || ""}">
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="chk-email">Email Address (For Tax Invoice & Updates) *</label>
+          <input id="chk-email" name="email" type="email" required placeholder="aarav@example.com" value="${data.email || ""}">
+        </div>
+
+        <div class="field">
+          <label for="chk-address">Delivery Address (House / Flat / Street / Landmark) *</label>
+          <input id="chk-address" name="address" type="text" required placeholder="e.g. 402, Lotus Residency, MG Road" value="${data.address || ""}">
+        </div>
+
+        <div class="two-col keep-two-col-mobile">
+          <div class="field">
+            <label for="chk-city">City / District *</label>
+            <input id="chk-city" name="city" type="text" required placeholder="e.g. Mumbai" value="${data.city || ""}">
+          </div>
+          <div class="field">
+            <label for="chk-pincode">PIN Code *</label>
+            <input id="chk-pincode" name="pincode" type="text" required placeholder="6-digit PIN" maxlength="6" pattern="[0-9]{6}" value="${data.pincode || ""}">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="chk-notes">Delivery Note / Gift Message (Optional)</label>
+          <textarea id="chk-notes" name="notes" placeholder="Optional delivery instructions (e.g. Leave with security, ring bell twice)">${data.notes || ""}</textarea>
+        </div>
+
+        <label class="checkout-checkbox-row">
+          <input type="checkbox" id="chk-save-details" checked>
+          <span>Save this delivery address for faster 1-click checkout</span>
+        </label>
+
+        <div class="checkout-bottom-sticky-bar">
+          <button type="submit" class="btn-checkout-primary">
+            <span>Continue to Payment (₹${totals.totalFinal.toLocaleString("en-IN")})</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </form>
+    `;
+  }
+
+  getStep2PaymentHtml(totals) {
+    const method = this.selectedPaymentMethod || "upi";
+    const upiMode = this.upiMode || "qr";
+    const selectedBank = this.selectedBank || "HDFC Bank";
+
+    // Crisp Vector SVG QR Code Frame with Sukoon Leaf Emblem
+    const qrSvg = `
+      <svg viewBox="0 0 100 100" fill="var(--forest)">
+        <rect x="5" y="5" width="26" height="26" fill="none" stroke="var(--forest)" stroke-width="3" rx="4"/>
+        <rect x="11" y="11" width="14" height="14" rx="2"/>
+        <rect x="69" y="5" width="26" height="26" fill="none" stroke="var(--forest)" stroke-width="3" rx="4"/>
+        <rect x="75" y="11" width="14" height="14" rx="2"/>
+        <rect x="5" y="69" width="26" height="26" fill="none" stroke="var(--forest)" stroke-width="3" rx="4"/>
+        <rect x="11" y="75" width="14" height="14" rx="2"/>
+        <rect x="36" y="8" width="5" height="5"/>
+        <rect x="46" y="8" width="5" height="5"/>
+        <rect x="56" y="8" width="5" height="5"/>
+        <rect x="36" y="18" width="5" height="5"/>
+        <rect x="46" y="18" width="10" height="5"/>
+        <rect x="8" y="36" width="5" height="5"/>
+        <rect x="18" y="36" width="5" height="5"/>
+        <rect x="28" y="36" width="5" height="10"/>
+        <rect x="8" y="46" width="10" height="5"/>
+        <rect x="36" y="36" width="6" height="6"/>
+        <rect x="58" y="36" width="6" height="6"/>
+        <rect x="36" y="58" width="6" height="6"/>
+        <rect x="58" y="58" width="6" height="6"/>
+        <rect x="69" y="36" width="5" height="5"/>
+        <rect x="79" y="36" width="10" height="5"/>
+        <rect x="89" y="46" width="5" height="5"/>
+        <rect x="69" y="46" width="5" height="10"/>
+        <rect x="36" y="69" width="10" height="5"/>
+        <rect x="56" y="69" width="5" height="10"/>
+        <rect x="46" y="79" width="5" height="10"/>
+        <rect x="69" y="69" width="5" height="5"/>
+        <rect x="79" y="79" width="10" height="10"/>
+        <circle cx="50" cy="50" r="13" fill="#fffdf8" stroke="var(--forest)" stroke-width="2"/>
+        <path d="M47 54C47 50 53 46 53 46S55 52 50 55C48 56 47 55 47 54Z" fill="var(--forest)"/>
+        <path d="M50 48C46 48 44 44 44 44S49 43 51 46C52 47 51 48 50 48Z" fill="#c9a35c"/>
+      </svg>
+    `;
+
+    return `
+      <h3 class="checkout-form-title">Select Payment Method</h3>
+      <p class="checkout-form-subtitle">
+        100% Encrypted & Safe Static Transaction Simulation. Choose an option:
+      </p>
+
+      <div class="payment-methods-accordion">
+        <!-- 1. UPI / QR Code -->
+        <div class="payment-method-item ${method === 'upi' ? 'active' : ''}" data-method="upi">
+          <div class="payment-method-header">
+            <div class="pm-header-left">
+              <input type="radio" name="payMethodOption" value="upi" ${method === 'upi' ? 'checked' : ''} id="pm-upi">
+              <div class="pm-title-wrap">
+                <strong>UPI / Instant QR Code</strong>
+                <span>Google Pay, PhonePe, Paytm, BHIM & CRED</span>
+              </div>
+            </div>
+            <div class="pm-header-badges">
+              <span class="pm-rec-tag">Recommended</span>
+              <span class="pm-badge-chip">Zero Fee</span>
+            </div>
+          </div>
+          <div class="payment-method-content">
+            <div class="upi-mode-tabs">
+              <button type="button" class="upi-tab-btn ${upiMode === 'qr' ? 'active' : ''}" data-upi-mode="qr">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Scan Dynamic QR Code
+              </button>
+              <button type="button" class="upi-tab-btn ${upiMode === 'id' ? 'active' : ''}" data-upi-mode="id">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                Enter UPI ID / VPA
+              </button>
+            </div>
+
+            ${upiMode === 'qr' ? `
+              <div class="upi-qr-card">
+                <div class="qr-code-frame">
+                  ${qrSvg}
+                </div>
+                <div class="qr-scan-hint">Scan with any UPI App to pay ₹${totals.totalFinal.toLocaleString("en-IN")}</div>
+                <div class="qr-timer-pill">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <span>QR Valid for 09:54</span>
+                </div>
+                <div class="upi-id-copy-row">
+                  <span>VPA: sukoonshathi@okhdfcbank</span>
+                  <button type="button" class="btn-copy-upi" id="btnCopyUpi">Copy</button>
+                </div>
+              </div>
+            ` : `
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <label style="font-size: 0.82rem; font-weight: 600; color: var(--forest);">Enter Virtual Payment Address (VPA):</label>
+                <div style="display: flex; gap: 8px;">
+                  <input type="text" id="chkUpiIdInput" placeholder="e.g. mobile@okaxis, yourname@upi" value="${this.enteredUpiId || ''}" style="flex: 1; height: 42px; border: 1.5px solid var(--line); border-radius: 8px; padding: 0 12px; font-size: 0.88rem;">
+                  <button type="button" id="btnVerifyUpi" style="background: var(--forest); color: #fffdf8; border: none; border-radius: 8px; padding: 0 16px; font-size: 0.82rem; font-weight: 600; cursor: pointer;">Verify</button>
+                </div>
+                <span id="upiVerifyStatus" style="font-size: 0.76rem; color: var(--green); display: none;">✓ Verified Beneficiary: Sukoon Living Pvt Ltd</span>
+              </div>
+            `}
+          </div>
+        </div>
+
+        <!-- 2. Cards -->
+        <div class="payment-method-item ${method === 'card' ? 'active' : ''}" data-method="card">
+          <div class="payment-method-header">
+            <div class="pm-header-left">
+              <input type="radio" name="payMethodOption" value="card" ${method === 'card' ? 'checked' : ''} id="pm-card">
+              <div class="pm-title-wrap">
+                <strong>Credit or Debit Card</strong>
+                <span>Visa, MasterCard, RuPay, Maestro</span>
+              </div>
+            </div>
+            <div class="pm-header-badges">
+              <span class="pm-badge-chip">Cards</span>
+            </div>
+          </div>
+          <div class="payment-method-content">
+            <div class="card-fields-grid">
+              <div class="field">
+                <label style="font-size: 0.8rem; font-weight: 600; color: var(--forest);">Card Number</label>
+                <input type="text" id="chkCardNum" placeholder="4532 8901 2345 6789" maxlength="19" value="${this.enteredCardNum || ''}" style="height: 42px; font-family: monospace; letter-spacing: 1px;">
+              </div>
+              <div class="card-field-row">
+                <div class="field">
+                  <label style="font-size: 0.8rem; font-weight: 600; color: var(--forest);">Expiry Date</label>
+                  <input type="text" id="chkCardExpiry" placeholder="MM / YY" maxlength="7" value="${this.enteredCardExpiry || ''}" style="height: 42px;">
+                </div>
+                <div class="field">
+                  <label style="font-size: 0.8rem; font-weight: 600; color: var(--forest);">CVV / CVC</label>
+                  <input type="password" id="chkCardCvv" placeholder="•••" maxlength="4" value="${this.enteredCardCvv || ''}" style="height: 42px;">
+                </div>
+              </div>
+              <div class="field">
+                <label style="font-size: 0.8rem; font-weight: 600; color: var(--forest);">Name on Card</label>
+                <input type="text" id="chkCardName" placeholder="Cardholder Name" value="${this.enteredCardName || (this.checkoutData?.name || '')}" style="height: 42px;">
+              </div>
+              <div class="card-security-note">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>Encrypted 256-bit SSL transaction. Card details never stored.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Net Banking -->
+        <div class="payment-method-item ${method === 'netbanking' ? 'active' : ''}" data-method="netbanking">
+          <div class="payment-method-header">
+            <div class="pm-header-left">
+              <input type="radio" name="payMethodOption" value="netbanking" ${method === 'netbanking' ? 'checked' : ''} id="pm-netbanking">
+              <div class="pm-title-wrap">
+                <strong>Net Banking</strong>
+                <span>All Major Indian Public & Private Banks</span>
+              </div>
+            </div>
+            <div class="pm-header-badges">
+              <span class="pm-badge-chip">50+ Banks</span>
+            </div>
+          </div>
+          <div class="payment-method-content">
+            <div style="font-size: 0.8rem; font-weight: 600; color: var(--forest); margin-bottom: 8px;">Popular Indian Banks:</div>
+            <div class="bank-quick-grid">
+              ${["HDFC Bank", "State Bank of India", "ICICI Bank", "Axis Bank", "Kotak Mahindra", "Punjab National"].map((b) => `
+                <button type="button" class="bank-select-btn ${selectedBank === b ? 'active' : ''}" data-bank-name="${b}">
+                  ${b}
+                </button>
+              `).join("")}
+            </div>
+            <select id="otherBanksSelect" style="width: 100%; height: 40px; border: 1.5px solid var(--line); border-radius: 8px; font-size: 0.84rem; background: #fffdf8; padding: 0 10px;">
+              <option value="">-- Or Select from Other Banks --</option>
+              <option value="Bank of Baroda">Bank of Baroda</option>
+              <option value="Canara Bank">Canara Bank</option>
+              <option value="Union Bank of India">Union Bank of India</option>
+              <option value="IndusInd Bank">IndusInd Bank</option>
+              <option value="IDBI Bank">IDBI Bank</option>
+              <option value="Federal Bank">Federal Bank</option>
+              <option value="Yes Bank">Yes Bank</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 4. Cash on Delivery (COD) -->
+        <div class="payment-method-item ${method === 'cod' ? 'active' : ''}" data-method="cod">
+          <div class="payment-method-header">
+            <div class="pm-header-left">
+              <input type="radio" name="payMethodOption" value="cod" ${method === 'cod' ? 'checked' : ''} id="pm-cod">
+              <div class="pm-title-wrap">
+                <strong>Cash on Delivery (COD)</strong>
+                <span>Pay in Cash or Scan QR with delivery agent</span>
+              </div>
+            </div>
+            <div class="pm-header-badges">
+              <span class="pm-badge-chip">Pay on Arrival</span>
+            </div>
+          </div>
+          <div class="payment-method-content">
+            <div class="cod-reassurance-box">
+              <div class="cod-check-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="cod-text">
+                <strong>Free Doorstep Verification:</strong>
+                <p>No prepayment needed. Pay via Cash or UPI directly to the Blue Dart / Delhivery courier partner upon physical parcel receipt.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="checkout-guarantee-banner">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div>
+          <strong>Sukoon Saathi Buyer Protection:</strong>
+          Free 7-day hassle-free replacement if damaged during transit. 100% genuine guaranteed.
+        </div>
+      </div>
+
+      <div class="checkout-bottom-sticky-bar">
+        <div class="checkout-btn-row">
+          <button type="button" class="btn-checkout-primary" id="checkoutConfirmOrderBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <span>Confirm Order & Pay ₹${totals.totalFinal.toLocaleString("en-IN")}</span>
+          </button>
+          <button type="button" class="btn-checkout-secondary" id="checkoutBackStep1">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            <span>Back</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  getStep3ConfirmationHtml(totals) {
+    const orderId = this.confirmedOrderId || ("OD-SUKOON-" + Math.floor(100000 + Math.random() * 900000));
+    const now = new Date();
+    const estDelivery = new Date(now.getTime() + 3 * 24 * 3600 * 1000).toLocaleDateString("en-IN", {
+      weekday: "short",
+      month: "short",
+      day: "numeric"
+    });
+
+    const paymentLabel = {
+      upi: "UPI / Instant QR",
+      card: "Credit / Debit Card",
+      netbanking: `Net Banking (${this.selectedBank || "HDFC Bank"})`,
+      cod: "Cash on Delivery (Doorstep)"
+    }[this.selectedPaymentMethod || "upi"];
+
+    return `
+      <div class="order-success-container">
+        <div class="success-check-circle">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 class="order-success-title">Order Placed Successfully!</h3>
+        <p style="font-size: 0.94rem; color: var(--ink-soft); margin-bottom: 12px;">
+          Thank you <strong>${this.checkoutData?.name || "Customer"}</strong>. Your order is confirmed and is being packaged for dispatch.
+        </p>
+
+        <div class="order-id-chip-row">
+          <span class="order-id-badge">Order ID: ${orderId}</span>
+          <button type="button" class="btn-copy-order-id" id="btnCopyOrderId" data-order-id="${orderId}">Copy</button>
+        </div>
+
+        <!-- Shipment tracker -->
+        <div class="shipment-tracker-card">
+          <div class="tracker-title">
+            <span>Estimated Delivery Schedule</span>
+            <span class="estimated-date-badge">By ${estDelivery}</span>
+          </div>
+          <div class="tracker-steps-row">
+            <div class="tracker-step-dot done">
+              <div class="dot-circle">✓</div>
+              <span>Placed</span>
+            </div>
+            <div class="tracker-step-dot active">
+              <div class="dot-circle">2</div>
+              <span>Packed</span>
+            </div>
+            <div class="tracker-step-dot">
+              <div class="dot-circle">3</div>
+              <span>Dispatched</span>
+            </div>
+            <div class="tracker-step-dot">
+              <div class="dot-circle">4</div>
+              <span>Delivered</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Receipt Card -->
+        <div class="order-receipt-card">
+          <div class="receipt-heading">Delivery & Invoice Summary</div>
+          <div class="receipt-info-grid">
+            <div class="receipt-info-item">
+              <strong>Delivery Address</strong>
+              <span>${this.checkoutData?.address || "Address"}, ${this.checkoutData?.city || "City"} - ${this.checkoutData?.pincode || ""}</span>
+            </div>
+            <div class="receipt-info-item">
+              <strong>Tracking Updates</strong>
+              <span>+91 ${this.checkoutData?.phone || "Phone"}</span>
+            </div>
+            <div class="receipt-info-item">
+              <strong>Invoice Dispatched To</strong>
+              <span>${this.checkoutData?.email || "Email"}</span>
+            </div>
+            <div class="receipt-info-item">
+              <strong>Payment Mode</strong>
+              <span>${paymentLabel} (₹${totals.totalFinal.toLocaleString("en-IN")})</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="checkout-btn-row" style="justify-content: center;">
+          <button type="button" class="btn-checkout-primary" id="checkoutFinishBtn">
+            <span>Continue Shopping</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <button type="button" class="btn-checkout-secondary" onclick="window.print()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            <span>Print Tax Invoice</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  bindCheckoutEventListeners(step) {
+    // 1. Mobile Summary Toggle
+    const mobileSummaryToggle = document.getElementById("checkoutMobileSummaryToggle");
+    const summaryCol = document.getElementById("checkoutSummaryColumn");
+    const labelText = document.getElementById("cmsLabelText");
+
+    if (mobileSummaryToggle && summaryCol) {
+      mobileSummaryToggle.addEventListener("click", () => {
+        this.isMobileSummaryOpen = !this.isMobileSummaryOpen;
+        mobileSummaryToggle.classList.toggle("expanded", this.isMobileSummaryOpen);
+        summaryCol.classList.toggle("mobile-open", this.isMobileSummaryOpen);
+        if (labelText) {
+          labelText.textContent = this.isMobileSummaryOpen ? "Hide order summary" : "Show order summary";
+        }
       });
+    }
+
+    // 2. Coupon Apply & Remove
+    document.getElementById("checkoutCouponApplyBtn")?.addEventListener("click", () => {
+      const code = document.getElementById("checkoutCouponInput")?.value;
+      if (this.applyCoupon(code)) {
+        this.renderCheckoutCurrentStep();
+      }
     });
 
-    document.getElementById("checkoutBackStep1")?.addEventListener("click", () => {
-      this.openCheckoutModal();
+    document.getElementById("checkoutRemoveCouponBtn")?.addEventListener("click", () => {
+      this.removeCoupon();
+      this.renderCheckoutCurrentStep();
     });
 
-    document.getElementById("checkoutConfirmOrderBtn")?.addEventListener("click", () => {
-      this.processOrderPlacement();
-    });
+    // 3. Step 1: Form submission
+    if (step === 1) {
+      document.getElementById("checkoutFormStep1")?.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const data = Object.fromEntries(new FormData(form).entries());
+        this.checkoutData = data;
+        this.currentCheckoutStep = 2;
+        this.renderCheckoutCurrentStep();
+      });
+    }
+
+    // 4. Step 2: Payment method selection & interactions
+    if (step === 2) {
+      // Payment method card radio selector
+      document.querySelectorAll(".payment-method-item").forEach((item) => {
+        item.addEventListener("click", (e) => {
+          if (e.target.closest(".payment-method-content") && !e.target.classList.contains("payment-method-header")) {
+            return;
+          }
+          const m = item.getAttribute("data-method");
+          if (m) {
+            this.selectedPaymentMethod = m;
+            document.querySelectorAll(".payment-method-item").forEach((it) => it.classList.remove("active"));
+            item.classList.add("active");
+            const radio = item.querySelector('input[type="radio"]');
+            if (radio) radio.checked = true;
+          }
+        });
+      });
+
+      // UPI tab switch
+      document.querySelectorAll(".upi-tab-btn").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const mode = btn.getAttribute("data-upi-mode");
+          if (mode) {
+            this.upiMode = mode;
+            this.renderCheckoutCurrentStep();
+          }
+        });
+      });
+
+      // Copy UPI ID button
+      document.getElementById("btnCopyUpi")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const btn = e.target;
+        navigator.clipboard?.writeText("sukoonshathi@okhdfcbank");
+        const originalText = btn.textContent;
+        btn.textContent = "Copied!";
+        this.showToast("UPI ID copied to clipboard!");
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      });
+
+      // UPI Verify button
+      document.getElementById("btnVerifyUpi")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const val = document.getElementById("chkUpiIdInput")?.value?.trim();
+        if (!val || !val.includes("@")) {
+          this.showToast("Please enter a valid UPI ID (e.g. mobile@upi)");
+          return;
+        }
+        this.enteredUpiId = val;
+        const status = document.getElementById("upiVerifyStatus");
+        if (status) status.style.display = "block";
+        this.showToast("UPI ID verified successfully!");
+      });
+
+      // Card inputs auto-formatting
+      const cardNumInput = document.getElementById("chkCardNum");
+      cardNumInput?.addEventListener("input", (e) => {
+        let val = e.target.value.replace(/\D/g, "");
+        if (val.length > 16) val = val.substring(0, 16);
+        const formatted = val.match(/.{1,4}/g)?.join(" ") || val;
+        e.target.value = formatted;
+        this.enteredCardNum = formatted;
+      });
+
+      document.getElementById("chkCardExpiry")?.addEventListener("input", (e) => {
+        let val = e.target.value.replace(/\D/g, "");
+        if (val.length > 4) val = val.substring(0, 4);
+        if (val.length >= 3) {
+          e.target.value = val.substring(0, 2) + " / " + val.substring(2);
+        } else {
+          e.target.value = val;
+        }
+        this.enteredCardExpiry = e.target.value;
+      });
+
+      // Bank quick selector
+      document.querySelectorAll(".bank-select-btn").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          document.querySelectorAll(".bank-select-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          this.selectedBank = btn.getAttribute("data-bank-name");
+        });
+      });
+
+      document.getElementById("otherBanksSelect")?.addEventListener("change", (e) => {
+        if (e.target.value) {
+          this.selectedBank = e.target.value;
+          document.querySelectorAll(".bank-select-btn").forEach((b) => b.classList.remove("active"));
+        }
+      });
+
+      // Back to step 1
+      document.getElementById("checkoutBackStep1")?.addEventListener("click", () => {
+        this.currentCheckoutStep = 1;
+        this.renderCheckoutCurrentStep();
+      });
+
+      // Confirm & Pay
+      document.getElementById("checkoutConfirmOrderBtn")?.addEventListener("click", () => {
+        this.processOrderPlacement();
+      });
+    }
+
+    // 5. Step 3: Confirmation actions
+    if (step === 3) {
+      document.getElementById("btnCopyOrderId")?.addEventListener("click", (e) => {
+        const orderId = e.currentTarget.getAttribute("data-order-id");
+        if (orderId) {
+          navigator.clipboard?.writeText(orderId);
+          e.currentTarget.textContent = "Copied!";
+          this.showToast("Order ID copied to clipboard!");
+          setTimeout(() => {
+            e.currentTarget.textContent = "Copy";
+          }, 2000);
+        }
+      });
+
+      document.getElementById("checkoutFinishBtn")?.addEventListener("click", () => {
+        this.closeCheckoutModal();
+        location.hash = "#products";
+      });
+    }
   }
 
   processOrderPlacement() {
-    const totals = this.getCalculatedTotals();
-    const orderId = "OD-SUKOON-" + Math.floor(100000 + Math.random() * 900000);
+    const btn = document.getElementById("checkoutConfirmOrderBtn");
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation: spin 0.8s linear infinite;"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg>
+        <span>Securing Safe Payment...</span>
+      `;
+    }
 
-    // Clear cart and coupon in localStorage
-    this.cart = [];
-    this.appliedCoupon = null;
-    localStorage.removeItem("sukoon_cart");
-    localStorage.removeItem("sukoon_coupon");
-    this.updateCounters();
+    setTimeout(() => {
+      this.confirmedOrderId = "OD-SUKOON-" + Math.floor(100000 + Math.random() * 900000);
+      this.cart = [];
+      this.appliedCoupon = null;
+      localStorage.removeItem("sukoon_cart");
+      localStorage.removeItem("sukoon_coupon");
+      this.updateCounters();
 
-    const container = document.getElementById("checkoutStepContainer");
-    if (!container) return;
-
-    const stepIndicators = document.querySelectorAll(".checkout-step-indicator");
-    if (stepIndicators[2]) stepIndicators[2].classList.add("active");
-
-    container.innerHTML = `
-      <div class="order-success-box">
-        <div class="success-check-circle">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <h3 class="order-success-title">Order Placed Successfully!</h3>
-        <p style="font-size: 0.95rem; color: var(--ink-soft); margin-bottom: 12px;">
-          Thank you <strong>${this.checkoutData?.name || "Customer"}</strong>. Your order is confirmed and being prepared for dispatch.
-        </p>
-
-        <span class="order-id-badge">Order ID: ${orderId}</span>
-
-        <div style="background: var(--cream); border-radius: 12px; padding: 18px; text-align: left; margin: 18px 0; font-size: 0.88rem;">
-          <div style="font-weight: 700; color: var(--forest); margin-bottom: 8px;">Order & Shipping Summary:</div>
-          <div style="color: var(--ink-soft); line-height: 1.5;">
-            <div><strong>Shipping Address:</strong> ${this.checkoutData?.address}, ${this.checkoutData?.city} - ${this.checkoutData?.pincode}</div>
-            <div><strong>Invoice Sent To:</strong> ${this.checkoutData?.email}</div>
-            <div><strong>Tracking Updates:</strong> ${this.checkoutData?.phone}</div>
-            <div><strong>Total Paid:</strong> ₹${totals.totalFinal.toLocaleString("en-IN")}</div>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <button class="btn-amz-cart" onclick="window.print()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-            Print Invoice
-          </button>
-          <button class="btn-amz-buy" id="checkoutFinishBtn">
-            Continue Shopping
-          </button>
-        </div>
-      </div>
-    `;
-
-    document.getElementById("checkoutFinishBtn")?.addEventListener("click", () => {
-      this.closeCheckoutModal();
-      location.hash = "#products";
-    });
+      this.currentCheckoutStep = 3;
+      this.renderCheckoutCurrentStep();
+    }, 700);
   }
 
   closeCheckoutModal() {
     const modal = document.getElementById("checkoutModalOverlay");
     if (modal) modal.classList.remove("open");
     document.body.style.overflow = "";
+    this.currentCheckoutStep = 1;
+    this.isMobileSummaryOpen = false;
   }
 
   // Reset Search
