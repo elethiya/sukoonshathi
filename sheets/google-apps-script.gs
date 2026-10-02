@@ -47,7 +47,7 @@ const NOTIFY_EMAIL = "eleyeshussainmollah@gmail.com";
 const SEND_CUSTOMER_CONFIRMATION = true;
 
 // Your customer support WhatsApp number (with country code, e.g. 919876543210)
-const SUPPORT_WHATSAPP = "919876543210";
+const SUPPORT_WHATSAPP = "916002085412";
 
 
 /**
@@ -745,10 +745,10 @@ function sendAdminNotificationEmail(subjectPrefix, categoryTitle, rows) {
     var val = rows[i][1];
     if (val === undefined || val === null) val = "";
     htmlRows += '<tr>' +
-      '<td style="padding: 10px 12px; border-bottom: 1px solid #ece4d4; font-weight: bold; color: #0f3d34; width: 140px; vertical-align: top; font-size: 13px;">' +
+      '<td style="padding: 9px 12px; border-bottom: 1px solid #ece4d4; font-weight: bold; color: #0f3d34; width: 140px; vertical-align: top; font-size: 13px;">' +
       escapeHtml(label) +
       '</td>' +
-      '<td style="padding: 10px 12px; border-bottom: 1px solid #ece4d4; color: #242019; vertical-align: top; font-size: 14px; line-height: 1.4;">' +
+      '<td style="padding: 9px 12px; border-bottom: 1px solid #ece4d4; color: #242019; vertical-align: top; font-size: 14px; line-height: 1.4;">' +
       escapeHtml(val).replace(/\n/g, "<br>") +
       '</td>' +
       '</tr>';
