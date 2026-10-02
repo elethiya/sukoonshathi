@@ -50,7 +50,7 @@ You only need **ONE single Google Sheet** for the entire website. The automated 
 1. In the Google Sheets top menu, click **Extensions** &rarr; **Apps Script**.
 2. Delete any existing starter code in the editor (`myFunction`).
 3. Copy the entire contents of [`google-apps-script.gs`](google-apps-script.gs) and paste it into the script editor.
-4. *(Optional)* At the top of the script, change `NOTIFY_EMAIL` from `"you@example.com"` to your own email address to receive instant email notifications for every order, booking, and message.
+4. *(Optional)* At the top of the script, change `NOTIFY_EMAIL` from `"eleyeshussainmollah@gmail.com"` to your own email address to receive instant email notifications for every order, booking, and message.
 
 ### Step 3: Deploy as a Web App
 1. Click **Deploy** (top-right blue button) &rarr; **New deployment**.
@@ -101,54 +101,52 @@ Captures all product orders placed from the store floating checkout window:
 
 ### 2. `Book a Session` Tab
 Captures therapy, counseling, and mindfulness booking requests:
-- **Timestamp (IST)**
-- **Name**
-- **Phone / WhatsApp**
-- **Email**
-- **Service Requested** (e.g. 1-on-1 Counseling, Art Therapy, Guided Meditation)
-- **Preferred Date**
-- **Preferred Time**
-- **Client Notes**
+- **Booking ID**: Auto-generated tracking ID (e.g. `BK-84201`)
+- **Timestamp (IST)**: Date and time formatted in Indian Standard Time
+- **Client Name**: Full client name
+- **Phone / WhatsApp**: Contact phone number
+- **Email**: Client email
+- **Session Type**: Requested service (e.g. Single Session, 4-Session Package, Couples Therapy)
+- **Preferred Date**: Requested appointment date
+- **Preferred Time**: Requested appointment slot (Morning, Afternoon, Evening)
+- **Client Notes**: Background notes or areas of focus
+- **Booking Status**: Defaults to `New Request (Pending Confirmation)`
 
 ### 3. `Contact Us` Tab
-Captures general inquiries:
-- **Timestamp (IST)**
-- **Name**
-- **Phone / WhatsApp**
-- **Email**
-- **Subject**
-- **Message**
+Captures general inquiries and messages:
+- **Inquiry ID**: Auto-generated reference ID (e.g. `INQ-39210`)
+- **Timestamp (IST)**: Date and time formatted in Indian Standard Time
+- **Sender Name**: Name of sender
+- **Phone / WhatsApp**: Contact phone number
+- **Email**: Sender email
+- **Subject**: Message subject / reason for writing
+- **Message**: Complete message body
+- **Inquiry Status**: Defaults to `New Message (Unread)`
 
 > [!NOTE]
-> When the first submission of any type arrives, the script automatically formats the sheet with a Forest Green brand header (`#0f3d34`), bold white text, frozen header row, and auto-adjusted column widths.
+> All 3 tabs are created automatically upon the first submission and styled with Sukoon Forest Green headers (`#0f3d34`), bold white text, frozen top rows, and auto-adjusted column widths.
 
 ---
 
-## Order & Form Notification System
+## Complete Multi-Tier Notification System
 
-Sukoon Saathi includes a multi-layered notification system so you and your customers never miss an order:
+Sukoon Saathi includes bulletproof HTML email templates designed using pure HTML `<table>` architecture (no flexbox bugs) to ensure clean rendering on all devices (Gmail Web & Mobile, Apple Mail, Outlook):
 
-### 1. Instant Admin Email Notifications (For Store Owner)
-Whenever a customer places an order, Google Apps Script sends an immediate email alert to your configured `NOTIFY_EMAIL` in [`google-apps-script.gs`](google-apps-script.gs).
-- **Subject**: `Sukoon Saathi — New Order Placed — SS-XXXXX`
-- **Content**: Formatted HTML table containing Customer Name, Phone/WhatsApp, Email, Total Amount, Items Ordered, Complete Delivery Address, and Customer Notes.
+### 1. Store Orders
+- **Admin Alert Email**: Sent immediately to `NOTIFY_EMAIL` with full customer details, phone, delivery address, items table, and total amount.
+- **Customer Order Confirmation Receipt**: Sent automatically to customer's email with their Order ID, itemized receipt breakdown table, delivery address, and direct WhatsApp support link.
 
-### 2. Automated Customer Order Confirmation Receipts
-When `SEND_CUSTOMER_CONFIRMATION = true` is set in [`google-apps-script.gs`](google-apps-script.gs), any customer who provides their email during checkout automatically receives a branded Order Confirmation receipt.
-- **Subject**: `Order Confirmed #SS-XXXXX — Sukoon Saathi`
-- **Content**: Branded receipt with their unique Order ID, items list, total paid amount, delivery address, and support contact details.
+### 2. Therapy Session Bookings
+- **Admin Alert Email**: Sent immediately to `NOTIFY_EMAIL` with Booking ID, client contact details, session type, preferred date & time slot, and client notes.
+- **Client Confirmation Email**: Sent automatically to client's email with their Booking ID, booking summary, confidentiality assurance, and next steps.
 
-### 3. Immediate On-Screen Confirmation + Direct WhatsApp Alert
-- As soon as the customer clicks **"Confirm & Place Order"**, the checkout modal transitions to Step 2 (Order Confirmed screen).
-- Displays their unique Order ID with a one-click **"Copy"** button.
-- Displays a **"Connect on WhatsApp"** button prefilled with their Order ID, allowing customers to message your team directly.
+### 3. Contact Us Inquiries
+- **Admin Alert Email**: Sent immediately to `NOTIFY_EMAIL` with Inquiry ID, sender name, contact phone, email, subject, and full message.
+- **Sender Confirmation Email**: Sent automatically to sender's email confirming receipt of their inquiry with their Reference ID and expected response time (within 24 hours).
 
-### 4. Google Sheets Native Mobile Alerts (Optional)
-If you install the **Google Sheets mobile app** on your phone:
-1. Open your spreadsheet in Google Sheets on your computer.
-2. Go to **Tools** &rarr; **Notification settings** &rarr; **Edit notifications**.
-3. Select *"Any changes are made"* and *"Email - right away"*.
-4. Google will immediately email/notify you whenever a new row is appended to your sheet.
+### 4. Direct WhatsApp Alerts & Mobile Google Sheets Notifications
+- **Immediate On-Screen WhatsApp Link**: The customer sees their reference ID and a 1-tap WhatsApp button to reach your team directly.
+- **Google Sheets Mobile Alerts**: Install the Google Sheets app on your phone, open your spreadsheet on desktop &rarr; **Tools** &rarr; **Notification settings** &rarr; select *"Any changes are made"* and *"Email - right away"* to get instant notifications whenever a new order, booking, or contact inquiry is saved!
 
 ---
 

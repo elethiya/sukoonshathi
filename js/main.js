@@ -154,6 +154,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = Object.fromEntries(new FormData(formEl).entries());
       data.form_type = formType;
       data.submitted_at = new Date().toISOString();
+      if (formType === "book") {
+        data.bookingId = "BK-" + Math.floor(10000 + Math.random() * 90000);
+      } else {
+        data.inquiryId = "INQ-" + Math.floor(10000 + Math.random() * 90000);
+      }
 
       if (submitBtn) {
         submitBtn.disabled = true;
@@ -170,8 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         statusEl.textContent =
           formType === "book"
-            ? "Thank you — your session request has been received. We'll confirm shortly."
-            : "Thank you — your message has been sent. We'll get back to you soon.";
+            ? `Thank you, ${data.name || "friend"}! Your session request (${data.bookingId}) has been received. A confirmation has been sent to your email and our care team will contact you shortly.`
+            : `Thank you, ${data.name || "friend"}! Your message (${data.inquiryId}) has been sent. A confirmation copy has been sent to your email and we'll reply soon.`;
         statusEl.classList.add("show", "ok");
         formEl.reset();
       } catch (err) {

@@ -1597,6 +1597,18 @@ class SukoonStore {
     const orderId = "OD-SUKOON-" + Math.floor(100000 + Math.random() * 900000);
     const now = new Date();
 
+    const structuredItems = this.cart.map((item) => {
+      const p = PRODUCTS_DATA.find((x) => x.id === item.id) || { title: item.id, price: 0 };
+      return {
+        id: item.id,
+        title: p.title,
+        variant: item.variant || "",
+        qty: item.qty,
+        price: p.price,
+        itemTotal: p.price * item.qty
+      };
+    });
+
     const itemsList = this.cart.map((item) => {
       const p = PRODUCTS_DATA.find((x) => x.id === item.id) || { title: item.id, price: 0 };
       return `${p.title}${item.variant ? ` (${item.variant})` : ""} x ${item.qty} (₹${(p.price * item.qty).toLocaleString("en-IN")})`;
@@ -1615,6 +1627,7 @@ class SukoonStore {
       city: formData.city,
       pincode: formData.pincode,
       notes: formData.notes || "",
+      items: structuredItems,
       itemsSummary: itemsList.join(" | "),
       totalItems: totals.count,
       totalAmount: `₹${totals.totalFinal.toLocaleString("en-IN")}`,
