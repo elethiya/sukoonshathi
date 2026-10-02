@@ -40,6 +40,14 @@ body {
   position: relative;
 }
 
+/* Prevent background scrolling when any modal/floating window is open */
+html.modal-open,
+body.modal-open {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  touch-action: none !important;
+}
+
 img {
   max-width: 100%;
   display: block;
@@ -232,6 +240,8 @@ button {
   transition: opacity 0.32s ease, transform 0.32s ease, visibility 0.32s;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
 }
 
 .menu-overlay.open {

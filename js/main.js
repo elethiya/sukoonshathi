@@ -2,8 +2,10 @@
 // Sukoon Saathi — Main Application Script
 // ==========================================
 
-// ---------- Config: Deployed Google Apps Script Web App URL ----------
-const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbya4XxtryHc7s9ej222hsiKMGGcAQJ2CSFL_lvkVAwSs4m5lw7Lem1YAE8W_dj-uVi7/exec";
+// ---------- Config: Unified Google Apps Script Web App URL ----------
+// Single Google Sheet Web App URL for Orders, Bookings, and Contact forms
+window.SUKOON_SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbya4XxtryHc7s9ej222hsiKMGGcAQJ2CSFL_lvkVAwSs4m5lw7Lem1YAE8W_dj-uVi7/exec";
+const SHEET_ENDPOINT = window.SUKOON_SHEET_ENDPOINT;
 
 document.addEventListener("DOMContentLoaded", () => {
   // ---------- Page routing ----------
@@ -44,13 +46,65 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("hashchange", routeFromHash);
   routeFromHash();
 
+  // ---------- Global Floating Window Scroll Lock Helpers ----------
+  window.lockBodyScroll = function () {
+    document.documentElement.classList.add("modal-open");
+    document.body.classList.add("modal-open");
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+  };
+
+  window.unlockBodyScroll = function () {
+    requestAnimationFrame(() => {
+      const hasOpenModal = document.querySelector(
+        ".pdp-modal-overlay.open, .checkout-modal-overlay.open, .cart-drawer-overlay.open, .wishlist-modal-overlay.open, #menuOverlay.open"
+      );
+      if (!hasOpenModal) {
+        document.documentElement.classList.remove("modal-open");
+        document.body.classList.remove("modal-open");
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+      }
+    });
+  };
+
+  // Prevent background scroll bleed when scrolling or dragging directly over modal overlays
+  const backdropOverlayIds = [
+    "pdpModalOverlay",
+    "checkoutModalOverlay",
+    "cartDrawerOverlay",
+    "wishlistModalOverlay",
+    "menuOverlay",
+  ];
+
+  backdropOverlayIds.forEach((id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const preventBackdropScroll = (e) => {
+      // If cursor/finger is directly on the overlay or a non-scrollable area inside it
+      const scrollable = e.target.closest(
+        ".checkout-modal-body, .checkout-flow-column, .checkout-summary-column, .cart-drawer-body, .pdp-modal-container, .wishlist-drawer-body"
+      );
+      // For menu overlay, the overlay itself is the scrollable container
+      if (id === "menuOverlay") return;
+
+      if (!scrollable) {
+        if (e.cancelable) e.preventDefault();
+      }
+    };
+
+    el.addEventListener("wheel", preventBackdropScroll, { passive: false });
+    el.addEventListener("touchmove", preventBackdropScroll, { passive: false });
+  });
+
   // ---------- Fullscreen menu ----------
   function openMenu() {
     if (!menuOverlay) return;
     menuOverlay.classList.add("open");
     menuOverlay.setAttribute("aria-hidden", "false");
     menuOpenBtn?.setAttribute("aria-expanded", "true");
-    document.body.style.overflow = "hidden";
+    window.lockBodyScroll();
   }
 
   function closeMenu() {
@@ -58,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
     menuOverlay.classList.remove("open");
     menuOverlay.setAttribute("aria-hidden", "true");
     menuOpenBtn?.setAttribute("aria-expanded", "false");
-    document.body.style.overflow = "";
+    window.unlockBodyScroll();
   }
 
   menuOpenBtn?.addEventListener("click", openMenu);

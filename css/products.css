@@ -771,6 +771,8 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
+  overscroll-behavior: contain !important;
+  touch-action: none;
 }
 
 .pdp-modal-overlay.open {
@@ -785,6 +787,9 @@
   max-height: 90vh;
   border-radius: 20px;
   overflow-y: auto;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y !important;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   position: relative;
   transform: translateY(20px) scale(0.98);
@@ -1559,6 +1564,8 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.28s ease;
+  overscroll-behavior: contain !important;
+  touch-action: none;
 }
 
 .cart-drawer-overlay.open {
@@ -1580,6 +1587,8 @@
   flex-direction: column;
   transform: translateX(100%);
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
 }
 
 .cart-drawer-overlay.open .cart-drawer {
@@ -1622,6 +1631,9 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y !important;
 }
 
 /* Empty Cart State */
@@ -1894,6 +1906,8 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  overscroll-behavior: contain !important;
+  touch-action: none;
 }
 
 .checkout-modal-overlay.open {
@@ -1913,6 +1927,8 @@
   position: relative;
   overflow: hidden;
   animation: checkoutFloatIn 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
 }
 
 @keyframes checkoutFloatIn {
@@ -2010,6 +2026,9 @@
   display: flex;
   flex-direction: column;
   min-height: 0;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y !important;
 }
 
 /* Stepper Progress Bar */
@@ -2022,6 +2041,7 @@
   border-bottom: 1px solid rgba(15, 61, 52, 0.08);
   gap: 12px;
   flex-shrink: 0;
+  touch-action: none;
 }
 
 .step-pill {
@@ -2149,6 +2169,9 @@
 .checkout-flow-column {
   padding: 24px 28px 28px;
   overflow-y: auto;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y !important;
 }
 
 .checkout-form-title {
@@ -2175,6 +2198,9 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  overscroll-behavior: contain !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y !important;
 }
 
 .checkout-summary-head {
@@ -3347,6 +3373,8 @@
     justify-content: center;
     padding: 0;
     z-index: 1200;
+    overscroll-behavior: contain !important;
+    touch-action: none;
   }
 
   .checkout-modal-card {
@@ -3361,6 +3389,8 @@
     overflow: hidden;
     background: #fffdf8;
     box-shadow: 0 -10px 40px rgba(10, 38, 32, 0.35);
+    overscroll-behavior: contain !important;
+    touch-action: pan-y !important;
   }
 
   .checkout-sheet-handle {
@@ -3622,6 +3652,8 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
+  overscroll-behavior: contain !important;
+  touch-action: none;
 }
 
 .wishlist-modal-overlay.open {
@@ -3643,6 +3675,8 @@
   flex-direction: column;
   transform: translateX(100%);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
 }
 
 .wishlist-modal-overlay.open .wishlist-drawer {
@@ -3858,13 +3892,78 @@
   }
 }
 
-/* Safeguard: Ensure ratings, delivery promise badges, and offer boxes remain hidden */
+/* Order Sync with Google Sheets Badge & Contact Info */
+.order-sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e8f5e9;
+  color: #1b5e20;
+  border: 1px solid #c8e6c9;
+  border-radius: 99px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.order-sync-badge svg {
+  color: #2e7d32;
+  flex-shrink: 0;
+}
+
+.order-contact-card {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 14px;
+  text-align: left;
+}
+
+.contact-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(31, 92, 79, 0.12);
+  color: var(--forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contact-card-text strong {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--forest);
+  margin-bottom: 2px;
+}
+
+.contact-card-text p {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Safeguard: Ensure ratings, delivery promises, offers, bundles, assurances, and payment tabs remain hidden */
 .amz-rating-row,
 .amz-delivery-info,
 .pdp-ratings-line,
 .pdp-offers-box,
 .reviews-breakdown-row,
-.star-rating-stars {
+.star-rating-stars,
+.pdp-assurances-grid,
+.bundle-box,
+#tab-reviews,
+.payment-methods-accordion,
+.upi-qr-card,
+.bank-transfer-card,
+.cod-reassurance-box {
   display: none !important;
 }
 
