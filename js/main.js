@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuOpenBtn = document.getElementById("menuOpenBtn");
   const menuCloseBtn = document.getElementById("menuCloseBtn");
 
+  let updateAllSpecialistCarousels = () => {};
+
   function showPage(name) {
     pages.forEach((p) => p.classList.toggle("active", p.id === "page-" + name));
     navLinks.forEach((link) => {
@@ -25,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
       top: 0,
       behavior: "instant" in document.documentElement.style ? "instant" : "auto",
     });
+    updateAllSpecialistCarousels();
   }
 
   function routeFromHash() {
@@ -193,4 +196,85 @@ document.addEventListener("DOMContentLoaded", () => {
 
   handleFormSubmit(document.getElementById("contactForm"), document.getElementById("contactStatus"), "contact");
   handleFormSubmit(document.getElementById("bookForm"), document.getElementById("bookStatus"), "book");
+
+  // ---------- Specialists Side-by-Side Carousels & Booking Integration ----------
+  function initSpecialistsCarousels() {
+    const updateFns = [];
+
+    document.querySelectorAll(".specialists-section").forEach((section) => {
+      const track = section.querySelector(".specialists-track");
+      const prevBtn = section.querySelector(".spec-nav-btn.prev");
+      const nextBtn = section.querySelector(".spec-nav-btn.next");
+      if (!track) return;
+
+      const getScrollDistance = () => {
+        const firstCard = track.querySelector(".specialist-card");
+        if (firstCard) {
+          const gap = parseFloat(window.getComputedStyle(track).gap) || 22;
+          return firstCard.offsetWidth + gap;
+        }
+        return 330;
+      };
+
+      const updateNavBtnStates = () => {
+        if (!prevBtn || !nextBtn) return;
+        const maxScroll = track.scrollWidth - track.clientWidth - 5;
+        const current = track.scrollLeft;
+        prevBtn.style.opacity = current <= 5 ? "0.38" : "1";
+        prevBtn.style.cursor = current <= 5 ? "default" : "pointer";
+        nextBtn.style.opacity = current >= maxScroll ? "0.38" : "1";
+        nextBtn.style.cursor = current >= maxScroll ? "default" : "pointer";
+      };
+
+      prevBtn?.addEventListener("click", () => {
+        track.scrollBy({ left: -getScrollDistance(), behavior: "smooth" });
+      });
+
+      nextBtn?.addEventListener("click", () => {
+        track.scrollBy({ left: getScrollDistance(), behavior: "smooth" });
+      });
+
+      track.addEventListener("scroll", updateNavBtnStates, { passive: true });
+      updateFns.push(updateNavBtnStates);
+    });
+
+    updateAllSpecialistCarousels = () => {
+      requestAnimationFrame(() => {
+        updateFns.forEach((fn) => fn());
+      });
+    };
+
+    window.addEventListener("resize", updateAllSpecialistCarousels, { passive: true });
+    setTimeout(updateAllSpecialistCarousels, 150);
+
+    // Wire specialist booking buttons
+    document.querySelectorAll(".btn-book-specialist").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const pref = btn.getAttribute("data-specialist-pref") || "";
+        location.hash = "book";
+        showPage("book");
+
+        const notesField = document.getElementById("b-notes");
+        if (notesField && pref) {
+          const prefNote = `Preferred Specialist: ${pref}`;
+          if (!notesField.value.includes(prefNote)) {
+            notesField.value = notesField.value.trim()
+              ? `${prefNote}\n${notesField.value.trim()}`
+              : prefNote;
+          }
+        }
+
+        const bookPage = document.getElementById("page-book");
+        if (bookPage) {
+          bookPage.scrollIntoView({ behavior: "smooth", block: "start" });
+          setTimeout(() => {
+            document.getElementById("b-name")?.focus();
+          }, 350);
+        }
+      });
+    });
+  }
+
+  initSpecialistsCarousels();
 });
