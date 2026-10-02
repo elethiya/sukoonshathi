@@ -124,9 +124,38 @@ Captures general inquiries:
 
 ---
 
+## Order & Form Notification System
+
+Sukoon Saathi includes a multi-layered notification system so you and your customers never miss an order:
+
+### 1. Instant Admin Email Notifications (For Store Owner)
+Whenever a customer places an order, Google Apps Script sends an immediate email alert to your configured `NOTIFY_EMAIL` in [`google-apps-script.gs`](google-apps-script.gs).
+- **Subject**: `Sukoon Saathi — New Order Placed — SS-XXXXX`
+- **Content**: Formatted HTML table containing Customer Name, Phone/WhatsApp, Email, Total Amount, Items Ordered, Complete Delivery Address, and Customer Notes.
+
+### 2. Automated Customer Order Confirmation Receipts
+When `SEND_CUSTOMER_CONFIRMATION = true` is set in [`google-apps-script.gs`](google-apps-script.gs), any customer who provides their email during checkout automatically receives a branded Order Confirmation receipt.
+- **Subject**: `Order Confirmed #SS-XXXXX — Sukoon Saathi`
+- **Content**: Branded receipt with their unique Order ID, items list, total paid amount, delivery address, and support contact details.
+
+### 3. Immediate On-Screen Confirmation + Direct WhatsApp Alert
+- As soon as the customer clicks **"Confirm & Place Order"**, the checkout modal transitions to Step 2 (Order Confirmed screen).
+- Displays their unique Order ID with a one-click **"Copy"** button.
+- Displays a **"Connect on WhatsApp"** button prefilled with their Order ID, allowing customers to message your team directly.
+
+### 4. Google Sheets Native Mobile Alerts (Optional)
+If you install the **Google Sheets mobile app** on your phone:
+1. Open your spreadsheet in Google Sheets on your computer.
+2. Go to **Tools** &rarr; **Notification settings** &rarr; **Edit notifications**.
+3. Select *"Any changes are made"* and *"Email - right away"*.
+4. Google will immediately email/notify you whenever a new row is appended to your sheet.
+
+---
+
 ## Key Features
 
 - **Single Google Sheet Backend**: No MySQL, MongoDB, or paid database services. Everything is saved live in Google Sheets.
+- **Instant Order Notifications**: Owner email alert + customer receipt + direct WhatsApp connection.
 - **Local Backup Protection**: Even if the customer loses internet or the Google Sheets webhook is misconfigured, orders are permanently saved to browser `localStorage` under `sukoon_orders`.
 - **Direct WhatsApp Confirmation**: Customers receive their Order ID immediately on screen alongside a one-click WhatsApp button to message your fulfillment team.
 - **Scroll Bleed Prevention**: Background page scrolling is strictly contained when any modal, drawer, or checkout floating window is active on both desktop and mobile viewports.
