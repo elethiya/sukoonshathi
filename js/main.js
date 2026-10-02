@@ -234,6 +234,81 @@ document.addEventListener("DOMContentLoaded", () => {
         track.scrollBy({ left: getScrollDistance(), behavior: "smooth" });
       });
 
+      // ---------- Desktop Mouse Grab & Move Left / Right ----------
+      let isDown = false;
+      let startX = 0;
+      let scrollStart = 0;
+      let hasDragged = false;
+      let lastX = 0;
+      let lastTime = 0;
+      let velocity = 0;
+
+      // Prevent native HTML5 drag on child images / links
+      track.querySelectorAll("img, a").forEach((el) => {
+        el.addEventListener("dragstart", (e) => e.preventDefault());
+      });
+
+      track.addEventListener("mousedown", (e) => {
+        if (e.button !== 0) return; // left click only
+        isDown = true;
+        hasDragged = false;
+        startX = e.pageX;
+        scrollStart = track.scrollLeft;
+        lastX = e.pageX;
+        lastTime = performance.now();
+        velocity = 0;
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        const dx = e.pageX - startX;
+        if (Math.abs(dx) > 4) {
+          hasDragged = true;
+          track.classList.add("is-dragging");
+        }
+        if (hasDragged) {
+          e.preventDefault();
+          track.scrollLeft = scrollStart - dx;
+
+          const now = performance.now();
+          const dt = now - lastTime;
+          if (dt > 8) {
+            velocity = (e.pageX - lastX) / dt;
+            lastX = e.pageX;
+            lastTime = now;
+          }
+        }
+      });
+
+      window.addEventListener("mouseup", () => {
+        if (!isDown) return;
+        isDown = false;
+        if (hasDragged) {
+          track.classList.remove("is-dragging");
+          // Natural momentum glide if mouse was moving when released
+          if (Math.abs(velocity) > 0.15) {
+            const glide = -velocity * 180;
+            track.scrollBy({ left: glide, behavior: "smooth" });
+          }
+          // Delay clearing hasDragged so click event on child doesn't fire
+          setTimeout(() => {
+            hasDragged = false;
+          }, 80);
+        }
+      });
+
+      // Capture phase click handler to block accidental clicks when dragged
+      track.addEventListener(
+        "click",
+        (e) => {
+          if (hasDragged) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        },
+        true
+      );
+
       track.addEventListener("scroll", updateNavBtnStates, { passive: true });
       updateFns.push(updateNavBtnStates);
     });

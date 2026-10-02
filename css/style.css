@@ -807,6 +807,30 @@ section {
   margin: 0 -4px;
   scrollbar-width: thin;
   scrollbar-color: rgba(15, 61, 52, 0.25) rgba(15, 61, 52, 0.04);
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.specialists-track:active {
+  cursor: grabbing;
+}
+
+.specialists-track.is-dragging {
+  cursor: grabbing !important;
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+}
+
+.specialists-track.is-dragging * {
+  cursor: grabbing !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+.specialists-track.is-dragging .specialist-card {
+  transform: none !important;
+  pointer-events: none;
 }
 
 .specialists-track::-webkit-scrollbar {
@@ -841,6 +865,7 @@ section {
   flex-direction: column;
   box-shadow: 0 4px 16px rgba(15, 61, 52, 0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: grab;
 }
 
 .specialist-card:hover {
