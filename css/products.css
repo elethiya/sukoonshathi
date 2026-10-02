@@ -589,6 +589,7 @@
   transition: color 0.18s ease;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -2865,55 +2866,222 @@
   background: #175245;
 }
 
-/* Card Mock Form */
-.card-fields-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* UPI QR & Intent Button */
+.real-upi-qr-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
-.card-field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.card-security-note {
+.btn-open-upi-intent {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
-  color: var(--green);
-  font-weight: 600;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 44px;
+  background: #eef7f4;
+  color: var(--forest);
+  border: 1.5px solid rgba(31, 92, 79, 0.25);
+  border-radius: 10px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
   margin-top: 4px;
+  font-family: var(--sans);
 }
 
-/* Bank Selection Pills */
-.bank-quick-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.btn-open-upi-intent:hover {
+  background: var(--forest);
+  color: #fffdf8;
+  border-color: var(--forest);
+}
+
+/* Direct Bank Transfer Card */
+.bank-transfer-card {
+  background: #ffffff;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 2px 8px rgba(15, 61, 52, 0.04);
+}
+
+.bank-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--forest);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 12px;
+}
+
+.bank-card-header svg {
+  color: var(--green);
+}
+
+.bank-details-grid {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
   margin-bottom: 12px;
 }
 
-.bank-select-btn {
-  background: #fffdf8;
-  border: 1.5px solid var(--line);
+.bank-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.82rem;
+  padding: 6px 10px;
   border-radius: 8px;
-  padding: 8px 10px;
+  background: var(--cream);
+  border: 1px solid rgba(15, 61, 52, 0.06);
+}
+
+.bank-detail-row.highlight {
+  background: #eef7f4;
+  border-color: rgba(31, 92, 79, 0.2);
+}
+
+.bank-detail-row.amount-row {
+  background: #fff8e7;
+  border-color: rgba(201, 163, 92, 0.35);
+}
+
+.bank-label {
+  font-weight: 600;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+  font-size: 0.78rem;
+}
+
+.bank-val-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  text-align: right;
+}
+
+.bank-value {
+  font-size: 0.84rem;
+  color: var(--forest);
+  font-family: var(--sans);
+  word-break: break-word;
+}
+
+.bank-detail-row.highlight .bank-value {
+  font-family: monospace;
+  font-size: 0.92rem;
+  letter-spacing: 0.5px;
+}
+
+.amount-text {
+  font-size: 0.96rem !important;
+  color: #0f3d34 !important;
+  font-weight: 800 !important;
+}
+
+.btn-copy-mini {
+  background: var(--forest);
+  color: #fffdf8;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  flex-shrink: 0;
+  font-family: var(--sans);
+}
+
+.btn-copy-mini:hover {
+  background: #175245;
+}
+
+.bank-instructions-box {
+  background: var(--paper);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 0.76rem;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 12px;
+  border-left: 3px solid var(--forest);
+}
+
+.instruction-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.step-num {
+  width: 16px;
+  height: 16px;
+  background: var(--forest);
+  color: #fffdf8;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.bank-utr-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bank-utr-field label {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--forest);
-  cursor: pointer;
-  text-align: center;
-  transition: all 0.15s ease;
 }
 
-.bank-select-btn:hover,
-.bank-select-btn.active {
+.bank-utr-field input {
+  height: 42px;
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 0.88rem;
+  background: #ffffff;
+  color: var(--ink);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bank-utr-field input:focus {
+  outline: none;
   border-color: var(--forest);
-  background: var(--paper);
-  box-shadow: 0 2px 6px rgba(15, 61, 52, 0.1);
+  box-shadow: 0 0 0 3px rgba(15, 61, 52, 0.1);
+}
+
+/* Confirmed Bank Details Box (Step 3) */
+.confirmed-bank-info-box {
+  background: #fbf7ef;
+  border: 1.5px solid #dcd3c1;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.84rem;
+  color: var(--forest);
+  margin-bottom: 14px;
+  text-align: left;
 }
 
 /* Cash on Delivery Notice */
@@ -3174,68 +3342,106 @@
 /* Mobile & Phone UI Overrides */
 @media (max-width: 768px) {
   .checkout-modal-overlay {
+    display: flex;
     align-items: flex-end;
+    justify-content: center;
     padding: 0;
+    z-index: 1200;
   }
 
   .checkout-modal-card {
+    width: 100%;
     max-width: 100%;
-    max-height: 94vh;
-    border-radius: 22px 22px 0 0;
-    box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.25);
+    height: 92vh;
+    height: 92dvh;
+    max-height: 94dvh;
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #fffdf8;
+    box-shadow: 0 -10px 40px rgba(10, 38, 32, 0.35);
   }
 
   .checkout-sheet-handle {
     display: block;
+    width: 42px;
+    height: 5px;
+    background: rgba(15, 61, 52, 0.2);
+    border-radius: 99px;
+    margin: 10px auto 4px;
+    flex-shrink: 0;
   }
 
   .checkout-modal-header {
-    padding: 12px 18px;
+    padding: 10px 16px;
+    gap: 10px;
   }
 
   .checkout-header-title {
     font-size: 1.05rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .checkout-header-badge {
-    font-size: 0.68rem;
+  .checkout-close-btn {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+  }
+
+  .checkout-modal-body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
   }
 
   .checkout-stepper-bar {
-    padding: 10px 14px;
+    padding: 8px 14px;
     gap: 8px;
+    flex-shrink: 0;
   }
 
   .step-pill {
-    font-size: 0.78rem;
-    gap: 6px;
+    font-size: 0.76rem;
+    gap: 5px;
   }
 
   .step-badge {
-    width: 22px;
-    height: 22px;
-    font-size: 0.7rem;
+    width: 20px;
+    height: 20px;
+    font-size: 0.68rem;
   }
 
   .step-line {
-    max-width: 32px;
+    max-width: 28px;
   }
 
   .checkout-mobile-summary-strip {
     display: flex;
+    padding: 10px 16px;
+    font-size: 0.84rem;
+    flex-shrink: 0;
   }
 
   .checkout-main-grid {
     grid-template-columns: 1fr;
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
   }
 
   .checkout-summary-column {
     display: none;
     border-left: none;
     border-bottom: 1px solid var(--line);
-    padding: 16px;
+    padding: 14px 16px;
+    flex-shrink: 0;
   }
 
   .checkout-summary-column.mobile-open {
@@ -3249,27 +3455,83 @@
   }
 
   .checkout-flow-column {
-    padding: 18px 16px 24px;
+    padding: 16px 16px 20px;
+    overflow-y: visible;
+    flex: 1 0 auto;
+    min-height: 0;
+  }
+
+  .checkout-form-title {
+    font-size: 1.18rem;
+    margin-bottom: 2px;
+  }
+
+  .checkout-form-subtitle {
+    font-size: 0.8rem;
+    margin-bottom: 16px;
+  }
+
+  .two-col.keep-two-col-mobile {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+
+  .payment-method-item {
+    border-radius: 12px;
+    margin-bottom: 10px;
   }
 
   .payment-method-header {
     padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .pm-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .pm-title-wrap {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .pm-title-wrap strong {
+    font-size: 0.88rem;
+    color: var(--forest);
+    display: block;
+    line-height: 1.25;
+  }
+
+  .pm-title-wrap span {
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pm-header-badges {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
 
   .payment-method-content {
     padding: 12px 14px 16px 14px;
   }
 
-  .bank-quick-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .receipt-info-grid {
     grid-template-columns: 1fr;
-  }
-
-  .card-field-row {
-    grid-template-columns: 1fr 1fr;
   }
 
   .checkout-bottom-sticky-bar {
@@ -3277,12 +3539,44 @@
     bottom: 0;
     left: 0;
     right: 0;
+    width: calc(100% + 32px);
+    margin: 20px -16px -20px -16px;
+    box-sizing: border-box;
     background: #fffdf8;
     padding: 12px 16px;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
     border-top: 1px solid var(--line);
     box-shadow: 0 -4px 18px rgba(15, 61, 52, 0.08);
-    z-index: 10;
-    margin: 18px -16px -24px -16px;
+    z-index: 20;
+  }
+
+  .checkout-btn-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  .btn-checkout-secondary {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 72px;
+    height: 46px;
+    padding: 0 14px;
+    font-size: 0.88rem;
+    order: 1;
+  }
+
+  .btn-checkout-primary {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 46px;
+    font-size: 0.88rem;
+    padding: 0 12px;
+    order: 2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
@@ -3295,18 +3589,26 @@
     display: inline;
   }
 
-  .checkout-btn-row {
+  .qr-code-frame {
+    width: 140px;
+    height: 140px;
+  }
+
+  .upi-tab-btn {
+    font-size: 0.76rem;
+    padding: 7px 8px;
+    gap: 4px;
+  }
+
+  .bank-detail-row {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 
-  .btn-checkout-secondary {
+  .bank-val-wrap {
     width: 100%;
-    order: 2;
-  }
-
-  .btn-checkout-primary {
-    width: 100%;
-    order: 1;
+    justify-content: space-between;
   }
 }
 
@@ -3556,271 +3858,13 @@
   }
 }
 
-/* ==========================================================
-   PRINT STYLESHEET — DEDICATED 1-PAGE TAX INVOICE
-   ========================================================== */
-.printable-invoice-container {
-  display: none;
+/* Safeguard: Ensure ratings, delivery promise badges, and offer boxes remain hidden */
+.amz-rating-row,
+.amz-delivery-info,
+.pdp-ratings-line,
+.pdp-offers-box,
+.reviews-breakdown-row,
+.star-rating-stars {
+  display: none !important;
 }
 
-@media print {
-  /* Standard single A4 page setup */
-  @page {
-    size: A4 portrait;
-    margin: 10mm 14mm;
-  }
-
-  html,
-  body {
-    background: #ffffff !important;
-    color: #111111 !important;
-    font-size: 10pt !important;
-    line-height: 1.35 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: visible !important;
-    height: auto !important;
-    min-height: 0 !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Hide entire regular landing page and floating modals */
-  header,
-  footer,
-  nav,
-  section,
-  .topbar,
-  #menuOverlay,
-  #pdpModalOverlay,
-  .checkout-modal-overlay,
-  .store-toast,
-  .checkout-modal-card,
-  button,
-  .no-print {
-    display: none !important;
-    visibility: hidden !important;
-  }
-
-  /* Show only the dedicated printable invoice */
-  #printableInvoice.printable-invoice-container {
-    display: block !important;
-    visibility: visible !important;
-    position: static !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    page-break-inside: avoid !important;
-    page-break-after: avoid !important;
-    page-break-before: avoid !important;
-  }
-
-  #printableInvoice * {
-    visibility: visible !important;
-  }
-
-  .invoice-page {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #1a1a1a;
-    page-break-inside: avoid !important;
-  }
-
-  .inv-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 10px;
-  }
-
-  .inv-logo {
-    font-family: Georgia, serif;
-    font-size: 18pt;
-    font-weight: 700;
-    color: #0f3d34;
-    margin: 0 0 2px 0;
-    letter-spacing: 0.5px;
-  }
-
-  .inv-company-sub {
-    font-size: 8.5pt;
-    font-weight: 600;
-    color: #242019;
-    margin: 0 0 3px 0;
-  }
-
-  .inv-company-addr {
-    font-size: 7.5pt;
-    color: #555555;
-    margin: 0;
-    line-height: 1.35;
-  }
-
-  .inv-meta {
-    text-align: right;
-  }
-
-  .inv-badge {
-    display: inline-block;
-    background: #0f3d34;
-    color: #ffffff !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-    font-size: 10pt;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 4px;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
-  }
-
-  .inv-meta-table {
-    margin-left: auto;
-    font-size: 8pt;
-    border-collapse: collapse;
-  }
-
-  .inv-meta-table td {
-    padding: 1.5px 4px;
-    text-align: right;
-  }
-
-  .inv-divider {
-    height: 2px;
-    background: #0f3d34;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-    margin: 8px 0 12px 0;
-  }
-
-  .inv-parties-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 14px;
-    background: #fbf8f2;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #e2dac9;
-  }
-
-  .inv-section-title {
-    font-size: 7.5pt;
-    font-weight: 700;
-    color: #0f3d34;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 3px;
-    border-bottom: 1px solid #e2dac9;
-    padding-bottom: 2px;
-  }
-
-  .inv-party-name {
-    font-size: 9.5pt;
-    font-weight: 700;
-    color: #111111;
-    margin-bottom: 2px;
-  }
-
-  .inv-party-detail {
-    font-size: 8pt;
-    color: #333333;
-    line-height: 1.35;
-  }
-
-  /* Items Table */
-  .inv-items-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 12px;
-    font-size: 8pt;
-  }
-
-  .inv-items-table th {
-    background: #0f3d34;
-    color: #ffffff !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-    padding: 5px 8px;
-    font-weight: 600;
-    font-size: 8pt;
-    text-transform: uppercase;
-  }
-
-  .inv-items-table td {
-    padding: 6px 8px;
-    border-bottom: 1px solid #e0e0e0;
-    color: #222222;
-  }
-
-  .inv-summary-container {
-    display: grid;
-    grid-template-columns: 1fr 240px;
-    gap: 16px;
-    margin-bottom: 12px;
-  }
-
-  .inv-terms-list {
-    margin: 3px 0 0 14px;
-    padding: 0;
-    font-size: 7pt;
-    color: #666666;
-    line-height: 1.35;
-  }
-
-  .inv-totals-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 8pt;
-  }
-
-  .inv-totals-table td {
-    padding: 2.5px 5px;
-  }
-
-  .inv-grand-total-row {
-    border-top: 1.5px solid #0f3d34;
-    border-bottom: 1.5px solid #0f3d34;
-  }
-
-  .inv-grand-total-row td {
-    padding: 5px;
-  }
-
-  .inv-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-top: 10px;
-    padding-top: 8px;
-    border-top: 1px dashed #cccccc;
-    font-size: 7.5pt;
-  }
-
-  .inv-footer-thankyou {
-    font-style: italic;
-    color: #444444;
-    max-width: 60%;
-  }
-
-  .inv-signature-block {
-    text-align: right;
-  }
-
-  .inv-company-sign {
-    font-size: 7pt;
-    color: #555555;
-    margin-bottom: 18px;
-  }
-
-  .inv-sign-stamp {
-    font-size: 8pt;
-    font-weight: 700;
-    color: #0f3d34;
-  }
-}
