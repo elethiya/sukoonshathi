@@ -1,0 +1,43 @@
+{
+  "header": {
+    "eyebrow": "About us",
+    "title": "A quiet space to be heard.",
+    "subtitle": "Sukoon Saathi was built on one belief: healing happens in conversation. We connect you with licensed psychologists for private, judgement-free sessions — online, at your pace."
+  },
+  "story": [
+    "We started Sukoon Saathi because too many people carry things alone, unsure of where to begin. Our psychologists are trained to listen first and guide gently — no jargon, no pressure, just steady support session by session.",
+    "Every conversation stays between you and your therapist. We keep the process simple: pick a psychologist, choose a time that works, and show up as you are."
+  ],
+  "stats": [
+    {
+      "number": "1:1",
+      "label": "Private sessions only"
+    },
+    {
+      "number": "100%",
+      "label": "Confidential by design"
+    }
+  ],
+  "values": [
+    {
+      "icon": "shield",
+      "title": "Licensed & experienced",
+      "description": "Every psychologist on Sukoon Saathi is verified and trained across areas like anxiety, stress, relationships and grief."
+    },
+    {
+      "icon": "lock",
+      "title": "Safe, private, confidential",
+      "description": "Sessions are held on secure channels. What you share stays with your therapist alone."
+    },
+    {
+      "icon": "clock",
+      "title": "Support at your pace",
+      "description": "Single sessions or ongoing care — you decide the rhythm that feels right for you."
+    }
+  ],
+  "teamSection": {
+    "eyebrow": "Our Care Team",
+    "title": "Our Multidisciplinary Care Team",
+    "subtitle": "Every practitioner at Sukoon Saathi is rigorously vetted, empathetic, and committed to guiding your journey to mental calm and self-discovery."
+  }
+}

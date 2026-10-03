@@ -1,0 +1,13 @@
+# Binaries
+backend/backend
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test / OS files
+.DS_Store
+Thumbs.db
+*.log
+errors.txt

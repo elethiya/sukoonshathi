@@ -1,0 +1,495 @@
+[
+  {
+    "id": "ss-mindful-journal",
+    "title": "Sukoon 90-Day Mindful Reflection \u0026 Gratitude Journal",
+    "subtitle": "Hardbound Gold-Foil Debossed Journal with Guided Daily Prompts",
+    "category": "journals",
+    "categoryLabel": "Mindful Journals",
+    "brand": "Sukoon Living",
+    "price": 599,
+    "mrp": 999,
+    "discountPercent": 40,
+    "rating": 4.8,
+    "reviewsCount": 420,
+    "badge": "Best Seller",
+    "badgeType": "bestseller",
+    "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "assets/hero.webp"
+    ],
+    "deliveryInfo": "Free Express Delivery in 2-3 Days across India",
+    "format": "Physical Hardbound Book",
+    "inStock": true,
+    "highlights": [
+      "120 GSM thick, bleed-proof wood-free archival paper",
+      "Luxury debossed gold foil vegan leather hardbound cover",
+      "90 daily structured morning and evening clarity prompts",
+      "Includes satin bookmark ribbon and affirmation stickers pack"
+    ],
+    "description": "Designed for daily calm, this 90-day guided reflection journal blends reflective mindfulness prompts with gratitude exercises. Requiring only 5 minutes each morning and evening, it helps clear mental fog, track daily habits, and build emotional balance.",
+    "specifications": {
+      "Binding Style": "Thread-bound flat lay (opens 180 degrees)",
+      "Cover Material": "Premium Vegan Leather with gold foil debossing",
+      "Dimensions": "A5 Size (21 cm x 14.8 cm)",
+      "Included Bonus": "Pack of 12 Mindfulness Affirmation Stickers",
+      "Number of Pages": "224 Pages (120 GSM thick paper)",
+      "Shipping": "Free across India with tracking details"
+    },
+    "variants": [
+      "Sage Green Cover",
+      "Midnight Forest",
+      "Terracotta Rose"
+    ],
+    "bundleWithId": "ss-aromatherapy-kit",
+    "reviews": [
+      {
+        "name": "Meera D.",
+        "rating": 5,
+        "date": "5 days ago",
+        "verified": true,
+        "title": "Paper quality and prompts are exceptional",
+        "body": "The paper feels silky smooth even with fountain pens. The morning and evening prompts are realistic and grounding without feeling overwhelming.",
+        "helpful": 64
+      },
+      {
+        "name": "Arjun K.",
+        "rating": 5,
+        "date": "2 weeks ago",
+        "verified": true,
+        "title": "Clean layout, high quality build",
+        "body": "The flat-lay binding makes writing effortless. One of the highest quality journals available in this price category.",
+        "helpful": 31
+      }
+    ],
+    "faq": [
+      {
+        "q": "What is the paper thickness, and does ink bleed through?",
+        "a": "The journal uses 120 GSM premium wood-free paper designed specifically to prevent ink bleed-through from gel pens and fountain pens."
+      },
+      {
+        "q": "How long does shipping take?",
+        "a": "Orders are dispatched within 24 hours. Express shipping delivers to all major cities across India within 2 to 3 business days."
+      }
+    ]
+  },
+  {
+    "id": "ss-aromatherapy-kit",
+    "title": "Sleep \u0026 Calming Aromatherapy Relaxation Kit",
+    "subtitle": "French Lavender Pillow Mist, Pulse Point Roll-On \u0026 Mulberry Silk Eye Mask",
+    "category": "kits",
+    "categoryLabel": "Wellness Kits",
+    "brand": "Sukoon Living",
+    "price": 849,
+    "mrp": 1399,
+    "discountPercent": 39,
+    "rating": 4.8,
+    "reviewsCount": 285,
+    "badge": "Sukoon's Choice",
+    "badgeType": "choice",
+    "image": "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+    ],
+    "deliveryInfo": "Free Delivery by Tomorrow",
+    "format": "Physical Gift Box",
+    "inStock": true,
+    "highlights": [
+      "100ml Pure Lavender \u0026 Chamomile soothing pillow mist",
+      "10ml Bergamot \u0026 Sandalwood calming pulse point roll-on oil",
+      "100% Grade 6A Mulberry Silk blackout eye mask with travel pouch",
+      "Sensory grounding breathing card with guided techniques"
+    ],
+    "description": "An aromatherapy sanctuary in a box. Formulated with 100% pure botanical essential oils, this kit eases sensory tension at the end of a long day, promotes deep relaxation, and supports restorative nighttime sleep.",
+    "specifications": {
+      "Active Botanicals": "French Lavender, Roman Chamomile, Bergamot, Mysore Sandalwood",
+      "Box Contents": "1x Pillow Mist (100ml), 1x Pulse Roll-On (10ml), 1x Pure Silk Eye Mask",
+      "Packaging": "Luxury matte magnetic gift box with protective inserts",
+      "Safety \u0026 Purity": "100% Vegan, Paraben-Free, Non-Staining on Linen"
+    },
+    "variants": [
+      "Calming Lavender \u0026 Chamomile",
+      "Mysore Sandalwood \u0026 Cedar"
+    ],
+    "bundleWithId": "ss-mindful-journal",
+    "reviews": [
+      {
+        "name": "Kavita S.",
+        "rating": 5,
+        "date": "1 week ago",
+        "verified": true,
+        "title": "A vital part of my evening unwind routine",
+        "body": "Two spritzes on my pillow and the silk eye mask completely transformed my night routine. The botanical aroma is natural, subtle, and calming.",
+        "helpful": 47
+      }
+    ],
+    "faq": [
+      {
+        "q": "Is the pillow spray safe for sensitive skin and fabrics?",
+        "a": "Yes. The formulation is water-based, non-comedogenic, and safe for silk, cotton, and synthetic pillowcases."
+      }
+    ]
+  },
+  {
+    "id": "ss-weighted-blanket",
+    "title": "Therapeutic Organic Bamboo Weighted Calming Blanket",
+    "subtitle": "Gentle Deep Pressure Touch for Restful Sleep \u0026 Anxiety Relief",
+    "category": "living",
+    "categoryLabel": "Comfort \u0026 Living",
+    "brand": "Sukoon Living",
+    "price": 2499,
+    "mrp": 4499,
+    "discountPercent": 44,
+    "rating": 4.9,
+    "reviewsCount": 176,
+    "badge": "Premium",
+    "badgeType": "bestseller",
+    "image": "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+    ],
+    "deliveryInfo": "Free Doorstep Delivery in 3-4 Days",
+    "format": "Physical Home Item",
+    "inStock": true,
+    "highlights": [
+      "100% natural organic bamboo viscose fabric (breathable and cooling)",
+      "High-density non-toxic micro glass beads with even weight distribution",
+      "7-layer reinforced diamond stitching prevents bead shifting",
+      "Engineered to provide therapeutic Deep Touch Pressure (DTP)"
+    ],
+    "description": "Crafted with silky breathable bamboo fabric, this weighted blanket applies gentle, evenly distributed pressure across your body, simulating the comforting feeling of being held. It helps quiet nervous energy and encourages uninterrupted rest.",
+    "specifications": {
+      "Cleaning": "Machine washable on gentle cycle or spot clean",
+      "Fabric Material": "100% Natural Organic Bamboo Lyocell",
+      "Filler": "Hypoallergenic, Lead-Free Micro Glass Beads",
+      "Warranty": "1-Year Quality Warranty on Stitching \u0026 Construction",
+      "Weight Options": "5.5 kg (Ideal for 45-70 kg) or 7.0 kg (Ideal for 70+ kg)"
+    },
+    "variants": [
+      "5.5 kg (Single Bed 48x72 in)",
+      "7.0 kg (Queen Bed 60x80 in)"
+    ],
+    "bundleWithId": "ss-aromatherapy-kit",
+    "reviews": [
+      {
+        "name": "Rohan M.",
+        "rating": 5,
+        "date": "4 days ago",
+        "verified": true,
+        "title": "Finally sleeping through the entire night",
+        "body": "I was skeptical about weighted blankets in warm Indian weather, but the bamboo fabric stays pleasantly cool. The weight distribution is completely even.",
+        "helpful": 52
+      }
+    ],
+    "faq": [
+      {
+        "q": "Does this blanket trap heat during summer?",
+        "a": "No. The outer fabric is 100% organic bamboo viscose, which naturally wicks moisture and stays cooler than traditional cotton or fleece blankets."
+      }
+    ]
+  },
+  {
+    "id": "ss-calming-tea",
+    "title": "Sukoon Natural Whole-Leaf Herbal Calming Tea (100g Tin)",
+    "subtitle": "Caffeine-Free Infusion of Chamomile, Ashwagandha, Lavender \u0026 Lemongrass",
+    "category": "living",
+    "categoryLabel": "Calming Essentials",
+    "brand": "Sukoon Harvest",
+    "price": 399,
+    "mrp": 599,
+    "discountPercent": 33,
+    "rating": 4.7,
+    "reviewsCount": 310,
+    "badge": "Popular",
+    "badgeType": "bestseller",
+    "image": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+    ],
+    "deliveryInfo": "Delivery in 2 Days across India",
+    "format": "Food Grade Reusable Tin",
+    "inStock": true,
+    "highlights": [
+      "100% pure whole flower chamomile buds and adaptogenic ashwagandha",
+      "Zero caffeine, zero artificial flavorings or preservatives",
+      "Yields 45 to 50 soothing cups of calming infusion",
+      "Sealed in an airtight reusable food-grade gold tin"
+    ],
+    "description": "A restorative evening herbal infusion hand-blended with whole Egyptian chamomile flowers, calming Himalayan lavender, and adaptogenic ashwagandha root. Naturally sweet and floral, it offers a peaceful grounding ritual before bed.",
+    "specifications": {
+      "Caffeine Level": "100% Caffeine Free",
+      "Ingredients": "Chamomile Flowers, Ashwagandha Root, Lavender, Lemongrass, Cardamom",
+      "Net Quantity": "100g Loose Leaf (45-50 Servings)",
+      "Packaging": "Airtight Golden Matte Metal Canister",
+      "Shelf Life": "18 Months from packaging date"
+    },
+    "variants": [
+      "Chamomile \u0026 Ashwagandha",
+      "Lavender \u0026 Lemongrass"
+    ],
+    "bundleWithId": "ss-mindful-journal",
+    "reviews": [
+      {
+        "name": "Shreya V.",
+        "rating": 5,
+        "date": "1 week ago",
+        "verified": true,
+        "title": "Aromatic and genuinely relaxing",
+        "body": "The chamomile flowers are whole and vibrant, not crushed dust like supermarket tea bags. Drinking this while writing in the evening journal has become my favorite ritual.",
+        "helpful": 39
+      }
+    ],
+    "faq": [
+      {
+        "q": "How should I brew this tea?",
+        "a": "Steep 1 teaspoon in 200ml of freshly boiled water for 4 to 5 minutes. Strain and enjoy warm. Honey can be added to taste."
+      }
+    ]
+  },
+  {
+    "id": "ss-worry-stone",
+    "title": "Tactile Sensory Worry Stone \u0026 Desk Grounding Object",
+    "subtitle": "Hand-Carved Polished Natural Gemstone with Ergonomic Thumb Indentation",
+    "category": "essentials",
+    "categoryLabel": "Mindful Essentials",
+    "brand": "Sukoon Living",
+    "price": 349,
+    "mrp": 599,
+    "discountPercent": 42,
+    "rating": 4.8,
+    "reviewsCount": 194,
+    "badge": "Trending",
+    "badgeType": "choice",
+    "image": "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+    ],
+    "deliveryInfo": "Free Express Delivery in 2-3 Days",
+    "format": "Physical Object with Pouch",
+    "inStock": true,
+    "highlights": [
+      "Authentic natural polished mineral gemstone with smooth ergonomic groove",
+      "Compact pocket size for discreet sensory grounding during work and study",
+      "Cool-to-touch surface aids physical tactile grounding during tense moments",
+      "Comes with a soft velvet drawstring carry pouch"
+    ],
+    "description": "An ancient tactile grounding tool reimagined for modern workstations. Rubbing the smooth curved indent with your thumb stimulates acupressure nerve endings, redirecting anxious fidgeting and bringing your attention back to the present.",
+    "specifications": {
+      "Carry Case": "Burgundy velvet drawstring travel pouch",
+      "Dimensions": "Approx. 4.5 cm x 3.5 cm x 0.8 cm",
+      "Finish": "High-luster smooth polish, zero sharp edges",
+      "Stone Options": "Natural Green Aventurine, Rose Quartz, or Black Obsidian",
+      "Weight": "Approx. 45 grams"
+    },
+    "variants": [
+      "Green Aventurine (Balance)",
+      "Rose Quartz (Gentleness)",
+      "Black Obsidian (Grounding)"
+    ],
+    "bundleWithId": "ss-mindful-journal",
+    "reviews": [
+      {
+        "name": "Anil P.",
+        "rating": 5,
+        "date": "3 days ago",
+        "verified": true,
+        "title": "Sits on my desk during stressful meetings",
+        "body": "Whenever I feel overwhelmed with deadlines, holding this smooth, cool stone provides a quick physical anchor. Small, beautiful, and very effective.",
+        "helpful": 28
+      }
+    ],
+    "faq": [
+      {
+        "q": "Is each stone unique?",
+        "a": "Yes. Because every stone is hand-carved from natural mineral deposits, each piece features unique organic veining and color depth."
+      }
+    ]
+  },
+  {
+    "id": "ss-soundscapes-audio",
+    "title": "Guided Mindfulness \u0026 Ambient Soundscapes Audio Deck",
+    "subtitle": "32 High-Fidelity Audio Meditations, Nature Soundscapes \u0026 Sleep Journeys",
+    "category": "digital",
+    "categoryLabel": "Digital Audio Pass",
+    "brand": "Sukoon Digital",
+    "price": 299,
+    "mrp": 699,
+    "discountPercent": 57,
+    "rating": 4.9,
+    "reviewsCount": 430,
+    "badge": "Instant Access",
+    "badgeType": "deal",
+    "image": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+    ],
+    "deliveryInfo": "Instant Digital Key Delivered to Email",
+    "format": "Digital Audio Pass",
+    "inStock": true,
+    "highlights": [
+      "Lifetime unlimited access to 32 studio-grade audio tracks (12+ hours)",
+      "Binaural theta frequencies, Himalayan forest sounds \u0026 bedtime stories",
+      "Available in bilingual narration (Clear English \u0026 Soothing Hindi)",
+      "Direct browser streaming plus DRM-free MP3 downloads for offline listening"
+    ],
+    "description": "An audio sanctuary accessible on any device. Created with sound acoustics specialists, each track blends field recordings of Himalayan rainfall, Tibetan singing bowls, and gentle breath cues to ease restlessness and support focus.",
+    "specifications": {
+      "Compatibility": "iPhone, Android, Windows, Mac (No app installation required)",
+      "Delivery": "Instant activation link and download pass sent via email",
+      "Format": "320 kbps High-Definition MP3 + Instant Web Player",
+      "Offline Access": "Permanent downloadable DRM-free audio files",
+      "Total Duration": "12 Hours 45 Minutes of curated audio"
+    },
+    "variants": [
+      "Lifetime Digital Streaming \u0026 Offline MP3 Pass"
+    ],
+    "bundleWithId": "ss-mindful-journal",
+    "reviews": [
+      {
+        "name": "Vikram N.",
+        "rating": 5,
+        "date": "1 week ago",
+        "verified": true,
+        "title": "The rain soundscapes are masterfully recorded",
+        "body": "I put these on my headphones during deep work blocks and before sleeping. There is no repetitive looping or hiss. Extremely clean and atmospheric.",
+        "helpful": 67
+      }
+    ],
+    "faq": [
+      {
+        "q": "Do I need to pay a monthly subscription?",
+        "a": "No. This is a one-time purchase that grants lifetime access with zero recurring fees."
+      }
+    ]
+  },
+  {
+    "id": "ss-gift-hamper",
+    "title": "Sukoon Mindful Living \u0026 Self-Care Gift Hamper",
+    "subtitle": "Journal + Hand-Poured Scented Candle + Herbal Tea + 52 Affirmation Cards",
+    "category": "kits",
+    "categoryLabel": "Gift Hampers",
+    "brand": "Sukoon Living",
+    "price": 1699,
+    "mrp": 2799,
+    "discountPercent": 39,
+    "rating": 4.9,
+    "reviewsCount": 152,
+    "badge": "Limited Edition",
+    "badgeType": "choice",
+    "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+    ],
+    "deliveryInfo": "Free Pan-India Delivery with Greeting Card",
+    "format": "Luxury Rigid Gift Box",
+    "inStock": true,
+    "highlights": [
+      "Hardbound 90-Day Mindful Gratitude Journal with ribbon bookmark",
+      "200g Pure Soy Wax Aromatherapy Candle (40-hour burn time)",
+      "50g Handcrafted Herbal Calming Tea in reusable gold tin",
+      "52 Daily Affirmation and Mindfulness Cards with wooden display stand"
+    ],
+    "description": "The ultimate care package for friends, colleagues, or yourself. Packed inside an elegant matte forest green rigid gift box with satin ribbon, every item is thoughtfully selected to encourage everyday peace, presence, and calm moments.",
+    "specifications": {
+      "Box Style": "Rigid Keepsake Box with magnetic closure and gold foil logo",
+      "Candle Wax": "100% Pure Non-Toxic Soy Wax with natural cotton wick",
+      "Included Items": "Journal, Scented Candle, Tea Tin, 52-Card Deck, Personalized Note",
+      "Shipping": "Dispatched within 24 hours with gift wrapping and protective padding"
+    },
+    "variants": [
+      "Deluxe Calm Hamper (Forest Green)",
+      "Serenity Hamper (Warm Cream)"
+    ],
+    "bundleWithId": "ss-worry-stone",
+    "reviews": [
+      {
+        "name": "Pooja B.",
+        "rating": 5,
+        "date": "6 days ago",
+        "verified": true,
+        "title": "A truly thoughtful gift that made my sister cry happy tears",
+        "body": "The unboxing presentation is gorgeous. The candle smells clean and soothing, and the journal quality is unmatched. Worth every rupee.",
+        "helpful": 41
+      }
+    ],
+    "faq": [
+      {
+        "q": "Can I add a custom handwritten message for gifting?",
+        "a": "Yes. You can write your custom message in the delivery notes at checkout, and our team will print it on a premium textured note card."
+      }
+    ]
+  },
+  {
+    "id": "ss-affirmation-cards",
+    "title": "Daily Affirmation \u0026 Mental Clarity Card Deck (52 Cards)",
+    "subtitle": "52 Illustrated Prompt Cards with Natural Beechwood Display Stand",
+    "category": "essentials",
+    "categoryLabel": "Mindful Essentials",
+    "brand": "Sukoon Living",
+    "price": 449,
+    "mrp": 799,
+    "discountPercent": 44,
+    "rating": 4.7,
+    "reviewsCount": 268,
+    "badge": "Best Seller",
+    "badgeType": "bestseller",
+    "image": "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "gallery": [
+      "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+    ],
+    "deliveryInfo": "Delivery in 2-3 Days across India",
+    "format": "Physical Card Deck with Wooden Stand",
+    "inStock": true,
+    "highlights": [
+      "52 unique daily reflection prompts and cognitive affirmations",
+      "Heavyweight 350 GSM matte laminated cardstock with gold foiled edges",
+      "Solid beechwood desktop card stand for daily desk display",
+      "Housed in a durable protective tuck box with magnetic clasp"
+    ],
+    "description": "Start each morning with an intentional perspective. Draw one card daily to anchor your mind with grounded reflections on boundaries, self-compassion, resilience, and presence. Display your chosen card all day on the wooden stand.",
+    "specifications": {
+      "Box Type": "Magnetic closure gift tuck box with gold debossing",
+      "Card Count": "52 Full-Color Cards + 2 Instruction Cards",
+      "Paper Stock": "350 GSM High-Durability Matte Laminated Cards",
+      "Stand Material": "Natural Polish Solid Beechwood (8 cm wide)"
+    },
+    "variants": [
+      "Daily Clarity Edition",
+      "Self-Compassion Edition"
+    ],
+    "bundleWithId": "ss-mindful-journal",
+    "reviews": [
+      {
+        "name": "Deepa R.",
+        "rating": 5,
+        "date": "2 weeks ago",
+        "verified": true,
+        "title": "A wonderful desk companion for workday presence",
+        "body": "I pick one card every morning before checking my emails. The words are meaningful and mature, avoiding cliché quotes. The wooden stand looks elegant on my desk.",
+        "helpful": 35
+      }
+    ],
+    "faq": [
+      {
+        "q": "What are the dimensions of the cards?",
+        "a": "Each card measures standard tarot size (7 cm x 12 cm), making the typography clean and readable from your desk."
+      }
+    ]
+  }
+]

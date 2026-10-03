@@ -197,6 +197,162 @@ document.addEventListener("DOMContentLoaded", () => {
   handleFormSubmit(document.getElementById("contactForm"), document.getElementById("contactStatus"), "contact");
   handleFormSubmit(document.getElementById("bookForm"), document.getElementById("bookStatus"), "book");
 
+  // ---------- About Us Dynamic Content (data/about.json) ----------
+  function getAboutIconSvg(icon) {
+    if (icon === "lock") {
+      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
+    }
+    if (icon === "clock") {
+      return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
+    }
+    return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>`;
+  }
+
+  async function loadAboutContent() {
+    const aboutHeader = document.getElementById("aboutHeader");
+    const aboutGrid = document.getElementById("aboutGrid");
+    const teamHeader = document.getElementById("aboutTeamHeaderText");
+    if (!aboutHeader && !aboutGrid) return;
+
+    try {
+      const res = await fetch("data/about.json?v=" + Date.now());
+      if (!res.ok) throw new Error("Status " + res.status);
+      const data = await res.json();
+
+      if (aboutHeader && data.header) {
+        aboutHeader.innerHTML = `
+          <span class="eyebrow-line">${data.header.eyebrow}</span>
+          <h1>${data.header.title}</h1>
+          <p>${data.header.subtitle}</p>
+        `;
+      }
+
+      if (aboutGrid) {
+        const storyHtml = (data.story || []).map((p) => `<p>${p}</p>`).join("");
+        const statsHtml = (data.stats || [])
+          .map(
+            (s) => `
+          <div class="stat"><span class="num">${s.number}</span><span class="cap">${s.label}</span></div>
+        `
+          )
+          .join("");
+
+        const valuesHtml = (data.values || [])
+          .map(
+            (v) => `
+          <li>
+            <span class="mini-heart" aria-hidden="true">
+              ${getAboutIconSvg(v.icon)}
+            </span>
+            <div>
+              <h3>${v.title}</h3>
+              <p>${v.description}</p>
+            </div>
+          </li>
+        `
+          )
+          .join("");
+
+        aboutGrid.innerHTML = `
+          <div class="about-copy">
+            ${storyHtml}
+            <div class="stat-row">
+              ${statsHtml}
+            </div>
+          </div>
+          <ul class="value-list">
+            ${valuesHtml}
+          </ul>
+        `;
+      }
+
+      if (teamHeader && data.teamSection) {
+        teamHeader.innerHTML = `
+          <span class="eyebrow-line">${data.teamSection.eyebrow}</span>
+          <h2 id="aboutSpecialistsHeading" class="specialists-title">${data.teamSection.title}</h2>
+          <p class="specialists-subtitle">${data.teamSection.subtitle}</p>
+        `;
+      }
+    } catch (err) {
+      console.warn("Could not load data/about.json:", err);
+    }
+  }
+
+  // ---------- Specialists Dynamic Content (data/specialists.json) ----------
+  function createSpecialistCardHtml(s) {
+    const verifiedHtml = s.verified
+      ? `<span class="specialist-verified-tick" title="Verified Practitioner"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>`
+      : "";
+    const tagsHtml = (s.tags || []).map((t) => `<span class="spec-tag">${t}</span>`).join("");
+
+    return `
+      <article class="specialist-card">
+        <div class="specialist-header-row">
+          <div class="specialist-avatar-wrap">
+            <img src="${s.avatar}" alt="${s.name}" class="specialist-avatar" loading="lazy">
+            ${verifiedHtml}
+          </div>
+          <div class="specialist-identity">
+            <h3 class="specialist-name">${s.name}</h3>
+            <p class="specialist-role">${s.role}</p>
+            <span class="specialist-reg">${s.registration}</span>
+          </div>
+        </div>
+
+        <div class="specialist-details">
+          <div class="specialist-meta-row">
+            <span class="spec-meta-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              ${s.duration}
+            </span>
+            <span class="spec-meta-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 10 4.553-2.276A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14v-4z"/><rect width="11" height="12" x="2" y="6" rx="2"/></svg>
+              ${s.mode}
+            </span>
+            <span class="spec-meta-item">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"/></svg>
+              ${s.languages}
+            </span>
+          </div>
+          <div class="specialist-tags">
+            ${tagsHtml}
+          </div>
+        </div>
+
+        <div class="specialist-footer">
+          <span class="specialist-availability">
+            <span class="avail-dot" aria-hidden="true"></span> ${s.availability}
+          </span>
+          <a href="#book" class="btn-book-specialist" data-specialist-pref="${s.bookingPref}">
+            <span>Book Session</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+    `;
+  }
+
+  async function loadSpecialists() {
+    const homeTrack = document.getElementById("homeSpecialistsTrack");
+    const aboutTrack = document.getElementById("aboutSpecialistsTrack");
+
+    try {
+      const res = await fetch("data/specialists.json?v=" + Date.now());
+      if (!res.ok) throw new Error("Status " + res.status);
+      const specialists = await res.json();
+
+      if (Array.isArray(specialists) && specialists.length > 0) {
+        const cardsHtml = specialists.map(createSpecialistCardHtml).join("");
+        if (homeTrack) homeTrack.innerHTML = cardsHtml;
+        if (aboutTrack) aboutTrack.innerHTML = cardsHtml;
+      }
+    } catch (err) {
+      console.warn("Could not load data/specialists.json:", err);
+    }
+
+    initSpecialistsCarousels();
+  }
+
   // ---------- Specialists Side-by-Side Carousels & Booking Integration ----------
   function initSpecialistsCarousels() {
     const updateFns = [];
@@ -351,5 +507,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  initSpecialistsCarousels();
+  loadAboutContent();
+  loadSpecialists();
 });
