@@ -280,17 +280,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------- Specialists Dynamic Content (data/specialists.json) ----------
   function createSpecialistCardHtml(s) {
-    const verifiedHtml = s.verified
-      ? `<span class="specialist-verified-tick" title="Verified Practitioner"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>`
-      : "";
-    const tagsHtml = (s.tags || []).map((t) => `<span class="spec-tag">${t}</span>`).join("");
-
     return `
       <article class="specialist-card">
         <div class="specialist-header-row">
           <div class="specialist-avatar-wrap">
             <img src="${s.avatar}" alt="${s.name}" class="specialist-avatar" loading="lazy">
-            ${verifiedHtml}
           </div>
           <div class="specialist-identity">
             <h3 class="specialist-name">${s.name}</h3>
@@ -299,30 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
 
-        <div class="specialist-details">
-          <div class="specialist-meta-row">
-            <span class="spec-meta-item">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              ${s.duration}
-            </span>
-            <span class="spec-meta-item">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 10 4.553-2.276A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14v-4z"/><rect width="11" height="12" x="2" y="6" rx="2"/></svg>
-              ${s.mode}
-            </span>
-            <span class="spec-meta-item">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"/></svg>
-              ${s.languages}
-            </span>
-          </div>
-          <div class="specialist-tags">
-            ${tagsHtml}
-          </div>
-        </div>
-
         <div class="specialist-footer">
-          <span class="specialist-availability">
-            <span class="avail-dot" aria-hidden="true"></span> ${s.availability}
-          </span>
           <a href="#book" class="btn-book-specialist" data-specialist-pref="${s.bookingPref}">
             <span>Book Session</span>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>

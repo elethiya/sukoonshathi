@@ -4,17 +4,7 @@
     "name": "Dr. Ananya Sen, Ph.D.",
     "role": "Clinical Psychologist",
     "registration": "RCI Registered · 10+ Yrs Exp.",
-    "avatar": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=240&h=240&q=80",
-    "verified": true,
-    "duration": "50 Mins",
-    "mode": "Video / Audio",
-    "languages": "English, Hindi",
-    "tags": [
-      "Anxiety & Panic",
-      "CBT Therapy",
-      "Stress Relief"
-    ],
-    "availability": "Available this week",
+    "avatar": "data/pfp/Dr_Ananya_Sen.png",
     "bookingPref": "Dr. Ananya Sen (Clinical Psychologist)"
   },
   {
@@ -22,17 +12,7 @@
     "name": "Dr. Kabir Mehta, M.D.",
     "role": "Consultant Psychiatrist",
     "registration": "M.D. Psychiatry · 12+ Yrs Exp.",
-    "avatar": "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=240&h=240&q=80",
-    "verified": true,
-    "duration": "50 Mins",
-    "mode": "Video / Audio",
-    "languages": "English, Hindi",
-    "tags": [
-      "Burnout",
-      "Work Stress",
-      "Mindfulness"
-    ],
-    "availability": "Available today",
+    "avatar": "data/pfp/Dr_Kabir_Mehta.png",
     "bookingPref": "Dr. Kabir Mehta (Psychiatrist)"
   },
   {
@@ -40,17 +20,7 @@
     "name": "Aisha Rahman, M.Sc.",
     "role": "Counseling Psychologist",
     "registration": "M.Sc. Counseling · 7+ Yrs Exp.",
-    "avatar": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=240&h=240&q=80",
-    "verified": true,
-    "duration": "50 Mins",
-    "mode": "Video / Audio",
-    "languages": "English, Hindi",
-    "tags": [
-      "Grief & Loss",
-      "Somatic Care",
-      "Inner Child"
-    ],
-    "availability": "Available tomorrow",
+    "avatar": "data/pfp/Aisha_Rahman.png",
     "bookingPref": "Aisha Rahman (Counseling Psychologist)"
   },
   {
@@ -58,17 +28,7 @@
     "name": "Dr. Vikram Joshi, M.Phil.",
     "role": "Couples & Family Therapist",
     "registration": "M.Phil. Psychology · 9+ Yrs Exp.",
-    "avatar": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=240&h=240&q=80",
-    "verified": true,
-    "duration": "60 Mins",
-    "mode": "Video / Audio",
-    "languages": "English, Hindi",
-    "tags": [
-      "Couples Therapy",
-      "Family Conflict",
-      "Boundaries"
-    ],
-    "availability": "Available this week",
+    "avatar": "data/pfp/Dr_Vikram_Joshi.png",
     "bookingPref": "Dr. Vikram Joshi (Couples Counselor)"
   },
   {
@@ -76,17 +36,7 @@
     "name": "Meera Iyer, M.A.",
     "role": "Mindfulness & Sleep Coach",
     "registration": "M.A. Applied Psych · 8+ Yrs Exp.",
-    "avatar": "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&w=240&h=240&q=80",
-    "verified": true,
-    "duration": "45 Mins",
-    "mode": "Video / Audio",
-    "languages": "English, Hindi",
-    "tags": [
-      "Insomnia & Sleep",
-      "Breathwork",
-      "Nervous System"
-    ],
-    "availability": "Available tomorrow",
+    "avatar": "data/pfp/Meera_Iyer.png",
     "bookingPref": "Meera Iyer (Mindfulness Coach)"
   },
   {
@@ -94,17 +44,7 @@
     "name": "Rohan Deshmukh, M.Sc.",
     "role": "Youth & Career Counselor",
     "registration": "M.Sc. Counseling · 6+ Yrs Exp.",
-    "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=240&h=240&q=80",
-    "verified": true,
-    "duration": "50 Mins",
-    "mode": "Video / Audio",
-    "languages": "English, Hindi",
-    "tags": [
-      "Self-Esteem",
-      "Career Clarity",
-      "Young Adults"
-    ],
-    "availability": "Available today",
+    "avatar": "data/pfp/Rohan_Deshmukh.png",
     "bookingPref": "Rohan Deshmukh (Youth Counselor)"
   }
 ]

@@ -878,7 +878,7 @@ section {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 13px;
+  margin-bottom: 0;
 }
 
 .specialist-avatar-wrap {
@@ -994,41 +994,32 @@ section {
 .specialist-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: center;
   border-top: 1px solid rgba(15, 61, 52, 0.08);
-  padding-top: 11px;
-  margin-top: auto;
+  padding-top: 13px;
+  margin-top: 14px;
 }
 
 .specialist-availability {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: #1e6d42;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
+  display: none;
 }
 
 .avail-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #22c55e;
-  display: inline-block;
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+  display: none;
 }
 
 .btn-book-specialist {
+  width: 100%;
+  justify-content: center;
   background: var(--forest);
   color: #fffdf8;
-  padding: 6.5px 12.5px;
-  border-radius: 7px;
-  font-size: 0.77rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   text-decoration: none;
   transition: all 0.18s ease;
   font-family: var(--sans);
