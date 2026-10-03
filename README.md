@@ -39,14 +39,14 @@ A serene, mobile-first holistic wellness website and store designed with calming
                +-----------------------------------------------------+
 
                       +---------------------------------------+
-                      |         ECWCPFC by ELETHIYA           |
+                      |          EWCPFC by ELETHIYA           |
                       |     (Local Go Backend in backend/)    |
-                      |  * elethiya clients website control   |
-                      |    panels for clients                 |
+                      |  * elethiya website control panels    |
+                      |    for clients                        |
                       |  * Manages data/ products/specialists |
                       |  * Live About Page Preview (Stacked)  |
                       |  * Safe ZIP Backups                   |
-                      |  * 1-Click Deploy & Push to GitHub   |
+                      |  * 1-Click Deploy & Push to GitHub    |
                       +---------------------------------------+
 ```
 
@@ -112,7 +112,7 @@ The website's catalog and core content are cleanly separated into JSON data file
 
 ---
 
-## ECWCPFC — elethiya clients website control panels for clients (`backend/`)
+## EWCPFC — elethiya website control panels for clients (`backend/`)
 
 A dedicated, private Go application engineered by **ELETHIYA** strictly for content editing and zero-risk deployments:
 - **Zero Coupling**: Does NOT host the public static site; runs locally whenever you wish to edit content.
@@ -205,7 +205,7 @@ npx serve .
 
 Open `http://localhost:8000` in your web browser.
 
-To start ECWCPFC (elethiya clients website control panels for clients):
+To start EWCPFC (elethiya website control panels for clients):
 ```bash
 cd backend
 go run main.go

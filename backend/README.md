@@ -1,4 +1,4 @@
-# ECWCPFC — elethiya clients website control panels for clients
+# EWCPFC — elethiya website control panels for clients
 
 A dedicated, lightweight Go backend designed and engineered by **ELETHIYA** strictly for **client website management with real-time live preview, one-click GitHub deployments, safe non-destructive ZIP backups, and comprehensive audit & activity logging**.
 
@@ -100,7 +100,7 @@ Log in using the credentials defined in your `.env`.
 
 ```
 +-----------------------------------------------------------------------------------------------------------------+
-|                               ECWCPFC by ELETHIYA (http://localhost:8080)                                      |
+|                               EWCPFC by ELETHIYA (http://localhost:8080)                                       |
 |   [Products]       [Specialists]       [About Page]           [ZIP Backups & Archive]       [History]           |
 |  (Catalog CRUD)  (Care Team CRUD)  (Live Preview Below)      (Safe Non-Git Archives)     (Audit Logs Table)     |
 +-----------------------------------------------------------------------------------------------------------------+

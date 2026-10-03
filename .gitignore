@@ -23,3 +23,7 @@ backend/.env
 backend/backups/
 backend/.backups/
 *.zip
+
+
+backend/
+
