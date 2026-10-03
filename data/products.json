@@ -316,65 +316,6 @@
     ]
   },
   {
-    "badge": "Instant Access",
-    "badgeType": "deal",
-    "brand": "Sukoon Digital",
-    "bundleWithId": "ss-mindful-journal",
-    "category": "digital",
-    "categoryLabel": "Digital Audio Pass",
-    "deliveryInfo": "Instant Digital Key Delivered to Email",
-    "description": "An audio sanctuary accessible on any device. Created with sound acoustics specialists, each track blends field recordings of Himalayan rainfall, Tibetan singing bowls, and gentle breath cues to ease restlessness and support focus.",
-    "discountPercent": 57,
-    "faq": [
-      {
-        "a": "No. This is a one-time purchase that grants lifetime access with zero recurring fees.",
-        "q": "Do I need to pay a monthly subscription?"
-      }
-    ],
-    "format": "Digital Audio Pass",
-    "gallery": [
-      "data/products/ss-soundscapes-audio.png",
-      "data/products/ss-mindful-journal.png",
-      "data/products/ss-aromatherapy-kit.png"
-    ],
-    "highlights": [
-      "Lifetime unlimited access to 32 studio-grade audio tracks (12+ hours)",
-      "Binaural theta frequencies, Himalayan forest sounds \u0026 bedtime stories",
-      "Available in bilingual narration (Clear English \u0026 Soothing Hindi)",
-      "Direct browser streaming plus DRM-free MP3 downloads for offline listening"
-    ],
-    "id": "ss-soundscapes-audio",
-    "image": "data/products/ss-soundscapes-audio.png",
-    "inStock": true,
-    "mrp": 699,
-    "price": 299,
-    "rating": 4.9,
-    "reviews": [
-      {
-        "body": "I put these on my headphones during deep work blocks and before sleeping. There is no repetitive looping or hiss. Extremely clean and atmospheric.",
-        "date": "1 week ago",
-        "helpful": 67,
-        "name": "Vikram N.",
-        "rating": 5,
-        "title": "The rain soundscapes are masterfully recorded",
-        "verified": true
-      }
-    ],
-    "reviewsCount": 430,
-    "specifications": {
-      "Compatibility": "iPhone, Android, Windows, Mac (No app installation required)",
-      "Delivery": "Instant activation link and download pass sent via email",
-      "Format": "320 kbps High-Definition MP3 + Instant Web Player",
-      "Offline Access": "Permanent downloadable DRM-free audio files",
-      "Total Duration": "12 Hours 45 Minutes of curated audio"
-    },
-    "subtitle": "32 High-Fidelity Audio Meditations, Nature Soundscapes \u0026 Sleep Journeys",
-    "title": "Guided Mindfulness \u0026 Ambient Soundscapes Audio Deck",
-    "variants": [
-      "Lifetime Digital Streaming \u0026 Offline MP3 Pass"
-    ]
-  },
-  {
     "badge": "Limited Edition",
     "badgeType": "choice",
     "brand": "Sukoon Living",
