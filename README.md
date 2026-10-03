@@ -39,10 +39,12 @@ A serene, mobile-first holistic wellness website and store designed with calming
                +-----------------------------------------------------+
 
                       +---------------------------------------+
-                      |         Private Admin Studio          |
+                      |         ECWCPFC by ELETHIYA           |
                       |     (Local Go Backend in backend/)    |
-                      |  * Manages data/ products & specialists|
-                      |  * Live About Page Preview            |
+                      |  * elethiya clients website control   |
+                      |    panels for clients                 |
+                      |  * Manages data/ products/specialists |
+                      |  * Live About Page Preview (Stacked)  |
                       |  * Safe ZIP Backups                   |
                       |  * 1-Click Deploy & Push to GitHub   |
                       +---------------------------------------+
@@ -110,11 +112,11 @@ The website's catalog and core content are cleanly separated into JSON data file
 
 ---
 
-## Private Admin Studio (`backend/`)
+## ECWCPFC — elethiya clients website control panels for clients (`backend/`)
 
-A dedicated, private Go application designed strictly for content editing and zero-risk deployments:
+A dedicated, private Go application engineered by **ELETHIYA** strictly for content editing and zero-risk deployments:
 - **Zero Coupling**: Does NOT host the public static site; runs locally whenever you wish to edit content.
-- **About Page Live Preview**: Split-screen editing with an instant, authentic static website preview updating with every keystroke.
+- **About Page Live Preview**: Edit copy in the upper form and watch an authentic, real-time simulated client preview update directly below it.
 - **Safe ZIP Backups**: Automatic non-destructive `.zip` archives generated prior to any Deploy or Reset in `backend/backups/`.
 - **1-Click GitHub Deploy**: Stages `data/`, commits changes, pushes to your repository, and switches to a clean "Close" button upon completion.
 - **Audit Logging**: The History tab records all administrative changes with search, category filtering, and CSV export.
@@ -203,7 +205,7 @@ npx serve .
 
 Open `http://localhost:8000` in your web browser.
 
-To start the Admin Studio:
+To start ECWCPFC (elethiya clients website control panels for clients):
 ```bash
 cd backend
 go run main.go

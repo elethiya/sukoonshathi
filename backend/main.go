@@ -77,7 +77,7 @@ func main() {
 	initLogger()
 
 	logEvent("INFO", "=====================================================")
-	logEvent("INFO", "Sukoon Saathi - Admin Studio (Protected Edition)")
+	logEvent("INFO", "ECWCPFC — elethiya clients website control panels for clients (by ELETHIYA)")
 	logEvent("INFO", "Target Website Name: %s", cfg.WebsiteName)
 	logEvent("INFO", "Target Project Path: %s", projectRoot)
 	logEvent("INFO", "Admin Login Username: %s", cfg.AdminUsername)
@@ -533,7 +533,7 @@ func requireAuth(next http.HandlerFunc) http.HandlerFunc {
 		if !isAuthenticated(r) {
 			logEvent("WARN", "Unauthorized access blocked: %s %s from %s", r.Method, r.URL.Path, r.RemoteAddr)
 			writeJSON(w, http.StatusUnauthorized, map[string]string{
-				"error": "Unauthorized. Please log in to access the Admin Studio.",
+				"error": "Unauthorized. Please log in to access ECWCPFC (by ELETHIYA).",
 			})
 			return
 		}
@@ -931,7 +931,7 @@ func handleDeploy(w http.ResponseWriter, r *http.Request) {
 	timestamp := time.Now().Format("2006-01-02 15:04:05")
 	commitMsg := strings.TrimSpace(payload.CommitMessage)
 	if commitMsg == "" {
-		commitMsg = fmt.Sprintf("Update catalog via Admin Studio (%s)", timestamp)
+		commitMsg = fmt.Sprintf("Update catalog via ECWCPFC (%s)", timestamp)
 	}
 
 	logEvent("DEPLOY", "Deploy requested by %s with commit message: '%s'", r.RemoteAddr, commitMsg)
