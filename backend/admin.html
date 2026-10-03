@@ -6,7 +6,7 @@
   <title>Sukoon Saathi — Admin Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #090e0d;
@@ -36,6 +36,18 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scrollbar-gutter: stable;
+    }
+
+    /* Prevent background from moving/scrolling when floating modal is open */
+    html.modal-open,
+    body.modal-open {
+      overflow: hidden !important;
+      overscroll-behavior: none !important;
+      touch-action: none !important;
+    }
 
     body {
       font-family: var(--font-sans);
@@ -490,21 +502,240 @@
       color: var(--gold);
     }
 
-    /* About Section Editor Form */
+    /* About Section Editor & Live Preview (Stacked Below) */
+    .about-stacked-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
     .about-editor-box {
       background: var(--bg-card);
       border: 1px solid var(--line);
       border-radius: var(--radius-md);
-      padding: 24px 28px;
+      padding: 26px 28px;
     }
 
     .about-editor-box h2 {
       font-family: var(--font-serif);
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       color: #fff;
       margin-bottom: 16px;
       border-bottom: 1px solid var(--line);
       padding-bottom: 10px;
+    }
+
+    /* About Live Preview Card (Mirrors Static Site Aesthetics) */
+    .about-preview-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    .about-preview-header-bar {
+      background: #0d1614;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .preview-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preview-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .preview-title-badge {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-left: 6px;
+    }
+
+    .preview-mode-tag {
+      font-size: 0.7rem;
+      font-family: monospace;
+      color: var(--gold);
+      background: rgba(201, 163, 92, 0.1);
+      border: 1px solid rgba(201, 163, 92, 0.25);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* Actual Website Appearance Simulation (Serene Cream & Forest Palette) */
+    .about-preview-viewport {
+      background: #f5eee1; /* Authentic Sukoon Saathi cream paper */
+      color: #242019;
+      padding: 44px 40px;
+      font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .pv-page-header {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(15, 61, 52, 0.14);
+    }
+
+    .pv-eyebrow {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: #0f3d34;
+      margin-bottom: 8px;
+    }
+
+    .pv-eyebrow::after {
+      content: "";
+      display: inline-block;
+      width: 24px;
+      height: 1.5px;
+      background: #c9a35c;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .pv-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.1rem;
+      font-weight: 600;
+      color: #0f3d34;
+      line-height: 1.25;
+      margin: 4px 0 12px 0;
+    }
+
+    .pv-subtitle {
+      font-size: 0.98rem;
+      line-height: 1.65;
+      color: #5a5348;
+      max-width: 720px;
+    }
+
+    .pv-about-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-bottom: 36px;
+    }
+
+    @media (max-width: 900px) {
+      .pv-about-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    .pv-about-copy p {
+      font-size: 0.94rem;
+      line-height: 1.65;
+      color: #5a5348;
+      margin-bottom: 12px;
+    }
+
+    .pv-stat-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .pv-stat {
+      border-top: 1px solid rgba(15, 61, 52, 0.18);
+      padding-top: 10px;
+    }
+
+    .pv-stat-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #0f3d34;
+      display: block;
+      line-height: 1.1;
+    }
+
+    .pv-stat-cap {
+      font-size: 0.76rem;
+      color: #5a5348;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .pv-value-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .pv-value-item {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(15, 61, 52, 0.14);
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .pv-value-item:first-child {
+      border-top: 1px solid rgba(15, 61, 52, 0.14);
+    }
+
+    .pv-value-icon {
+      color: #0f3d34;
+      display: flex;
+      align-items: center;
+      margin-top: 2px;
+    }
+
+    .pv-value-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #0f3d34;
+      margin-bottom: 2px;
+    }
+
+    .pv-value-desc {
+      font-size: 0.78rem;
+      line-height: 1.45;
+      color: #5a5348;
+    }
+
+    .pv-team-section {
+      background: rgba(15, 61, 52, 0.05);
+      border: 1px solid rgba(15, 61, 52, 0.12);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .pv-team-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0f3d34;
+      margin: 4px 0 6px 0;
+    }
+
+    .pv-team-sub {
+      font-size: 0.82rem;
+      color: #5a5348;
+      line-height: 1.5;
     }
 
     /* Backups List */
@@ -705,14 +936,15 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(6px);
       z-index: 200;
       display: none;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding: 20px;
+      padding: 40px 20px;
       overflow-y: auto;
+      overscroll-behavior: contain;
     }
     .modal-overlay.open { display: flex; }
 
@@ -722,10 +954,17 @@
       border-radius: var(--radius-lg);
       width: 100%;
       max-width: 820px;
-      max-height: 90vh;
+      max-height: calc(100vh - 80px);
+      margin: auto 0;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+      animation: modalPopIn 0.16s ease-out;
+    }
+
+    @keyframes modalPopIn {
+      from { opacity: 0; transform: scale(0.98) translateY(6px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .modal-header {
@@ -1082,51 +1321,122 @@
 
     <!-- TAB 3: ABOUT PAGE -->
     <div class="tab-pane" id="pane-about">
-      <div class="about-editor-box">
-        <h2>About Page Content Editor</h2>
-        <form id="aboutForm" class="form-grid">
-          <div class="form-group">
-            <label>Eyebrow Label</label>
-            <input type="text" id="ab-eyebrow" class="form-control" placeholder="About us">
+      <div class="action-bar" style="margin-bottom: 20px;">
+        <div>
+          <h3 style="color:#fff; font-size:1.05rem;">About Page Editor &amp; Live Preview</h3>
+          <p style="color:var(--ink-secondary); font-size:0.78rem;">Modify headline, mission statement, stats, and team introduction. The live website preview below updates instantly.</p>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <button type="button" class="btn btn-outline btn-sm" id="btnResetAboutForm" title="Revert to saved values">Reset to Saved</button>
+          <button type="button" class="btn btn-gold btn-sm" id="btnSaveAbout">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            Save About Page Changes
+          </button>
+        </div>
+      </div>
+
+      <div class="about-stacked-layout">
+        <!-- TOP: FORM INPUT SECTION -->
+        <div class="about-editor-box">
+          <h2 style="font-size:1.15rem; margin-bottom:18px;">About Page Content Inputs</h2>
+          <form id="aboutForm" class="form-grid">
+            <div class="form-group">
+              <label>Eyebrow Label</label>
+              <input type="text" id="ab-eyebrow" class="form-control" placeholder="About us">
+            </div>
+            <div class="form-group">
+              <label>Main Heading</label>
+              <input type="text" id="ab-title" class="form-control" placeholder="A quiet space to be heard.">
+            </div>
+            <div class="form-col-full form-group">
+              <label>Tagline / Mission Subtitle</label>
+              <textarea id="ab-subtitle" class="form-control" style="min-height:75px;"></textarea>
+            </div>
+            <div class="form-col-full form-group">
+              <label>Story Body (Separate paragraphs with double newlines)</label>
+              <textarea id="ab-story" class="form-control" style="min-height: 120px;"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Stat 1 Number &amp; Label</label>
+              <div style="display:flex; gap:10px;">
+                <input type="text" id="ab-stat1-num" class="form-control" style="max-width:110px;" placeholder="1:1">
+                <input type="text" id="ab-stat1-label" class="form-control" placeholder="Private sessions only">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Stat 2 Number &amp; Label</label>
+              <div style="display:flex; gap:10px;">
+                <input type="text" id="ab-stat2-num" class="form-control" style="max-width:110px;" placeholder="100%">
+                <input type="text" id="ab-stat2-label" class="form-control" placeholder="Confidential by design">
+              </div>
+            </div>
+            <div class="form-col-full form-group" style="margin-top:8px;">
+              <label>Care Team Section Subheading</label>
+              <div style="display:flex; gap:10px; margin-bottom:10px;">
+                <input type="text" id="ab-team-eyebrow" class="form-control" style="max-width:200px;" placeholder="Our Care Team">
+                <input type="text" id="ab-team-title" class="form-control" placeholder="Our Multidisciplinary Care Team">
+              </div>
+              <textarea id="ab-team-sub" class="form-control" style="min-height:65px;"></textarea>
+            </div>
+            <div class="form-col-full" style="display:flex; justify-content:flex-end; margin-top:14px; gap:10px;">
+              <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('btnResetAboutForm').click()">Reset to Saved</button>
+              <button type="button" class="btn btn-gold btn-sm" onclick="document.getElementById('btnSaveAbout').click()">Save Changes</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- BOTTOM: LIVE PREVIEW SECTION (BELOW INPUTS) -->
+        <div class="about-preview-card">
+          <div class="about-preview-header-bar">
+            <div class="preview-dots">
+              <span class="preview-dot" style="background:#ef4444;"></span>
+              <span class="preview-dot" style="background:#f59e0b;"></span>
+              <span class="preview-dot" style="background:#10b981;"></span>
+              <span class="preview-title-badge">Live Static Website Preview (About Us)</span>
+            </div>
+            <div class="preview-mode-tag">Simulated Client View (Below Inputs)</div>
           </div>
-          <div class="form-group">
-            <label>Main Heading</label>
-            <input type="text" id="ab-title" class="form-control" placeholder="A quiet space to be heard.">
-          </div>
-          <div class="form-col-full form-group">
-            <label>Tagline / Mission Subtitle</label>
-            <textarea id="ab-subtitle" class="form-control"></textarea>
-          </div>
-          <div class="form-col-full form-group">
-            <label>Story Body (Separate paragraphs with double newlines)</label>
-            <textarea id="ab-story" class="form-control" style="min-height: 120px;"></textarea>
-          </div>
-          <div class="form-group">
-            <label>Stat 1 Number &amp; Label</label>
-            <div style="display:flex; gap:10px;">
-              <input type="text" id="ab-stat1-num" class="form-control" style="max-width:110px;" placeholder="1:1">
-              <input type="text" id="ab-stat1-label" class="form-control" placeholder="Private sessions only">
+
+          <div class="about-preview-viewport" id="aboutPreviewViewport">
+            <!-- Simulated Page Header -->
+            <div class="pv-page-header">
+              <span class="pv-eyebrow" id="pv-eyebrow">About us</span>
+              <h1 class="pv-title" id="pv-title">A quiet space to be heard.</h1>
+              <p class="pv-subtitle" id="pv-subtitle">Sukoon Saathi was built on one belief...</p>
+            </div>
+
+            <!-- Simulated Grid: Copy + Values -->
+            <div class="pv-about-grid">
+              <div class="pv-about-copy">
+                <div id="pv-story-paragraphs"></div>
+                <div class="pv-stat-row">
+                  <div class="pv-stat">
+                    <span class="pv-stat-num" id="pv-stat1-num">1:1</span>
+                    <span class="pv-stat-cap" id="pv-stat1-label">Private sessions only</span>
+                  </div>
+                  <div class="pv-stat">
+                    <span class="pv-stat-num" id="pv-stat2-num">100%</span>
+                    <span class="pv-stat-cap" id="pv-stat2-label">Confidential by design</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Values List -->
+              <div class="pv-value-list" id="pv-value-list"></div>
+            </div>
+
+            <!-- Simulated Specialists Header on About Page -->
+            <div class="pv-team-section">
+              <span class="pv-eyebrow" id="pv-team-eyebrow">Our Care Team</span>
+              <h2 class="pv-team-title" id="pv-team-title">Our Multidisciplinary Care Team</h2>
+              <p class="pv-team-sub" id="pv-team-sub">Every practitioner at Sukoon Saathi is rigorously vetted...</p>
             </div>
           </div>
-          <div class="form-group">
-            <label>Stat 2 Number &amp; Label</label>
-            <div style="display:flex; gap:10px;">
-              <input type="text" id="ab-stat2-num" class="form-control" style="max-width:110px;" placeholder="100%">
-              <input type="text" id="ab-stat2-label" class="form-control" placeholder="Confidential by design">
-            </div>
-          </div>
-          <div class="form-col-full form-group" style="margin-top:10px;">
-            <label>Care Team Section Subheading</label>
-            <div style="display:flex; gap:10px; margin-bottom:10px;">
-              <input type="text" id="ab-team-eyebrow" class="form-control" style="max-width:200px;" placeholder="Our Care Team">
-              <input type="text" id="ab-team-title" class="form-control" placeholder="Our Multidisciplinary Care Team">
-            </div>
-            <textarea id="ab-team-sub" class="form-control"></textarea>
-          </div>
-          <div class="form-col-full" style="display:flex; justify-content:flex-end; margin-top:14px;">
-            <button type="button" class="btn btn-gold" id="btnSaveAbout">Save About Page Changes</button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
 
@@ -1435,7 +1745,7 @@
         <div id="deployConsole" class="deploy-log-box" style="display:none;"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeDeployModal()">Close</button>
+        <button type="button" class="btn btn-outline" id="btnCancelDeploy" onclick="closeDeployModal()">Close</button>
         <button type="button" class="btn btn-gold" id="btnConfirmDeploy">Commit &amp; Push to GitHub</button>
       </div>
     </div>
@@ -1459,6 +1769,44 @@
       toast.className = "toast-msg show" + (isError ? " error" : "");
       setTimeout(() => { toast.className = "toast-msg"; }, 3500);
     }
+
+    // Modal Helpers & Background Scroll Lock Prevention
+    function openModal(modalId) {
+      const el = document.getElementById(modalId);
+      if (!el) return;
+      el.classList.add("open");
+      syncModalOpenState();
+    }
+
+    function closeModal(modalId) {
+      const el = document.getElementById(modalId);
+      if (!el) return;
+      el.classList.remove("open");
+      syncModalOpenState();
+    }
+
+    function syncModalOpenState() {
+      const hasOpenModal = document.querySelector(".modal-overlay.open");
+      if (hasOpenModal) {
+        document.documentElement.classList.add("modal-open");
+        document.body.classList.add("modal-open");
+      } else {
+        document.documentElement.classList.remove("modal-open");
+        document.body.classList.remove("modal-open");
+      }
+    }
+
+    // Close modal on backdrop click
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".modal-overlay").forEach(overlay => {
+        overlay.addEventListener("click", (e) => {
+          if (e.target === overlay) {
+            overlay.classList.remove("open");
+            syncModalOpenState();
+          }
+        });
+      });
+    });
 
     // Auth Check
     async function checkAuth() {
@@ -1634,7 +1982,7 @@
       document.getElementById("f-prod-id").disabled = false;
       document.getElementById("f-prod-image").value = "data/products/";
       document.getElementById("f-prod-imgPreview").src = "/data/products/ss-mindful-journal.png";
-      document.getElementById("productModalOverlay").classList.add("open");
+      openModal("productModalOverlay");
     });
 
     window.openEditProduct = function(id) {
@@ -1660,11 +2008,11 @@
       document.getElementById("f-prod-description").value = p.description || "";
       document.getElementById("f-prod-highlights").value = (p.highlights || []).join("\n");
       document.getElementById("f-prod-variants").value = (p.variants || []).join(", ");
-      document.getElementById("productModalOverlay").classList.add("open");
+      openModal("productModalOverlay");
     };
 
     function closeProductModal() {
-      document.getElementById("productModalOverlay").classList.remove("open");
+      closeModal("productModalOverlay");
     }
 
     document.getElementById("f-prod-image").addEventListener("input", (e) => {
@@ -1823,7 +2171,7 @@
       document.getElementById("f-spec-id").disabled = false;
       document.getElementById("f-spec-avatar").value = "data/pfp/";
       document.getElementById("f-spec-avatarPreview").src = "/data/pfp/Dr_Ananya_Sen.png";
-      document.getElementById("specialistModalOverlay").classList.add("open");
+      openModal("specialistModalOverlay");
     });
 
     window.openEditSpecialist = function(id) {
@@ -1840,11 +2188,11 @@
       document.getElementById("f-spec-pref").value = s.bookingPref || "";
       document.getElementById("f-spec-avatar").value = s.avatar || "";
       document.getElementById("f-spec-avatarPreview").src = "/" + (s.avatar || "data/pfp/Dr_Ananya_Sen.png");
-      document.getElementById("specialistModalOverlay").classList.add("open");
+      openModal("specialistModalOverlay");
     };
 
     function closeSpecialistModal() {
-      document.getElementById("specialistModalOverlay").classList.remove("open");
+      closeModal("specialistModalOverlay");
     }
 
     document.getElementById("f-spec-avatar").addEventListener("input", (e) => {
@@ -1927,7 +2275,7 @@
     document.getElementById("specialistSearchInput").addEventListener("input", renderSpecialists);
 
     // ==========================================
-    // 3. ABOUT PAGE
+    // 3. ABOUT PAGE & LIVE PREVIEW
     // ==========================================
     async function loadAbout() {
       try {
@@ -1958,9 +2306,114 @@
           document.getElementById("ab-team-title").value = aboutData.teamSection.title || "";
           document.getElementById("ab-team-sub").value = aboutData.teamSection.subtitle || "";
         }
+
+        updateAboutPreview();
       } catch (err) {
         showToast("Error loading about data", true);
       }
+    }
+
+    function updateAboutPreview() {
+      const eyebrow = document.getElementById("ab-eyebrow").value.trim() || "About us";
+      const title = document.getElementById("ab-title").value.trim() || "A quiet space to be heard.";
+      const subtitle = document.getElementById("ab-subtitle").value.trim() || "Sukoon Saathi was built on one belief: healing happens in conversation.";
+      const storyText = document.getElementById("ab-story").value.trim();
+      const paragraphs = storyText ? storyText.split("\n\n").map(s => s.trim()).filter(Boolean) : [
+        "We started Sukoon Saathi because too many people carry things alone, unsure of where to begin. Our psychologists are trained to listen first and guide gently — no jargon, no pressure, just steady support session by session.",
+        "Every conversation stays between you and your therapist. We keep the process simple: pick a psychologist, choose a time that works, and show up as you are."
+      ];
+
+      const stat1Num = document.getElementById("ab-stat1-num").value.trim() || "1:1";
+      const stat1Label = document.getElementById("ab-stat1-label").value.trim() || "Private sessions only";
+      const stat2Num = document.getElementById("ab-stat2-num").value.trim() || "100%";
+      const stat2Label = document.getElementById("ab-stat2-label").value.trim() || "Confidential by design";
+
+      const teamEyebrow = document.getElementById("ab-team-eyebrow").value.trim() || "Our Care Team";
+      const teamTitle = document.getElementById("ab-team-title").value.trim() || "Our Multidisciplinary Care Team";
+      const teamSub = document.getElementById("ab-team-sub").value.trim() || "Every practitioner at Sukoon Saathi is rigorously vetted, empathetic, and committed to guiding your journey to mental calm and self-discovery.";
+
+      const pvEyebrow = document.getElementById("pv-eyebrow");
+      const pvTitle = document.getElementById("pv-title");
+      const pvSub = document.getElementById("pv-subtitle");
+      if (pvEyebrow) pvEyebrow.textContent = eyebrow;
+      if (pvTitle) pvTitle.textContent = title;
+      if (pvSub) pvSub.textContent = subtitle;
+
+      const storyContainer = document.getElementById("pv-story-paragraphs");
+      if (storyContainer) {
+        storyContainer.innerHTML = paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join("");
+      }
+
+      const s1Num = document.getElementById("pv-stat1-num");
+      const s1Cap = document.getElementById("pv-stat1-label");
+      const s2Num = document.getElementById("pv-stat2-num");
+      const s2Cap = document.getElementById("pv-stat2-label");
+      if (s1Num) s1Num.textContent = stat1Num;
+      if (s1Cap) s1Cap.textContent = stat1Label;
+      if (s2Num) s2Num.textContent = stat2Num;
+      if (s2Cap) s2Cap.textContent = stat2Label;
+
+      const pvTeamEyebrow = document.getElementById("pv-team-eyebrow");
+      const pvTeamTitle = document.getElementById("pv-team-title");
+      const pvTeamSub = document.getElementById("pv-team-sub");
+      if (pvTeamEyebrow) pvTeamEyebrow.textContent = teamEyebrow;
+      if (pvTeamTitle) pvTeamTitle.textContent = teamTitle;
+      if (pvTeamSub) pvTeamSub.textContent = teamSub;
+
+      renderAboutPreviewValues();
+    }
+
+    function renderAboutPreviewValues() {
+      const container = document.getElementById("pv-value-list");
+      if (!container) return;
+
+      const values = (aboutData && Array.isArray(aboutData.values) && aboutData.values.length > 0) ? aboutData.values : [
+        {
+          icon: "shield",
+          title: "Licensed & experienced",
+          description: "Every psychologist on Sukoon Saathi is verified and trained across areas like anxiety, stress, relationships and grief."
+        },
+        {
+          icon: "lock",
+          title: "Safe, private, confidential",
+          description: "Sessions are held on secure channels. What you share stays with your therapist alone."
+        },
+        {
+          icon: "clock",
+          title: "Support at your pace",
+          description: "Single sessions or ongoing care — you decide the rhythm that feels right for you."
+        }
+      ];
+
+      container.innerHTML = values.map(v => {
+        let iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>`;
+        if (v.icon === "lock") {
+          iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
+        } else if (v.icon === "clock") {
+          iconSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
+        }
+
+        return `
+          <div class="pv-value-item">
+            <div class="pv-value-icon">${iconSvg}</div>
+            <div>
+              <div class="pv-value-title">${escapeHtml(v.title)}</div>
+              <div class="pv-value-desc">${escapeHtml(v.description)}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Live real-time preview updates as user types in About form
+    document.getElementById("aboutForm").addEventListener("input", updateAboutPreview);
+
+    const btnResetAbout = document.getElementById("btnResetAboutForm");
+    if (btnResetAbout) {
+      btnResetAbout.addEventListener("click", () => {
+        loadAbout();
+        showToast("Reverted to saved About page data");
+      });
     }
 
     document.getElementById("btnSaveAbout").addEventListener("click", async () => {
@@ -2003,6 +2456,8 @@
         const data = await res.json();
         if (data.success) {
           showToast("About page updated successfully!");
+          aboutData = payload;
+          updateAboutPreview();
           checkGitStatus();
         } else {
           showToast(data.error || "Failed", true);
@@ -2122,11 +2577,10 @@
     // ==========================================
     // 5. RESET UNCOMMITTED CHANGES
     // ==========================================
-    const resetModal = document.getElementById("resetModalOverlay");
     document.getElementById("btnOpenResetModal").addEventListener("click", () => {
-      resetModal.classList.add("open");
+      openModal("resetModalOverlay");
     });
-    function closeResetModal() { resetModal.classList.remove("open"); }
+    function closeResetModal() { closeModal("resetModalOverlay"); }
 
     document.getElementById("btnConfirmReset").addEventListener("click", async () => {
       try {
@@ -2147,7 +2601,6 @@
     // ==========================================
     // 6. DEPLOY TO GITHUB (WITH ZIP BACKUP)
     // ==========================================
-    const deployModal = document.getElementById("deployModalOverlay");
     const deployConsole = document.getElementById("deployConsole");
     const btnConfirmDeploy = document.getElementById("btnConfirmDeploy");
 
@@ -2155,13 +2608,23 @@
       deployConsole.style.display = "none";
       deployConsole.textContent = "";
       btnConfirmDeploy.disabled = false;
+      btnConfirmDeploy.className = "btn btn-gold";
       btnConfirmDeploy.textContent = "Commit & Push to GitHub";
-      deployModal.classList.add("open");
+      btnConfirmDeploy.dataset.action = "deploy";
+      const cancelBtn = document.getElementById("btnCancelDeploy");
+      if (cancelBtn) cancelBtn.style.display = "inline-flex";
+      openModal("deployModalOverlay");
     });
 
-    function closeDeployModal() { deployModal.classList.remove("open"); }
+    function closeDeployModal() { closeModal("deployModalOverlay"); }
 
     btnConfirmDeploy.addEventListener("click", async () => {
+      // If deploy succeeded, clicking button immediately closes modal
+      if (btnConfirmDeploy.dataset.action === "close") {
+        closeDeployModal();
+        return;
+      }
+
       btnConfirmDeploy.disabled = true;
       btnConfirmDeploy.textContent = "Archiving ZIP & Deploying…";
       deployConsole.style.display = "block";
@@ -2180,19 +2643,27 @@
 
         if (data.success) {
           showToast("Successfully deployed to GitHub!");
-          btnConfirmDeploy.textContent = "Deployed successfully";
+          // User requirement: after successfully deploy show close button not successfully deployed button
+          btnConfirmDeploy.disabled = false;
+          btnConfirmDeploy.textContent = "Close";
+          btnConfirmDeploy.className = "btn btn-gold";
+          btnConfirmDeploy.dataset.action = "close";
+          const cancelBtn = document.getElementById("btnCancelDeploy");
+          if (cancelBtn) cancelBtn.style.display = "none";
           checkGitStatus();
           loadBackups();
         } else {
           showToast(data.error || "Deploy failed", true);
           btnConfirmDeploy.disabled = false;
           btnConfirmDeploy.textContent = "Retry Deploy";
+          btnConfirmDeploy.dataset.action = "deploy";
         }
       } catch (err) {
         deployConsole.textContent += "\nNetwork error: " + err.message;
         showToast("Deploy request failed", true);
         btnConfirmDeploy.disabled = false;
         btnConfirmDeploy.textContent = "Retry Deploy";
+        btnConfirmDeploy.dataset.action = "deploy";
       }
     });
 

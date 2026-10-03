@@ -1,6 +1,6 @@
 # Sukoon Saathi — Mental Health & Holistic Wellness Platform
 
-A serene, mobile-first holistic wellness website and store designed with calming aesthetics, zero external payment gateways, and a **single unified Google Sheets backend** for instant order processing, session bookings, and customer inquiries.
+A serene, mobile-first holistic wellness website and store designed with calming aesthetics, zero external payment gateways, a **single unified Google Sheets backend** for instant customer orders, session bookings, and inquiries, and a **private local Go Admin Studio** for seamless content management.
 
 ---
 
@@ -10,6 +10,9 @@ A serene, mobile-first holistic wellness website and store designed with calming
                       +---------------------------------------+
                       |         Sukoon Saathi Website         |
                       |   (Static HTML5 / CSS3 / Vanilla JS)  |
+                      |  Reads: data/products.json,           |
+                      |         data/specialists.json,        |
+                      |         data/about.json               |
                       +---------------------------------------+
                                           |
                       +-------------------+-------------------+
@@ -34,6 +37,15 @@ A serene, mobile-first holistic wellness website and store designed with calming
                |  [Tab 2: Book a Session] -> Therapy appointments    |
                |  [Tab 3: Contact Us]     -> General inquiries       |
                +-----------------------------------------------------+
+
+                      +---------------------------------------+
+                      |         Private Admin Studio          |
+                      |     (Local Go Backend in backend/)    |
+                      |  * Manages data/ products & specialists|
+                      |  * Live About Page Preview            |
+                      |  * Safe ZIP Backups                   |
+                      |  * 1-Click Deploy & Push to GitHub   |
+                      +---------------------------------------+
 ```
 
 ---
@@ -76,6 +88,39 @@ window.SUKOON_SHEET_ENDPOINT = "https://script.google.com/macros/s/PASTE_YOUR_CO
 
 > [!TIP]
 > Both the Store checkout ([`js/store.js`](js/store.js)) and the Booking/Contact forms ([`js/main.js`](js/main.js)) share `window.SUKOON_SHEET_ENDPOINT`. You only need to paste the URL **once** in [`js/main.js`](js/main.js)!
+
+---
+
+## Dynamic Catalog & Content System (`data/`)
+
+The website's catalog and core content are cleanly separated into JSON data files and local assets:
+
+1. **E-Commerce Products (`data/products.json`)**:
+   - Stores item IDs, pricing, MRP, discounts, badges, stock status, highlights, and variants.
+   - Images are saved locally as high-resolution PNGs in [`data/products/`](data/products/) for lightning-fast loading and zero external CDN dependencies.
+   - Product detail modal has a clean presentation without cluttered breadcrumb trails.
+
+2. **Care Specialists (`data/specialists.json`)**:
+   - Profiles of psychologists and counselors with their names, roles, and registration credentials.
+   - Profile photos are stored locally as PNGs in [`data/pfp/`](data/pfp/).
+   - Clean, focused card design highlighting therapeutic expertise and direct session booking.
+
+3. **About Page Content (`data/about.json`)**:
+   - Dynamically controls the page eyebrow, main headline, mission statement, story paragraphs, key stats (`1:1`, `100%`), core values, and multidisciplinary care team banner.
+
+---
+
+## Private Admin Studio (`backend/`)
+
+A dedicated, private Go application designed strictly for content editing and zero-risk deployments:
+- **Zero Coupling**: Does NOT host the public static site; runs locally whenever you wish to edit content.
+- **About Page Live Preview**: Split-screen editing with an instant, authentic static website preview updating with every keystroke.
+- **Safe ZIP Backups**: Automatic non-destructive `.zip` archives generated prior to any Deploy or Reset in `backend/backups/`.
+- **1-Click GitHub Deploy**: Stages `data/`, commits changes, pushes to your repository, and switches to a clean "Close" button upon completion.
+- **Audit Logging**: The History tab records all administrative changes with search, category filtering, and CSV export.
+- **Scroll Stabilization**: Background page scrolling is locked (`html.modal-open, body.modal-open`) whenever a modal is open, preventing background movement and layout shifts.
+
+See [`backend/README.md`](backend/README.md) for full configuration and run instructions.
 
 ---
 
@@ -123,59 +168,30 @@ Captures general inquiries and messages:
 - **Message**: Complete message body
 - **Inquiry Status**: Defaults to `New Message (Unread)`
 
-> [!NOTE]
-> All 3 tabs are created automatically upon the first submission and styled with Sukoon Forest Green headers (`#0f3d34`), bold white text, frozen top rows, and auto-adjusted column widths.
-
 ---
 
 ## Complete Multi-Tier Notification System
 
-Sukoon Saathi includes bulletproof HTML email templates designed using pure HTML `<table>` architecture (no flexbox bugs) to ensure clean rendering on all devices (Gmail Web & Mobile, Apple Mail, Outlook):
+Sukoon Saathi includes bulletproof HTML email templates designed using pure HTML `<table>` architecture:
 
-### 1. Store Orders
-- **Admin Alert Email**: Sent immediately to `NOTIFY_EMAIL` with full customer details, phone, delivery address, items table, and total amount.
-- **Customer Order Confirmation Receipt**: Sent automatically to customer's email with their Order ID, itemized receipt breakdown table, delivery address, and direct WhatsApp support link.
-
-### 2. Therapy Session Bookings
-- **Admin Alert Email**: Sent immediately to `NOTIFY_EMAIL` with Booking ID, client contact details, session type, preferred date & time slot, and client notes.
-- **Client Confirmation Email**: Sent automatically to client's email with their Booking ID, booking summary, confidentiality assurance, and next steps.
-
-### 3. Contact Us Inquiries
-- **Admin Alert Email**: Sent immediately to `NOTIFY_EMAIL` with Inquiry ID, sender name, contact phone, email, subject, and full message.
-- **Sender Confirmation Email**: Sent automatically to sender's email confirming receipt of their inquiry with their Reference ID and expected response time (within 24 hours).
-
-### 4. Direct WhatsApp Alerts & Mobile Google Sheets Notifications
-- **Immediate On-Screen WhatsApp Link**: The customer sees their reference ID and a 1-tap WhatsApp button to reach your team directly.
-- **Google Sheets Mobile Alerts**: Install the Google Sheets app on your phone, open your spreadsheet on desktop &rarr; **Tools** &rarr; **Notification settings** &rarr; select *"Any changes are made"* and *"Email - right away"* to get instant notifications whenever a new order, booking, or contact inquiry is saved!
-
----
-
-## Key Features
-
-- **Single Google Sheet Backend**: No MySQL, MongoDB, or paid database services. Everything is saved live in Google Sheets.
-- **Instant Order Notifications**: Owner email alert + customer receipt + direct WhatsApp connection.
-- **Local Backup Protection**: Even if the customer loses internet or the Google Sheets webhook is misconfigured, orders are permanently saved to browser `localStorage` under `sukoon_orders`.
-- **Direct WhatsApp Confirmation**: Customers receive their Order ID immediately on screen alongside a one-click WhatsApp button to message your fulfillment team.
-- **Scroll Bleed Prevention**: Background page scrolling is strictly contained when any modal, drawer, or checkout floating window is active on both desktop and mobile viewports.
-- **Zero Ongoing Server Costs**: Can be hosted on any static platform (GitHub Pages, Vercel, Netlify, Cloudflare Pages, etc.).
-
----
-
-## Updating the Apps Script Code
-
-If you ever modify [`google-apps-script.gs`](google-apps-script.gs):
-1. In Google Sheets, click **Extensions** &rarr; **Apps Script**.
-2. Paste the updated code and save (**Ctrl+S** or floppy disk icon).
-3. Click **Deploy** &rarr; **Manage deployments**.
-4. Click the **Pencil (Edit)** icon on your active deployment.
-5. In the **Version** dropdown, select **New version**.
-6. Click **Deploy**. (The URL stays exactly the same; you do not need to update your website code).
+1. **Store Orders**:
+   - Admin Alert Email with itemized breakdown and customer delivery details.
+   - Customer Order Confirmation Receipt with Order ID, itemized receipt breakdown, and WhatsApp link.
+2. **Therapy Session Bookings**:
+   - Admin Alert Email with Booking ID, service type, preferred date/time slot, and client notes.
+   - Client Confirmation Email with booking summary and next steps.
+3. **Contact Us Inquiries**:
+   - Admin Alert Email with Inquiry ID, sender details, subject, and message.
+   - Sender Confirmation Email with reference ID.
+4. **Direct WhatsApp Alerts & Mobile Google Sheets Notifications**:
+   - Immediate on-screen 1-tap WhatsApp button to reach fulfillment.
+   - Native mobile notifications via the Google Sheets app.
 
 ---
 
 ## Local Development
 
-To run the site locally on your computer:
+To run the static website locally on your computer:
 
 ```bash
 # Using Python 3:
@@ -186,3 +202,10 @@ npx serve .
 ```
 
 Open `http://localhost:8000` in your web browser.
+
+To start the Admin Studio:
+```bash
+cd backend
+go run main.go
+```
+Open `http://localhost:8080` in your browser.
