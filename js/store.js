@@ -433,13 +433,6 @@ class SukoonStore {
     if (!modal || !container) return;
 
     container.innerHTML = `
-      <!-- Breadcrumbs -->
-      <div class="pdp-breadcrumbs">
-        <a href="#home">Home</a> &rsaquo;
-        <a href="#products">Store</a> &rsaquo;
-        <span>${prod.title}</span>
-      </div>
-
       <!-- Main Grid -->
       <div class="pdp-main-grid">
         <!-- Left: Image Gallery with thumbnail switcher -->

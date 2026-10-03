@@ -1,7 +1,7 @@
 [
   {
     "id": "ss-mindful-journal",
-    "title": "Sukoon 90-Day Mindful Reflection \u0026 Gratitude Journal",
+    "title": "Sukoon 90-Day Mindful Reflection & Gratitude Journal",
     "subtitle": "Hardbound Gold-Foil Debossed Journal with Guided Daily Prompts",
     "category": "journals",
     "categoryLabel": "Mindful Journals",
@@ -13,11 +13,11 @@
     "reviewsCount": 420,
     "badge": "Best Seller",
     "badgeType": "bestseller",
-    "image": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "image": "data/products/ss-mindful-journal.png",
     "gallery": [
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+      "data/products/ss-mindful-journal.png",
+      "data/products/gallery-desk-reflection.png",
+      "data/products/ss-soundscapes-audio.png",
       "assets/hero.webp"
     ],
     "deliveryInfo": "Free Express Delivery in 2-3 Days across India",
@@ -77,8 +77,8 @@
   },
   {
     "id": "ss-aromatherapy-kit",
-    "title": "Sleep \u0026 Calming Aromatherapy Relaxation Kit",
-    "subtitle": "French Lavender Pillow Mist, Pulse Point Roll-On \u0026 Mulberry Silk Eye Mask",
+    "title": "Sleep & Calming Aromatherapy Relaxation Kit",
+    "subtitle": "French Lavender Pillow Mist, Pulse Point Roll-On & Mulberry Silk Eye Mask",
     "category": "kits",
     "categoryLabel": "Wellness Kits",
     "brand": "Sukoon Living",
@@ -89,18 +89,18 @@
     "reviewsCount": 285,
     "badge": "Sukoon's Choice",
     "badgeType": "choice",
-    "image": "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "image": "data/products/ss-aromatherapy-kit.png",
     "gallery": [
-      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+      "data/products/ss-aromatherapy-kit.png",
+      "data/products/ss-mindful-journal.png",
+      "data/products/ss-soundscapes-audio.png"
     ],
     "deliveryInfo": "Free Delivery by Tomorrow",
     "format": "Physical Gift Box",
     "inStock": true,
     "highlights": [
-      "100ml Pure Lavender \u0026 Chamomile soothing pillow mist",
-      "10ml Bergamot \u0026 Sandalwood calming pulse point roll-on oil",
+      "100ml Pure Lavender & Chamomile soothing pillow mist",
+      "10ml Bergamot & Sandalwood calming pulse point roll-on oil",
       "100% Grade 6A Mulberry Silk blackout eye mask with travel pouch",
       "Sensory grounding breathing card with guided techniques"
     ],
@@ -109,11 +109,11 @@
       "Active Botanicals": "French Lavender, Roman Chamomile, Bergamot, Mysore Sandalwood",
       "Box Contents": "1x Pillow Mist (100ml), 1x Pulse Roll-On (10ml), 1x Pure Silk Eye Mask",
       "Packaging": "Luxury matte magnetic gift box with protective inserts",
-      "Safety \u0026 Purity": "100% Vegan, Paraben-Free, Non-Staining on Linen"
+      "Safety & Purity": "100% Vegan, Paraben-Free, Non-Staining on Linen"
     },
     "variants": [
-      "Calming Lavender \u0026 Chamomile",
-      "Mysore Sandalwood \u0026 Cedar"
+      "Calming Lavender & Chamomile",
+      "Mysore Sandalwood & Cedar"
     ],
     "bundleWithId": "ss-mindful-journal",
     "reviews": [
@@ -137,9 +137,9 @@
   {
     "id": "ss-weighted-blanket",
     "title": "Therapeutic Organic Bamboo Weighted Calming Blanket",
-    "subtitle": "Gentle Deep Pressure Touch for Restful Sleep \u0026 Anxiety Relief",
+    "subtitle": "Gentle Deep Pressure Touch for Restful Sleep & Anxiety Relief",
     "category": "living",
-    "categoryLabel": "Comfort \u0026 Living",
+    "categoryLabel": "Comfort & Living",
     "brand": "Sukoon Living",
     "price": 2499,
     "mrp": 4499,
@@ -148,11 +148,11 @@
     "reviewsCount": 176,
     "badge": "Premium",
     "badgeType": "bestseller",
-    "image": "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "image": "data/products/ss-weighted-blanket.png",
     "gallery": [
-      "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+      "data/products/ss-weighted-blanket.png",
+      "data/products/ss-mindful-journal.png",
+      "data/products/ss-aromatherapy-kit.png"
     ],
     "deliveryInfo": "Free Doorstep Delivery in 3-4 Days",
     "format": "Physical Home Item",
@@ -168,7 +168,7 @@
       "Cleaning": "Machine washable on gentle cycle or spot clean",
       "Fabric Material": "100% Natural Organic Bamboo Lyocell",
       "Filler": "Hypoallergenic, Lead-Free Micro Glass Beads",
-      "Warranty": "1-Year Quality Warranty on Stitching \u0026 Construction",
+      "Warranty": "1-Year Quality Warranty on Stitching & Construction",
       "Weight Options": "5.5 kg (Ideal for 45-70 kg) or 7.0 kg (Ideal for 70+ kg)"
     },
     "variants": [
@@ -197,7 +197,7 @@
   {
     "id": "ss-calming-tea",
     "title": "Sukoon Natural Whole-Leaf Herbal Calming Tea (100g Tin)",
-    "subtitle": "Caffeine-Free Infusion of Chamomile, Ashwagandha, Lavender \u0026 Lemongrass",
+    "subtitle": "Caffeine-Free Infusion of Chamomile, Ashwagandha, Lavender & Lemongrass",
     "category": "living",
     "categoryLabel": "Calming Essentials",
     "brand": "Sukoon Harvest",
@@ -208,11 +208,11 @@
     "reviewsCount": 310,
     "badge": "Popular",
     "badgeType": "bestseller",
-    "image": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "image": "data/products/ss-calming-tea.png",
     "gallery": [
-      "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+      "data/products/ss-calming-tea.png",
+      "data/products/ss-mindful-journal.png",
+      "data/products/ss-aromatherapy-kit.png"
     ],
     "deliveryInfo": "Delivery in 2 Days across India",
     "format": "Food Grade Reusable Tin",
@@ -232,8 +232,8 @@
       "Shelf Life": "18 Months from packaging date"
     },
     "variants": [
-      "Chamomile \u0026 Ashwagandha",
-      "Lavender \u0026 Lemongrass"
+      "Chamomile & Ashwagandha",
+      "Lavender & Lemongrass"
     ],
     "bundleWithId": "ss-mindful-journal",
     "reviews": [
@@ -256,7 +256,7 @@
   },
   {
     "id": "ss-worry-stone",
-    "title": "Tactile Sensory Worry Stone \u0026 Desk Grounding Object",
+    "title": "Tactile Sensory Worry Stone & Desk Grounding Object",
     "subtitle": "Hand-Carved Polished Natural Gemstone with Ergonomic Thumb Indentation",
     "category": "essentials",
     "categoryLabel": "Mindful Essentials",
@@ -268,11 +268,11 @@
     "reviewsCount": 194,
     "badge": "Trending",
     "badgeType": "choice",
-    "image": "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "image": "data/products/ss-worry-stone.png",
     "gallery": [
-      "https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+      "data/products/ss-worry-stone.png",
+      "data/products/ss-mindful-journal.png",
+      "data/products/gallery-desk-reflection.png"
     ],
     "deliveryInfo": "Free Express Delivery in 2-3 Days",
     "format": "Physical Object with Pouch",
@@ -317,8 +317,8 @@
   },
   {
     "id": "ss-soundscapes-audio",
-    "title": "Guided Mindfulness \u0026 Ambient Soundscapes Audio Deck",
-    "subtitle": "32 High-Fidelity Audio Meditations, Nature Soundscapes \u0026 Sleep Journeys",
+    "title": "Guided Mindfulness & Ambient Soundscapes Audio Deck",
+    "subtitle": "32 High-Fidelity Audio Meditations, Nature Soundscapes & Sleep Journeys",
     "category": "digital",
     "categoryLabel": "Digital Audio Pass",
     "brand": "Sukoon Digital",
@@ -329,19 +329,19 @@
     "reviewsCount": 430,
     "badge": "Instant Access",
     "badgeType": "deal",
-    "image": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "image": "data/products/ss-soundscapes-audio.png",
     "gallery": [
-      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+      "data/products/ss-soundscapes-audio.png",
+      "data/products/ss-mindful-journal.png",
+      "data/products/ss-aromatherapy-kit.png"
     ],
     "deliveryInfo": "Instant Digital Key Delivered to Email",
     "format": "Digital Audio Pass",
     "inStock": true,
     "highlights": [
       "Lifetime unlimited access to 32 studio-grade audio tracks (12+ hours)",
-      "Binaural theta frequencies, Himalayan forest sounds \u0026 bedtime stories",
-      "Available in bilingual narration (Clear English \u0026 Soothing Hindi)",
+      "Binaural theta frequencies, Himalayan forest sounds & bedtime stories",
+      "Available in bilingual narration (Clear English & Soothing Hindi)",
       "Direct browser streaming plus DRM-free MP3 downloads for offline listening"
     ],
     "description": "An audio sanctuary accessible on any device. Created with sound acoustics specialists, each track blends field recordings of Himalayan rainfall, Tibetan singing bowls, and gentle breath cues to ease restlessness and support focus.",
@@ -353,7 +353,7 @@
       "Total Duration": "12 Hours 45 Minutes of curated audio"
     },
     "variants": [
-      "Lifetime Digital Streaming \u0026 Offline MP3 Pass"
+      "Lifetime Digital Streaming & Offline MP3 Pass"
     ],
     "bundleWithId": "ss-mindful-journal",
     "reviews": [
@@ -376,7 +376,7 @@
   },
   {
     "id": "ss-gift-hamper",
-    "title": "Sukoon Mindful Living \u0026 Self-Care Gift Hamper",
+    "title": "Sukoon Mindful Living & Self-Care Gift Hamper",
     "subtitle": "Journal + Hand-Poured Scented Candle + Herbal Tea + 52 Affirmation Cards",
     "category": "kits",
     "categoryLabel": "Gift Hampers",
@@ -388,11 +388,11 @@
     "reviewsCount": 152,
     "badge": "Limited Edition",
     "badgeType": "choice",
-    "image": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "image": "data/products/ss-gift-hamper.png",
     "gallery": [
-      "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+      "data/products/ss-gift-hamper.png",
+      "data/products/ss-mindful-journal.png",
+      "data/products/ss-aromatherapy-kit.png"
     ],
     "deliveryInfo": "Free Pan-India Delivery with Greeting Card",
     "format": "Luxury Rigid Gift Box",
@@ -435,7 +435,7 @@
   },
   {
     "id": "ss-affirmation-cards",
-    "title": "Daily Affirmation \u0026 Mental Clarity Card Deck (52 Cards)",
+    "title": "Daily Affirmation & Mental Clarity Card Deck (52 Cards)",
     "subtitle": "52 Illustrated Prompt Cards with Natural Beechwood Display Stand",
     "category": "essentials",
     "categoryLabel": "Mindful Essentials",
@@ -447,11 +447,11 @@
     "reviewsCount": 268,
     "badge": "Best Seller",
     "badgeType": "bestseller",
-    "image": "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
+    "image": "data/products/ss-affirmation-cards.png",
     "gallery": [
-      "https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format\u0026fit=crop\u0026w=800\u0026q=80",
-      "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format\u0026fit=crop\u0026w=800\u0026q=80"
+      "data/products/ss-affirmation-cards.png",
+      "data/products/ss-mindful-journal.png",
+      "data/products/gallery-desk-reflection.png"
     ],
     "deliveryInfo": "Delivery in 2-3 Days across India",
     "format": "Physical Card Deck with Wooden Stand",
@@ -481,7 +481,7 @@
         "date": "2 weeks ago",
         "verified": true,
         "title": "A wonderful desk companion for workday presence",
-        "body": "I pick one card every morning before checking my emails. The words are meaningful and mature, avoiding cliché quotes. The wooden stand looks elegant on my desk.",
+        "body": "I pick one card every morning before checking my emails. The words are meaningful and mature, avoiding clich\u00e9 quotes. The wooden stand looks elegant on my desk.",
         "helpful": 35
       }
     ],
