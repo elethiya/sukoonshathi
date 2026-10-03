@@ -1,13 +1,25 @@
 # Binaries
 backend/backend
+backend/admin-server
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
 
-# Test / OS files
+# Test / OS files & Logs
 .DS_Store
 Thumbs.db
 *.log
 errors.txt
+backend/logs/
+
+# Environment & Credentials
+.env
+backend/.env
+*.env
+
+# Local Backups
+backend/backups/
+backend/.backups/
+*.zip

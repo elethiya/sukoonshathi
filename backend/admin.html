@@ -1,0 +1,2348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sukoon Saathi — Admin Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090e0d;
+      --bg-surface: #101917;
+      --bg-card: #15221f;
+      --bg-card-hover: #1a2a26;
+      --bg-input: #0b1412;
+      --line: rgba(255, 255, 255, 0.08);
+      --line-focus: #c9a35c;
+      --gold: #c9a35c;
+      --gold-hover: #dbb367;
+      --gold-soft: rgba(201, 163, 92, 0.15);
+      --forest-accent: #235e52;
+      --forest-light: #2d7a6a;
+      --ink-primary: #f3f4f6;
+      --ink-secondary: #9db2ab;
+      --ink-muted: #647a73;
+      --danger: #ef4444;
+      --danger-soft: rgba(239, 68, 68, 0.15);
+      --success: #22c55e;
+      --success-soft: rgba(34, 197, 94, 0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-dark);
+      color: var(--ink-primary);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navbar */
+    .admin-navbar {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(201, 163, 92, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+    }
+
+    .brand-titles h1 {
+      font-family: var(--font-serif);
+      font-size: 1.18rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.2;
+    }
+
+    .target-project-meta {
+      font-size: 0.72rem;
+      color: var(--ink-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .project-path-tag {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: var(--gold);
+      border: 1px solid var(--line);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      padding: 5px 10px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      color: var(--ink-secondary);
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #6b7280;
+    }
+
+    .status-badge.has-changes {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #e5e7eb;
+    }
+
+    .status-badge.has-changes .status-dot {
+      background: #e5e7eb;
+      box-shadow: none;
+    }
+
+    .btn {
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.18s ease;
+      text-decoration: none;
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #0c1311;
+      border-color: var(--gold);
+    }
+    .btn-gold:hover {
+      background: var(--gold-hover);
+      box-shadow: 0 4px 14px rgba(201, 163, 92, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: var(--bg-card);
+      color: var(--ink-primary);
+      border-color: var(--line);
+    }
+    .btn-outline:hover {
+      background: var(--bg-card-hover);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .btn-reset {
+      background: var(--danger-soft);
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+    .btn-reset:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-primary {
+      background: var(--forest-accent);
+      color: #fff;
+      border-color: var(--forest-light);
+    }
+    .btn-primary:hover {
+      background: var(--forest-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: var(--danger-soft);
+      color: #f87171;
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+    .btn-danger:hover {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.76rem;
+    }
+
+    /* Tab Header */
+    .tab-bar {
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--line);
+      padding: 0 28px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--ink-secondary);
+      font-family: var(--font-sans);
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 13px 18px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn:hover { color: #fff; }
+    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* Main Container */
+    .admin-container {
+      max-width: 1360px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 28px;
+      flex: 1;
+    }
+
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Action & Search Bar */
+    .action-bar {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .search-filter-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .search-input-box {
+      position: relative;
+      flex: 1;
+      max-width: 380px;
+    }
+
+    .search-input-box svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--ink-muted);
+    }
+
+    .search-input-box input {
+      width: 100%;
+      padding: 9px 12px 9px 36px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      background: var(--bg-input);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: #fff;
+      outline: none;
+    }
+
+    .search-input-box input:focus {
+      border-color: var(--line-focus);
+      box-shadow: 0 0 0 3px rgba(201, 163, 92, 0.15);
+    }
+
+    .category-select {
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      background: var(--bg-input);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: #fff;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Grids */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 18px;
+    }
+
+    .item-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.18s ease, border-color 0.18s ease;
+    }
+
+    .item-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(201, 163, 92, 0.4);
+    }
+
+    .item-card-img-box {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      background: #0d1513;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .item-card-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .badge-pill {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #e5e7eb;
+      border: 1px solid var(--line);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .stock-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.65);
+      color: #9ca3af;
+      border: 1px solid var(--line);
+    }
+    .stock-tag.in-stock { color: #e5e7eb; border-color: rgba(255, 255, 255, 0.2); }
+    .stock-tag.out-of-stock { color: #6b7280; border-color: rgba(255, 255, 255, 0.08); text-decoration: line-through; }
+
+    .item-card-body {
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .item-card-meta {
+      font-size: 0.7rem;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .item-card-title {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .item-card-sub {
+      font-size: 0.78rem;
+      color: var(--ink-secondary);
+      line-height: 1.4;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .item-card-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .price-deal { font-size: 1.2rem; font-weight: 700; color: var(--gold); }
+    .price-mrp { font-size: 0.8rem; color: var(--ink-muted); text-decoration: line-through; }
+    .price-discount { font-size: 0.72rem; font-weight: 600; color: #e5e7eb; background: rgba(255, 255, 255, 0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--line); }
+
+    .item-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .item-card-actions .btn { flex: 1; justify-content: center; }
+
+    /* Specialists Card Specifics */
+    .specialist-admin-card {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      transition: all 0.18s ease;
+    }
+    .specialist-admin-card:hover {
+      border-color: rgba(201, 163, 92, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .specialist-avatar-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .specialist-avatar-img {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+      background: #101c18;
+    }
+
+    .specialist-info h3 {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      color: #fff;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .specialist-info p {
+      font-size: 0.78rem;
+      color: var(--ink-secondary);
+      font-weight: 500;
+    }
+    .specialist-info span {
+      font-size: 0.72rem;
+      color: var(--gold);
+    }
+
+    /* About Section Editor Form */
+    .about-editor-box {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+    }
+
+    .about-editor-box h2 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      color: #fff;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+    }
+
+    /* Backups List */
+    .backup-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: border-color 0.15s ease;
+    }
+    .backup-card:hover { border-color: rgba(201, 163, 92, 0.35); }
+
+    .backup-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .backup-zip-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(201, 163, 92, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .backup-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .backup-name {
+      font-family: monospace;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .backup-meta {
+      font-size: 0.74rem;
+      color: var(--ink-secondary);
+      display: flex;
+      gap: 12px;
+    }
+
+    .backup-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Audit Log Table & History Styles */
+    .audit-controls {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .audit-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .audit-filter-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 280px;
+      flex-wrap: wrap;
+    }
+    .audit-filter-chips {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .filter-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      color: var(--ink-secondary);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-chip:hover, .filter-chip.active {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .audit-table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .audit-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .audit-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.82rem;
+    }
+    .audit-table th {
+      background: #0e1715;
+      padding: 12px 16px;
+      color: var(--ink-secondary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+    .audit-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--ink-primary);
+      vertical-align: top;
+    }
+    .audit-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .audit-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.06);
+      color: #e5e7eb;
+      display: inline-block;
+      white-space: nowrap;
+      font-family: monospace;
+    }
+    .audit-target {
+      font-family: monospace;
+      font-size: 0.76rem;
+      color: var(--gold);
+      background: rgba(201, 163, 92, 0.08);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(201, 163, 92, 0.2);
+      display: inline-block;
+    }
+    .audit-status {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.05);
+      color: #d1d5db;
+    }
+    .audit-status.status-failed {
+      color: #fca5a5;
+      border-color: rgba(239, 68, 68, 0.3);
+      background: var(--danger-soft);
+    }
+    .audit-details-text {
+      color: var(--ink-primary);
+      line-height: 1.45;
+      font-size: 0.8rem;
+    }
+    .audit-meta-text {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      margin-top: 2px;
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 820px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      color: #fff;
+    }
+
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--ink-muted);
+      cursor: pointer;
+      padding: 4px;
+    }
+    .modal-close-btn:hover { color: #fff; }
+
+    .modal-body {
+      padding: 22px 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-footer {
+      padding: 14px 24px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      background: var(--bg-card);
+      border-bottom-left-radius: var(--radius-lg);
+      border-bottom-right-radius: var(--radius-lg);
+    }
+
+    /* Form Fields */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .form-col-full { grid-column: 1 / -1; }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+    }
+
+    .form-control {
+      padding: 9px 13px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      background: var(--bg-input);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      color: #fff;
+      outline: none;
+    }
+    .form-control:focus {
+      border-color: var(--line-focus);
+      box-shadow: 0 0 0 3px rgba(201, 163, 92, 0.15);
+    }
+    textarea.form-control { resize: vertical; min-height: 80px; }
+
+    .image-upload-preview {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px;
+      background: var(--bg-input);
+      border: 1px dashed var(--line);
+      border-radius: var(--radius-sm);
+    }
+    .image-preview-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      background: #000;
+      border: 1px solid var(--line);
+    }
+
+    .deploy-log-box {
+      background: #050a09;
+      color: #86efac;
+      font-family: monospace;
+      font-size: 0.82rem;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      max-height: 220px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      margin-top: 14px;
+      border: 1px solid var(--line);
+    }
+
+    /* Login Screen Overlay */
+    .login-overlay {
+      position: fixed;
+      inset: 0;
+      background: #060908;
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .login-card-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .login-card-header h2 {
+      font-family: var(--font-serif);
+      font-size: 1.45rem;
+      color: #fff;
+      margin-top: 10px;
+    }
+    .login-card-header p {
+      font-size: 0.8rem;
+      color: var(--ink-secondary);
+      margin-top: 4px;
+    }
+
+    .login-error {
+      background: var(--danger-soft);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    /* Toast */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      background: var(--forest-accent);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      font-size: 0.84rem;
+      font-weight: 500;
+      z-index: 300;
+      display: none;
+    }
+    .toast-msg.show { display: flex; align-items: center; gap: 8px; }
+    .toast-msg.error { background: var(--danger); }
+  </style>
+</head>
+<body>
+
+  <!-- Login Modal Overlay (Protected access via .env) -->
+  <div class="login-overlay" id="loginOverlay" style="display:none;">
+    <div class="login-card">
+      <div class="login-card-header">
+        <div class="brand-logo-badge" style="margin: 0 auto; width: 48px; height: 48px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <h2>Sukoon Admin Studio</h2>
+        <p id="loginWebsiteMeta">Protected website catalog administration</p>
+      </div>
+
+      <div class="login-error" id="loginErrorMsg"></div>
+
+      <form id="loginForm" style="display:flex; flex-direction:column; gap:16px;">
+        <div class="form-group">
+          <label for="loginUsername">Admin Username</label>
+          <input type="text" id="loginUsername" class="form-control" placeholder="admin" required autofocus>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Admin Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width:100%; justify-content:center; padding:11px; margin-top:8px;">
+          Unlock Studio
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Top Navbar -->
+  <header class="admin-navbar">
+    <div class="brand-wrap">
+      <div class="brand-logo-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+      </div>
+      <div class="brand-titles">
+        <h1 id="navWebsiteName">Sukoon Saathi — Admin Studio</h1>
+        <div class="target-project-meta">
+          <span>Target Website:</span>
+          <span class="project-path-tag" id="navProjectPath">loading...</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <div class="status-badge" id="gitStatusBadge">
+        <span class="status-dot"></span>
+        <span id="gitStatusText">Checking Git status…</span>
+      </div>
+
+      <button class="btn btn-reset" id="btnOpenResetModal" title="Revert uncommitted data to Git HEAD (with automatic ZIP safety backup)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+          <path d="M3 3v5h5"/>
+        </svg>
+        Reset Changes
+      </button>
+
+      <button class="btn btn-gold" id="btnOpenDeployModal">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+          <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-2.05 9A22 22 0 0 1 16 13l-3 3-1-1z"/>
+        </svg>
+        Deploy to GitHub
+      </button>
+
+      <button class="btn btn-outline btn-sm" id="btnLogout" title="Log out">
+        Logout
+      </button>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="tab-bar">
+    <button class="tab-btn active" data-tab="products">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+      </svg>
+      Products Catalog
+    </button>
+    <button class="tab-btn" data-tab="specialists">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="7" r="4"/>
+        <path d="M5.5 21a6.5 6.5 0 0 1 13 0"/>
+      </svg>
+      Care Specialists
+    </button>
+    <button class="tab-btn" data-tab="about">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/>
+        <path d="M6 6h10M6 10h10M6 14h6"/>
+      </svg>
+      About Page
+    </button>
+    <button class="tab-btn" data-tab="backups">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 8v13H3V8"/>
+        <path d="M1 3h22v5H1z"/>
+        <path d="M10 12h4"/>
+      </svg>
+      ZIP Backups &amp; Archive
+    </button>
+    <button class="tab-btn" data-tab="history">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </svg>
+      History
+    </button>
+  </nav>
+
+  <!-- Main Content Panes -->
+  <main class="admin-container">
+
+    <!-- TAB 1: PRODUCTS -->
+    <div class="tab-pane active" id="pane-products">
+      <div class="action-bar">
+        <div class="search-filter-wrap">
+          <div class="search-input-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="productSearchInput" placeholder="Search products by title, ID, brand...">
+          </div>
+          <select class="category-select" id="productCategoryFilter">
+            <option value="all">All Categories</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" id="btnOpenAddProduct">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add Product
+        </button>
+      </div>
+
+      <div class="cards-grid" id="productsGrid"></div>
+    </div>
+
+    <!-- TAB 2: SPECIALISTS -->
+    <div class="tab-pane" id="pane-specialists">
+      <div class="action-bar">
+        <div class="search-filter-wrap">
+          <div class="search-input-box">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="specialistSearchInput" placeholder="Search specialists by name or role...">
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="btnOpenAddSpecialist">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add Specialist
+        </button>
+      </div>
+
+      <div class="cards-grid" id="specialistsGrid"></div>
+    </div>
+
+    <!-- TAB 3: ABOUT PAGE -->
+    <div class="tab-pane" id="pane-about">
+      <div class="about-editor-box">
+        <h2>About Page Content Editor</h2>
+        <form id="aboutForm" class="form-grid">
+          <div class="form-group">
+            <label>Eyebrow Label</label>
+            <input type="text" id="ab-eyebrow" class="form-control" placeholder="About us">
+          </div>
+          <div class="form-group">
+            <label>Main Heading</label>
+            <input type="text" id="ab-title" class="form-control" placeholder="A quiet space to be heard.">
+          </div>
+          <div class="form-col-full form-group">
+            <label>Tagline / Mission Subtitle</label>
+            <textarea id="ab-subtitle" class="form-control"></textarea>
+          </div>
+          <div class="form-col-full form-group">
+            <label>Story Body (Separate paragraphs with double newlines)</label>
+            <textarea id="ab-story" class="form-control" style="min-height: 120px;"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Stat 1 Number &amp; Label</label>
+            <div style="display:flex; gap:10px;">
+              <input type="text" id="ab-stat1-num" class="form-control" style="max-width:110px;" placeholder="1:1">
+              <input type="text" id="ab-stat1-label" class="form-control" placeholder="Private sessions only">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Stat 2 Number &amp; Label</label>
+            <div style="display:flex; gap:10px;">
+              <input type="text" id="ab-stat2-num" class="form-control" style="max-width:110px;" placeholder="100%">
+              <input type="text" id="ab-stat2-label" class="form-control" placeholder="Confidential by design">
+            </div>
+          </div>
+          <div class="form-col-full form-group" style="margin-top:10px;">
+            <label>Care Team Section Subheading</label>
+            <div style="display:flex; gap:10px; margin-bottom:10px;">
+              <input type="text" id="ab-team-eyebrow" class="form-control" style="max-width:200px;" placeholder="Our Care Team">
+              <input type="text" id="ab-team-title" class="form-control" placeholder="Our Multidisciplinary Care Team">
+            </div>
+            <textarea id="ab-team-sub" class="form-control"></textarea>
+          </div>
+          <div class="form-col-full" style="display:flex; justify-content:flex-end; margin-top:14px;">
+            <button type="button" class="btn btn-gold" id="btnSaveAbout">Save About Page Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- TAB 4: ZIP BACKUPS & ARCHIVES -->
+    <div class="tab-pane" id="pane-backups">
+      <div class="action-bar">
+        <div>
+          <h3 style="color:#fff; font-size:1.05rem;">Safe ZIP Backups (Non-Destructive)</h3>
+          <p style="color:var(--ink-secondary); font-size:0.78rem;">Automatic ZIP archives are created before every Deploy &amp; Reset. You can download or restore them anytime.</p>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-outline btn-sm" id="btnRefreshBackups">Refresh</button>
+          <button class="btn btn-gold btn-sm" id="btnCreateBackupNow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Create Backup ZIP Now
+          </button>
+        </div>
+      </div>
+
+      <div id="backupsList"></div>
+    </div>
+
+    <!-- TAB 5: AUDIT LOGS & HISTORY -->
+    <div class="tab-pane" id="pane-history">
+      <div class="audit-controls">
+        <div class="audit-top-row">
+          <div>
+            <h3 style="color:#fff; font-size:1.05rem;">Administrative Audit Logs</h3>
+            <p style="color:var(--ink-secondary); font-size:0.78rem;">Chronological record of user logins, catalog updates, image uploads, backups, and deployments.</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <label style="display:flex; align-items:center; gap:6px; font-size:0.76rem; color:var(--ink-secondary); cursor:pointer;">
+              <input type="checkbox" id="auditAutoRefresh" checked>
+              Auto-Refresh (Live)
+            </label>
+            <button class="btn btn-outline btn-sm" id="btnRefreshAudit">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10"/>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+              </svg>
+              Refresh
+            </button>
+            <a href="/api/audit-logs/export" class="btn btn-outline btn-sm" id="btnExportAudit">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Export CSV
+            </a>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:12px;">
+          <div class="audit-filter-wrap">
+            <div class="search-input-box" style="max-width:320px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input type="text" id="auditSearchInput" placeholder="Search audit logs by item, action, user...">
+            </div>
+            <div class="audit-filter-chips">
+              <button class="filter-chip active" data-cat="ALL">All Categories</button>
+              <button class="filter-chip" data-cat="PRODUCTS">Products</button>
+              <button class="filter-chip" data-cat="SPECIALISTS">Specialists</button>
+              <button class="filter-chip" data-cat="ABOUT">About</button>
+              <button class="filter-chip" data-cat="BACKUPS">Backups</button>
+              <button class="filter-chip" data-cat="DEPLOY">Deploy</button>
+              <button class="filter-chip" data-cat="RESET">Reset</button>
+              <button class="filter-chip" data-cat="AUTH">Auth</button>
+              <button class="filter-chip" data-cat="UPLOADS">Uploads</button>
+            </div>
+          </div>
+          <div style="font-size:0.75rem; color:var(--ink-secondary); font-family:monospace;" id="auditStats">
+            Loading audit status...
+          </div>
+        </div>
+      </div>
+
+      <div class="audit-table-card">
+        <div class="audit-table-wrap">
+          <table class="audit-table">
+            <thead>
+              <tr>
+                <th style="width:160px;">Timestamp</th>
+                <th style="width:130px;">Category</th>
+                <th style="width:160px;">Action</th>
+                <th style="width:160px;">Target</th>
+                <th>Details</th>
+                <th style="width:140px;">User &amp; IP</th>
+                <th style="width:80px; text-align:center;">Status</th>
+              </tr>
+            </thead>
+            <tbody id="auditTableBody">
+              <tr>
+                <td colspan="7" style="padding:40px; text-align:center; color:var(--ink-secondary);">
+                  Loading audit logs...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL: Product Editor -->
+  <div class="modal-overlay" id="productModalOverlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="productModalTitle">Edit Product</h3>
+        <button class="modal-close-btn" onclick="closeProductModal()" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="productForm" class="form-grid">
+          <div class="form-group">
+            <label>Product ID (slug) *</label>
+            <input type="text" id="f-prod-id" class="form-control" placeholder="ss-calming-tea" required>
+          </div>
+          <div class="form-group">
+            <label>Product Title *</label>
+            <input type="text" id="f-prod-title" class="form-control" required>
+          </div>
+          <div class="form-col-full form-group">
+            <label>Subtitle / Tagline</label>
+            <input type="text" id="f-prod-subtitle" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Category Key *</label>
+            <input type="text" id="f-prod-category" class="form-control" placeholder="journals, teas, etc." required>
+          </div>
+          <div class="form-group">
+            <label>Category Label</label>
+            <input type="text" id="f-prod-categoryLabel" class="form-control" placeholder="Mindful Journals">
+          </div>
+          <div class="form-group">
+            <label>Price (₹) *</label>
+            <input type="number" id="f-prod-price" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>MRP (₹) *</label>
+            <input type="number" id="f-prod-mrp" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Badge Text</label>
+            <input type="text" id="f-prod-badge" class="form-control" placeholder="Best Seller">
+          </div>
+          <div class="form-group">
+            <label>Badge Color</label>
+            <select id="f-prod-badgeType" class="form-control">
+              <option value="none">None</option>
+              <option value="bestseller">Forest Green</option>
+              <option value="choice">Black &amp; Gold</option>
+              <option value="deal">Crimson</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>In Stock</label>
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer; color:#fff; font-size:0.85rem; margin-top:8px;">
+              <input type="checkbox" id="f-prod-inStock" checked style="width:16px; height:16px;">
+              <span>Available in Stock</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label>Brand</label>
+            <input type="text" id="f-prod-brand" class="form-control" placeholder="Sukoon Living">
+          </div>
+          <div class="form-col-full form-group">
+            <label>Product Image (PNG in data/products/) *</label>
+            <div class="image-upload-preview">
+              <img id="f-prod-imgPreview" class="image-preview-thumb" src="/data/products/ss-mindful-journal.png" alt="Thumb">
+              <div style="flex:1;">
+                <input type="text" id="f-prod-image" class="form-control" placeholder="data/products/image.png" style="margin-bottom:8px;" required>
+                <label class="btn btn-outline btn-sm" style="cursor:pointer; display:inline-flex;">
+                  Upload Product Image File
+                  <input type="file" id="f-prod-fileInput" accept="image/*" style="display:none;">
+                </label>
+                <span id="prodUploadStatus" style="font-size:0.75rem; color:var(--ink-secondary); margin-left:8px;"></span>
+              </div>
+            </div>
+          </div>
+          <div class="form-col-full form-group">
+            <label>Description</label>
+            <textarea id="f-prod-description" class="form-control"></textarea>
+          </div>
+          <div class="form-col-full form-group">
+            <label>Highlights (one per line)</label>
+            <textarea id="f-prod-highlights" class="form-control"></textarea>
+          </div>
+          <div class="form-col-full form-group">
+            <label>Variants (comma separated)</label>
+            <input type="text" id="f-prod-variants" class="form-control" placeholder="Sage Green, Midnight Blue">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeProductModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnSaveProduct">Save Product</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Specialist Editor -->
+  <div class="modal-overlay" id="specialistModalOverlay">
+    <div class="modal-box" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 id="specialistModalTitle">Edit Specialist</h3>
+        <button class="modal-close-btn" onclick="closeSpecialistModal()" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="specialistForm" class="form-grid">
+          <div class="form-group">
+            <label>Specialist ID *</label>
+            <input type="text" id="f-spec-id" class="form-control" placeholder="dr-ananya-sen" required>
+          </div>
+          <div class="form-group">
+            <label>Full Name &amp; Degrees *</label>
+            <input type="text" id="f-spec-name" class="form-control" placeholder="Dr. Ananya Sen, Ph.D." required>
+          </div>
+          <div class="form-group">
+            <label>Specialist Role *</label>
+            <input type="text" id="f-spec-role" class="form-control" placeholder="Clinical Psychologist" required>
+          </div>
+          <div class="form-group">
+            <label>Registration &amp; Experience *</label>
+            <input type="text" id="f-spec-reg" class="form-control" placeholder="RCI Registered - 10+ Yrs Exp." required>
+          </div>
+          <div class="form-col-full form-group">
+            <label>Booking Preference Note</label>
+            <input type="text" id="f-spec-pref" class="form-control" placeholder="Dr. Ananya Sen (Clinical Psychologist)">
+          </div>
+          <div class="form-col-full form-group">
+            <label>Avatar Photo (PNG in data/pfp/) *</label>
+            <div class="image-upload-preview">
+              <img id="f-spec-avatarPreview" class="specialist-avatar-img" src="/data/pfp/Dr_Ananya_Sen.png" alt="Avatar">
+              <div style="flex:1;">
+                <input type="text" id="f-spec-avatar" class="form-control" placeholder="data/pfp/Dr_Ananya_Sen.png" style="margin-bottom:8px;" required>
+                <label class="btn btn-outline btn-sm" style="cursor:pointer; display:inline-flex;">
+                  Upload Profile Photo (PNG)
+                  <input type="file" id="f-spec-fileInput" accept="image/*" style="display:none;">
+                </label>
+                <span id="specUploadStatus" style="font-size:0.75rem; color:var(--ink-secondary); margin-left:8px;"></span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeSpecialistModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" id="btnSaveSpecialist">Save Specialist</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Reset Confirmation -->
+  <div class="modal-overlay" id="resetModalOverlay">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 style="color:#f87171;">Reset Uncommitted Changes</h3>
+        <button class="modal-close-btn" onclick="closeResetModal()" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.9rem; color:var(--ink-secondary); margin-bottom:14px;">
+          Discard all uncommitted changes in <strong>data/</strong> (products, specialists, about)?
+        </p>
+        <p style="font-size:0.82rem; color:var(--ink-muted); margin-bottom:10px;">
+          <strong>Automatic Safety:</strong> A full ZIP archive of your current files will automatically be saved into <code>backend/backups/</code> before resetting, so no work is ever lost!
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeResetModal()">Cancel</button>
+        <button type="button" class="btn btn-danger" id="btnConfirmReset">Yes, Reset Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Deploy to GitHub -->
+  <div class="modal-overlay" id="deployModalOverlay">
+    <div class="modal-box" style="max-width: 620px;">
+      <div class="modal-header">
+        <h3>Deploy Catalog to GitHub</h3>
+        <button class="modal-close-btn" onclick="closeDeployModal()" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.86rem; color:var(--ink-secondary); margin-bottom:14px;">
+          This automatically creates a <strong>safety ZIP backup</strong> in <code>backend/backups/</code>, commits changes, and pushes directly to GitHub.
+        </p>
+        <div class="form-group" style="margin-bottom:12px;">
+          <label>Git Commit Message</label>
+          <input type="text" id="deployCommitMsg" class="form-control" placeholder="Update catalog via Admin Studio">
+        </div>
+        <div id="deployConsole" class="deploy-log-box" style="display:none;"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeDeployModal()">Close</button>
+        <button type="button" class="btn btn-gold" id="btnConfirmDeploy">Commit &amp; Push to GitHub</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Element -->
+  <div class="toast-msg" id="adminToast"></div>
+
+  <script>
+    let allProducts = [];
+    let allSpecialists = [];
+    let aboutData = {};
+    let isEditingProduct = false;
+    let editingProductId = null;
+    let isEditingSpecialist = false;
+    let editingSpecialistId = null;
+
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById("adminToast");
+      toast.textContent = msg;
+      toast.className = "toast-msg show" + (isError ? " error" : "");
+      setTimeout(() => { toast.className = "toast-msg"; }, 3500);
+    }
+
+    // Auth Check
+    async function checkAuth() {
+      try {
+        const res = await fetch("/api/me");
+        const data = await res.json();
+        if (data.authenticated) {
+          document.getElementById("loginOverlay").style.display = "none";
+          document.getElementById("navWebsiteName").textContent = data.websiteName || "Sukoon Saathi — Admin Studio";
+          document.getElementById("navProjectPath").textContent = data.projectPath || "..";
+          loadInitialData();
+        } else {
+          document.getElementById("loginOverlay").style.display = "flex";
+          if (data.websiteName) {
+            document.getElementById("loginWebsiteMeta").textContent = `Managing ${data.websiteName} (${data.projectPath})`;
+          }
+        }
+      } catch (err) {
+        document.getElementById("loginOverlay").style.display = "flex";
+      }
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("loginUsername").value.trim();
+      const password = document.getElementById("loginPassword").value;
+      const errBox = document.getElementById("loginErrorMsg");
+      errBox.style.display = "none";
+
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById("loginOverlay").style.display = "none";
+          checkAuth();
+        } else {
+          errBox.textContent = data.error || "Invalid credentials";
+          errBox.style.display = "block";
+        }
+      } catch (err) {
+        errBox.textContent = "Server unreachable. Make sure backend is running.";
+        errBox.style.display = "block";
+      }
+    });
+
+    document.getElementById("btnLogout").addEventListener("click", async () => {
+      await fetch("/api/logout", { method: "POST" });
+      location.reload();
+    });
+
+    // Git Status Check
+    async function checkGitStatus() {
+      try {
+        const res = await fetch("/api/status");
+        if (res.status === 401) { checkAuth(); return; }
+        if (res.ok) {
+          const data = await res.json();
+          const badge = document.getElementById("gitStatusBadge");
+          const text = document.getElementById("gitStatusText");
+          if (data.hasChanges) {
+            badge.className = "status-badge has-changes";
+            text.textContent = `${data.branch}: ${data.changeCount} change(s) pending`;
+          } else {
+            badge.className = "status-badge";
+            text.textContent = `${data.branch}: Synced with Git`;
+          }
+        }
+      } catch (err) {
+        console.warn("Status check failed", err);
+      }
+    }
+
+    // Tabs Switcher
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".tab-pane").forEach(p => p.classList.remove("active"));
+        btn.classList.add("active");
+        const tab = btn.getAttribute("data-tab");
+        document.getElementById(`pane-${tab}`).classList.add("active");
+        if (tab === "backups") loadBackups();
+        if (tab === "history") loadHistoryTab();
+      });
+    });
+
+    function loadInitialData() {
+      loadProducts();
+      loadSpecialists();
+      loadAbout();
+      checkGitStatus();
+    }
+
+    // ==========================================
+    // 1. PRODUCTS
+    // ==========================================
+    async function loadProducts() {
+      try {
+        const res = await fetch("/api/products");
+        if (!res.ok) throw new Error("Status " + res.status);
+        allProducts = await res.json();
+        renderProducts();
+        updateCategoryOptions();
+        checkGitStatus();
+      } catch (err) {
+        showToast("Error loading products: " + err.message, true);
+      }
+    }
+
+    function updateCategoryOptions() {
+      const select = document.getElementById("productCategoryFilter");
+      const categories = [...new Set(allProducts.map(p => p.category).filter(Boolean))];
+      const cur = select.value;
+      select.innerHTML = '<option value="all">All Categories</option>' +
+        categories.map(c => `<option value="${c}">${c.toUpperCase()}</option>`).join('');
+      select.value = cur || "all";
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById("productsGrid");
+      const search = document.getElementById("productSearchInput").value.toLowerCase().trim();
+      const cat = document.getElementById("productCategoryFilter").value;
+
+      const filtered = allProducts.filter(p => {
+        const matchesCat = cat === "all" || p.category === cat;
+        const matchesSearch = !search ||
+          (p.title && p.title.toLowerCase().includes(search)) ||
+          (p.id && p.id.toLowerCase().includes(search));
+        return matchesCat && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1; padding:40px; text-align:center; color:var(--ink-secondary);">No products match your search.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(p => {
+        const discountPct = p.mrp > p.price ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
+        return `
+          <article class="item-card">
+            <div class="item-card-img-box">
+              <img src="/${p.image}" alt="${p.title}" onerror="this.src='/data/products/ss-mindful-journal.png'">
+              ${p.badge ? `<span class="badge-pill ${p.badgeType || ''}">${p.badge}</span>` : ''}
+              <span class="stock-tag ${p.inStock ? 'in-stock' : 'out-of-stock'}">${p.inStock ? 'In Stock' : 'Out of Stock'}</span>
+            </div>
+            <div class="item-card-body">
+              <div class="item-card-meta">${p.categoryLabel || p.category} &bull; ${p.id}</div>
+              <h3 class="item-card-title">${p.title}</h3>
+              <p class="item-card-sub">${p.subtitle || p.description || ''}</p>
+              <div class="item-card-price-row">
+                <span class="price-deal">₹${p.price}</span>
+                ${p.mrp > p.price ? `<span class="price-mrp">₹${p.mrp}</span>` : ''}
+                ${discountPct > 0 ? `<span class="price-discount">${discountPct}% OFF</span>` : ''}
+              </div>
+              <div class="item-card-actions">
+                <button class="btn btn-outline btn-sm" onclick="openEditProduct('${p.id}')">Edit</button>
+                <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">Delete</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    document.getElementById("btnOpenAddProduct").addEventListener("click", () => {
+      isEditingProduct = false;
+      editingProductId = null;
+      document.getElementById("productModalTitle").textContent = "Add New Product";
+      document.getElementById("productForm").reset();
+      document.getElementById("f-prod-id").disabled = false;
+      document.getElementById("f-prod-image").value = "data/products/";
+      document.getElementById("f-prod-imgPreview").src = "/data/products/ss-mindful-journal.png";
+      document.getElementById("productModalOverlay").classList.add("open");
+    });
+
+    window.openEditProduct = function(id) {
+      const p = allProducts.find(x => x.id === id);
+      if (!p) return;
+      isEditingProduct = true;
+      editingProductId = id;
+      document.getElementById("productModalTitle").textContent = `Edit Product (${p.id})`;
+      document.getElementById("f-prod-id").value = p.id;
+      document.getElementById("f-prod-id").disabled = true;
+      document.getElementById("f-prod-title").value = p.title || "";
+      document.getElementById("f-prod-subtitle").value = p.subtitle || "";
+      document.getElementById("f-prod-category").value = p.category || "";
+      document.getElementById("f-prod-categoryLabel").value = p.categoryLabel || "";
+      document.getElementById("f-prod-price").value = p.price || 0;
+      document.getElementById("f-prod-mrp").value = p.mrp || 0;
+      document.getElementById("f-prod-badge").value = p.badge || "";
+      document.getElementById("f-prod-badgeType").value = p.badgeType || "none";
+      document.getElementById("f-prod-inStock").checked = p.inStock !== false;
+      document.getElementById("f-prod-brand").value = p.brand || "Sukoon Living";
+      document.getElementById("f-prod-image").value = p.image || "";
+      document.getElementById("f-prod-imgPreview").src = "/" + (p.image || "data/products/ss-mindful-journal.png");
+      document.getElementById("f-prod-description").value = p.description || "";
+      document.getElementById("f-prod-highlights").value = (p.highlights || []).join("\n");
+      document.getElementById("f-prod-variants").value = (p.variants || []).join(", ");
+      document.getElementById("productModalOverlay").classList.add("open");
+    };
+
+    function closeProductModal() {
+      document.getElementById("productModalOverlay").classList.remove("open");
+    }
+
+    document.getElementById("f-prod-image").addEventListener("input", (e) => {
+      document.getElementById("f-prod-imgPreview").src = "/" + e.target.value.trim();
+    });
+
+    document.getElementById("f-prod-fileInput").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const status = document.getElementById("prodUploadStatus");
+      status.textContent = "Uploading...";
+      const fd = new FormData();
+      fd.append("image", file);
+      try {
+        const res = await fetch("/api/upload", { method: "POST", body: fd });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById("f-prod-image").value = data.path;
+          document.getElementById("f-prod-imgPreview").src = "/" + data.path;
+          status.textContent = "Saved as " + data.filename;
+        } else {
+          status.textContent = "Error: " + data.error;
+        }
+      } catch (err) {
+        status.textContent = "Upload failed";
+      }
+    });
+
+    document.getElementById("btnSaveProduct").addEventListener("click", async () => {
+      const form = document.getElementById("productForm");
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      const id = document.getElementById("f-prod-id").value.trim();
+      const title = document.getElementById("f-prod-title").value.trim();
+      const subtitle = document.getElementById("f-prod-subtitle").value.trim();
+      const category = document.getElementById("f-prod-category").value.trim();
+      const categoryLabel = document.getElementById("f-prod-categoryLabel").value.trim() || category;
+      const price = parseFloat(document.getElementById("f-prod-price").value) || 0;
+      const mrp = parseFloat(document.getElementById("f-prod-mrp").value) || 0;
+      const badge = document.getElementById("f-prod-badge").value.trim();
+      const badgeType = document.getElementById("f-prod-badgeType").value;
+      const inStock = document.getElementById("f-prod-inStock").checked;
+      const brand = document.getElementById("f-prod-brand").value.trim() || "Sukoon Living";
+      const image = document.getElementById("f-prod-image").value.trim();
+      const description = document.getElementById("f-prod-description").value.trim();
+      const highlights = document.getElementById("f-prod-highlights").value.split("\n").map(h => h.trim()).filter(Boolean);
+      const variants = document.getElementById("f-prod-variants").value.split(",").map(v => v.trim()).filter(Boolean);
+      const discountPercent = mrp > price ? Math.round(((mrp - price) / mrp) * 100) : 0;
+
+      let existing = isEditingProduct ? allProducts.find(x => x.id === editingProductId) || {} : {};
+
+      const payload = {
+        ...existing,
+        id, title, subtitle, category, categoryLabel, price, mrp, discountPercent,
+        badge, badgeType: badgeType === "none" ? "" : badgeType, inStock, brand,
+        image, gallery: existing.gallery && existing.gallery.length ? existing.gallery : [image],
+        description, highlights, variants,
+      };
+
+      try {
+        const method = isEditingProduct ? "PUT" : "POST";
+        const res = await fetch("/api/products", {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(isEditingProduct ? "Product updated!" : "Product created!");
+          closeProductModal();
+          loadProducts();
+        } else {
+          showToast(data.error || "Failed", true);
+        }
+      } catch (err) {
+        showToast("Save error", true);
+      }
+    });
+
+    window.deleteProduct = async function(id) {
+      if (!confirm(`Delete product "${id}"?`)) return;
+      try {
+        const res = await fetch(`/api/products?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+        const data = await res.json();
+        if (data.success) {
+          showToast("Deleted " + id);
+          loadProducts();
+        } else {
+          showToast(data.error, true);
+        }
+      } catch (err) {
+        showToast("Error deleting", true);
+      }
+    };
+
+    document.getElementById("productSearchInput").addEventListener("input", renderProducts);
+    document.getElementById("productCategoryFilter").addEventListener("change", renderProducts);
+
+    // ==========================================
+    // 2. SPECIALISTS
+    // ==========================================
+    async function loadSpecialists() {
+      try {
+        const res = await fetch("/api/specialists");
+        if (!res.ok) throw new Error("Status " + res.status);
+        allSpecialists = await res.json();
+        renderSpecialists();
+      } catch (err) {
+        showToast("Error loading specialists", true);
+      }
+    }
+
+    function renderSpecialists() {
+      const grid = document.getElementById("specialistsGrid");
+      const search = document.getElementById("specialistSearchInput").value.toLowerCase().trim();
+
+      const filtered = allSpecialists.filter(s => {
+        return !search ||
+          (s.name && s.name.toLowerCase().includes(search)) ||
+          (s.role && s.role.toLowerCase().includes(search));
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div style="grid-column:1/-1; padding:40px; text-align:center; color:var(--ink-secondary);">No specialists match your search.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(s => {
+        return `
+          <div class="specialist-admin-card">
+            <div class="specialist-avatar-row">
+              <img src="/${s.avatar}" alt="${s.name}" class="specialist-avatar-img" onerror="this.src='/data/pfp/Dr_Ananya_Sen.png'">
+              <div class="specialist-info">
+                <h3>${s.name}</h3>
+                <p>${s.role}</p>
+                <span>${s.registration}</span>
+              </div>
+            </div>
+            <div style="font-size:0.75rem; color:var(--ink-secondary); margin-bottom:12px;">
+              <strong>Booking Pref:</strong> ${s.bookingPref || 'Standard'}
+            </div>
+            <div class="item-card-actions" style="margin-top:auto;">
+              <button class="btn btn-outline btn-sm" onclick="openEditSpecialist('${s.id}')">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteSpecialist('${s.id}')">Delete</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    document.getElementById("btnOpenAddSpecialist").addEventListener("click", () => {
+      isEditingSpecialist = false;
+      editingSpecialistId = null;
+      document.getElementById("specialistModalTitle").textContent = "Add Specialist";
+      document.getElementById("specialistForm").reset();
+      document.getElementById("f-spec-id").disabled = false;
+      document.getElementById("f-spec-avatar").value = "data/pfp/";
+      document.getElementById("f-spec-avatarPreview").src = "/data/pfp/Dr_Ananya_Sen.png";
+      document.getElementById("specialistModalOverlay").classList.add("open");
+    });
+
+    window.openEditSpecialist = function(id) {
+      const s = allSpecialists.find(x => x.id === id);
+      if (!s) return;
+      isEditingSpecialist = true;
+      editingSpecialistId = id;
+      document.getElementById("specialistModalTitle").textContent = `Edit Specialist (${s.id})`;
+      document.getElementById("f-spec-id").value = s.id;
+      document.getElementById("f-spec-id").disabled = true;
+      document.getElementById("f-spec-name").value = s.name || "";
+      document.getElementById("f-spec-role").value = s.role || "";
+      document.getElementById("f-spec-reg").value = s.registration || "";
+      document.getElementById("f-spec-pref").value = s.bookingPref || "";
+      document.getElementById("f-spec-avatar").value = s.avatar || "";
+      document.getElementById("f-spec-avatarPreview").src = "/" + (s.avatar || "data/pfp/Dr_Ananya_Sen.png");
+      document.getElementById("specialistModalOverlay").classList.add("open");
+    };
+
+    function closeSpecialistModal() {
+      document.getElementById("specialistModalOverlay").classList.remove("open");
+    }
+
+    document.getElementById("f-spec-avatar").addEventListener("input", (e) => {
+      document.getElementById("f-spec-avatarPreview").src = "/" + e.target.value.trim();
+    });
+
+    document.getElementById("f-spec-fileInput").addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const status = document.getElementById("specUploadStatus");
+      status.textContent = "Uploading...";
+      const fd = new FormData();
+      fd.append("image", file);
+      try {
+        const res = await fetch("/api/upload-pfp", { method: "POST", body: fd });
+        const data = await res.json();
+        if (data.success) {
+          document.getElementById("f-spec-avatar").value = data.path;
+          document.getElementById("f-spec-avatarPreview").src = "/" + data.path;
+          status.textContent = "Saved to " + data.path;
+        } else {
+          status.textContent = "Error: " + data.error;
+        }
+      } catch (err) {
+        status.textContent = "Upload failed";
+      }
+    });
+
+    document.getElementById("btnSaveSpecialist").addEventListener("click", async () => {
+      const form = document.getElementById("specialistForm");
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+
+      const id = document.getElementById("f-spec-id").value.trim();
+      const name = document.getElementById("f-spec-name").value.trim();
+      const role = document.getElementById("f-spec-role").value.trim();
+      const registration = document.getElementById("f-spec-reg").value.trim();
+      const bookingPref = document.getElementById("f-spec-pref").value.trim() || `${name} (${role})`;
+      const avatar = document.getElementById("f-spec-avatar").value.trim();
+
+      const payload = { id, name, role, registration, bookingPref, avatar };
+
+      try {
+        const method = isEditingSpecialist ? "PUT" : "POST";
+        const res = await fetch("/api/specialists", {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(isEditingSpecialist ? "Specialist updated!" : "Specialist added!");
+          closeSpecialistModal();
+          loadSpecialists();
+          checkGitStatus();
+        } else {
+          showToast(data.error || "Failed", true);
+        }
+      } catch (err) {
+        showToast("Error saving specialist", true);
+      }
+    });
+
+    window.deleteSpecialist = async function(id) {
+      if (!confirm(`Delete specialist "${id}"?`)) return;
+      try {
+        const res = await fetch(`/api/specialists?id=${encodeURIComponent(id)}`, { method: "DELETE" });
+        const data = await res.json();
+        if (data.success) {
+          showToast("Deleted " + id);
+          loadSpecialists();
+          checkGitStatus();
+        } else {
+          showToast(data.error, true);
+        }
+      } catch (err) {
+        showToast("Error deleting", true);
+      }
+    };
+
+    document.getElementById("specialistSearchInput").addEventListener("input", renderSpecialists);
+
+    // ==========================================
+    // 3. ABOUT PAGE
+    // ==========================================
+    async function loadAbout() {
+      try {
+        const res = await fetch("/api/about");
+        if (!res.ok) throw new Error("Status " + res.status);
+        aboutData = await res.json();
+
+        if (aboutData.header) {
+          document.getElementById("ab-eyebrow").value = aboutData.header.eyebrow || "";
+          document.getElementById("ab-title").value = aboutData.header.title || "";
+          document.getElementById("ab-subtitle").value = aboutData.header.subtitle || "";
+        }
+        if (Array.isArray(aboutData.story)) {
+          document.getElementById("ab-story").value = aboutData.story.join("\n\n");
+        }
+        if (Array.isArray(aboutData.stats)) {
+          if (aboutData.stats[0]) {
+            document.getElementById("ab-stat1-num").value = aboutData.stats[0].number || "";
+            document.getElementById("ab-stat1-label").value = aboutData.stats[0].label || "";
+          }
+          if (aboutData.stats[1]) {
+            document.getElementById("ab-stat2-num").value = aboutData.stats[1].number || "";
+            document.getElementById("ab-stat2-label").value = aboutData.stats[1].label || "";
+          }
+        }
+        if (aboutData.teamSection) {
+          document.getElementById("ab-team-eyebrow").value = aboutData.teamSection.eyebrow || "";
+          document.getElementById("ab-team-title").value = aboutData.teamSection.title || "";
+          document.getElementById("ab-team-sub").value = aboutData.teamSection.subtitle || "";
+        }
+      } catch (err) {
+        showToast("Error loading about data", true);
+      }
+    }
+
+    document.getElementById("btnSaveAbout").addEventListener("click", async () => {
+      const eyebrow = document.getElementById("ab-eyebrow").value.trim();
+      const title = document.getElementById("ab-title").value.trim();
+      const subtitle = document.getElementById("ab-subtitle").value.trim();
+      const story = document.getElementById("ab-story").value.split("\n\n").map(s => s.trim()).filter(Boolean);
+
+      const stats = [
+        {
+          number: document.getElementById("ab-stat1-num").value.trim() || "1:1",
+          label: document.getElementById("ab-stat1-label").value.trim() || "Private sessions only"
+        },
+        {
+          number: document.getElementById("ab-stat2-num").value.trim() || "100%",
+          label: document.getElementById("ab-stat2-label").value.trim() || "Confidential by design"
+        }
+      ];
+
+      const teamSection = {
+        eyebrow: document.getElementById("ab-team-eyebrow").value.trim() || "Our Care Team",
+        title: document.getElementById("ab-team-title").value.trim() || "Our Multidisciplinary Care Team",
+        subtitle: document.getElementById("ab-team-sub").value.trim() || ""
+      };
+
+      const payload = {
+        ...aboutData,
+        header: { eyebrow, title, subtitle },
+        story,
+        stats,
+        teamSection
+      };
+
+      try {
+        const res = await fetch("/api/about", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast("About page updated successfully!");
+          checkGitStatus();
+        } else {
+          showToast(data.error || "Failed", true);
+        }
+      } catch (err) {
+        showToast("Error saving about", true);
+      }
+    });
+
+    // ==========================================
+    // 4. ZIP BACKUPS & ARCHIVES
+    // ==========================================
+    async function loadBackups() {
+      const container = document.getElementById("backupsList");
+      container.innerHTML = `<p style="color:var(--ink-secondary); padding:20px 0;">Loading backup files...</p>`;
+      try {
+        const res = await fetch("/api/backups");
+        if (!res.ok) throw new Error("Status " + res.status);
+        const backups = await res.json();
+        if (!backups || backups.length === 0) {
+          container.innerHTML = `<div style="padding:40px; text-align:center; color:var(--ink-secondary); background:var(--bg-card); border-radius:12px; border:1px dashed var(--line);">No ZIP backups created yet. Click "Create Backup ZIP Now" to take your first snapshot.</div>`;
+          return;
+        }
+
+        container.innerHTML = backups.map(b => {
+          return `
+            <div class="backup-card">
+              <div class="backup-left">
+                <div class="backup-zip-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 8v13H3V8"/>
+                    <path d="M1 3h22v5H1z"/>
+                    <path d="M10 12h4"/>
+                  </svg>
+                </div>
+                <div class="backup-info">
+                  <div class="backup-name">${b.filename}</div>
+                  <div class="backup-meta">
+                    <span>${b.sizeStr}</span>
+                    <span>${b.modTime} (${b.timeAgo})</span>
+                  </div>
+                </div>
+              </div>
+              <div class="backup-actions">
+                <a href="/api/backups/download?file=${encodeURIComponent(b.filename)}" class="btn btn-outline btn-sm">
+                  Download
+                </a>
+                <button class="btn btn-outline btn-sm" onclick="restoreBackup('${b.filename}')">
+                  Restore
+                </button>
+                <button class="btn btn-danger btn-sm" onclick="deleteBackup('${b.filename}')">
+                  Delete
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        container.innerHTML = `<p style="color:var(--danger); padding:20px 0;">Error reading backup files.</p>`;
+      }
+    }
+
+    document.getElementById("btnRefreshBackups").addEventListener("click", loadBackups);
+
+    document.getElementById("btnCreateBackupNow").addEventListener("click", async () => {
+      try {
+        const res = await fetch("/api/backups/create", { method: "POST" });
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message);
+          loadBackups();
+        } else {
+          showToast(data.error || "Failed", true);
+        }
+      } catch (err) {
+        showToast("Error creating backup", true);
+      }
+    });
+
+    window.restoreBackup = async function(filename) {
+      if (!confirm(`Restore all data from "${filename}"? A safety backup will be archived before unpacking.`)) return;
+      try {
+        const res = await fetch("/api/backups/restore", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename })
+        });
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message);
+          loadInitialData();
+          loadBackups();
+        } else {
+          showToast(data.error || "Restore failed", true);
+        }
+      } catch (err) {
+        showToast("Restore request failed", true);
+      }
+    };
+
+    window.deleteBackup = async function(filename) {
+      if (!confirm(`Permanently delete backup "${filename}"?`)) return;
+      try {
+        const res = await fetch(`/api/backups/delete?file=${encodeURIComponent(filename)}`, { method: "DELETE" });
+        const data = await res.json();
+        if (data.success) {
+          showToast("Deleted " + filename);
+          loadBackups();
+        } else {
+          showToast(data.error, true);
+        }
+      } catch (err) {
+        showToast("Delete failed", true);
+      }
+    };
+
+    // ==========================================
+    // 5. RESET UNCOMMITTED CHANGES
+    // ==========================================
+    const resetModal = document.getElementById("resetModalOverlay");
+    document.getElementById("btnOpenResetModal").addEventListener("click", () => {
+      resetModal.classList.add("open");
+    });
+    function closeResetModal() { resetModal.classList.remove("open"); }
+
+    document.getElementById("btnConfirmReset").addEventListener("click", async () => {
+      try {
+        const res = await fetch("/api/reset", { method: "POST" });
+        const data = await res.json();
+        if (data.success) {
+          showToast("Changes reset! Safety ZIP created: " + data.backup);
+          closeResetModal();
+          loadInitialData();
+        } else {
+          showToast(data.error || "Reset failed", true);
+        }
+      } catch (err) {
+        showToast("Reset error: " + err.message, true);
+      }
+    });
+
+    // ==========================================
+    // 6. DEPLOY TO GITHUB (WITH ZIP BACKUP)
+    // ==========================================
+    const deployModal = document.getElementById("deployModalOverlay");
+    const deployConsole = document.getElementById("deployConsole");
+    const btnConfirmDeploy = document.getElementById("btnConfirmDeploy");
+
+    document.getElementById("btnOpenDeployModal").addEventListener("click", () => {
+      deployConsole.style.display = "none";
+      deployConsole.textContent = "";
+      btnConfirmDeploy.disabled = false;
+      btnConfirmDeploy.textContent = "Commit & Push to GitHub";
+      deployModal.classList.add("open");
+    });
+
+    function closeDeployModal() { deployModal.classList.remove("open"); }
+
+    btnConfirmDeploy.addEventListener("click", async () => {
+      btnConfirmDeploy.disabled = true;
+      btnConfirmDeploy.textContent = "Archiving ZIP & Deploying…";
+      deployConsole.style.display = "block";
+      deployConsole.textContent = "Creating safety ZIP archive, staging files, and pushing to GitHub...\n";
+
+      const commitMessage = document.getElementById("deployCommitMsg").value.trim();
+
+      try {
+        const res = await fetch("/api/deploy", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ commitMessage })
+        });
+        const data = await res.json();
+        deployConsole.textContent = (data.log || "") + "\n\n" + (data.message || data.error || "");
+
+        if (data.success) {
+          showToast("Successfully deployed to GitHub!");
+          btnConfirmDeploy.textContent = "Deployed successfully";
+          checkGitStatus();
+          loadBackups();
+        } else {
+          showToast(data.error || "Deploy failed", true);
+          btnConfirmDeploy.disabled = false;
+          btnConfirmDeploy.textContent = "Retry Deploy";
+        }
+      } catch (err) {
+        deployConsole.textContent += "\nNetwork error: " + err.message;
+        showToast("Deploy request failed", true);
+        btnConfirmDeploy.disabled = false;
+        btnConfirmDeploy.textContent = "Retry Deploy";
+      }
+    });
+
+    // ==========================================
+    // 7. AUDIT LOGS & HISTORY
+    // ==========================================
+    let allAuditLogs = [];
+    let activeAuditCategory = "ALL";
+    let auditAutoRefreshTimer = null;
+
+    async function loadHistoryTab() {
+      await loadAuditLogs();
+      setupAuditAutoRefresh();
+    }
+
+    async function loadAuditLogs() {
+      const tbody = document.getElementById("auditTableBody");
+      try {
+        const res = await fetch("/api/audit-logs");
+        if (!res.ok) throw new Error("Status " + res.status);
+        allAuditLogs = await res.json();
+
+        const count = allAuditLogs.length;
+        const nowTime = new Date().toLocaleTimeString();
+        document.getElementById("auditStats").textContent = `${count} audit event(s) recorded | Refreshed ${nowTime}`;
+
+        renderAuditLogs();
+      } catch (err) {
+        document.getElementById("auditStats").textContent = "Error loading audit logs: " + err.message;
+        tbody.innerHTML = `<tr><td colspan="7" style="padding:40px; text-align:center; color:var(--danger);">Error loading audit records.</td></tr>`;
+      }
+    }
+
+    function renderAuditLogs() {
+      const tbody = document.getElementById("auditTableBody");
+      const search = (document.getElementById("auditSearchInput").value || "").toLowerCase().trim();
+
+      const filtered = allAuditLogs.filter(e => {
+        const matchesCategory = activeAuditCategory === "ALL" || (e.category && e.category.toUpperCase() === activeAuditCategory.toUpperCase());
+        const matchesSearch = !search ||
+          (e.action && e.action.toLowerCase().includes(search)) ||
+          (e.target && e.target.toLowerCase().includes(search)) ||
+          (e.details && e.details.toLowerCase().includes(search)) ||
+          (e.user && e.user.toLowerCase().includes(search)) ||
+          (e.ip && e.ip.toLowerCase().includes(search));
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="padding:40px; text-align:center; color:var(--ink-secondary);">
+              No audit records match your search or filter.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(e => {
+        const isFailed = (e.status || "").toUpperCase() === "FAILED";
+        const statusClass = isFailed ? "audit-status status-failed" : "audit-status";
+        const statusText = isFailed ? "Failed" : "Success";
+
+        return `
+          <tr>
+            <td style="white-space:nowrap;">
+              <div style="font-weight:600; color:#fff;">${escapeHtml(e.timestamp)}</div>
+              <div style="font-size:0.72rem; color:var(--ink-muted);">${escapeHtml(e.timeAgo || '')}</div>
+            </td>
+            <td>
+              <span class="audit-badge">${escapeHtml(e.category || '-')}</span>
+            </td>
+            <td style="font-weight:600; color:#fff;">
+              ${escapeHtml(formatActionName(e.action))}
+            </td>
+            <td>
+              <span class="audit-target">${escapeHtml(e.target || '-')}</span>
+            </td>
+            <td>
+              <div class="audit-details-text">${escapeHtml(e.details || '')}</div>
+            </td>
+            <td style="white-space:nowrap;">
+              <div style="font-weight:600; color:var(--gold);">${escapeHtml(e.user || '')}</div>
+              <div style="font-size:0.7rem; color:var(--ink-muted); font-family:monospace;">${escapeHtml(e.ip || '')}</div>
+            </td>
+            <td style="text-align:center; white-space:nowrap;">
+              <span class="${statusClass}">${statusText}</span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function formatActionName(action) {
+      if (!action) return "-";
+      return action
+        .replace(/_/g, " ")
+        .toLowerCase()
+        .replace(/\b\w/g, l => l.toUpperCase());
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function setupAuditAutoRefresh() {
+      if (auditAutoRefreshTimer) clearInterval(auditAutoRefreshTimer);
+      auditAutoRefreshTimer = setInterval(() => {
+        const activeTabBtn = document.querySelector(".tab-btn.active");
+        if (activeTabBtn && activeTabBtn.getAttribute("data-tab") === "history") {
+          const autoRefreshChecked = document.getElementById("auditAutoRefresh").checked;
+          if (autoRefreshChecked) {
+            loadAuditLogs();
+          }
+        }
+      }, 3000);
+    }
+
+    // Audit Events
+    document.getElementById("btnRefreshAudit").addEventListener("click", loadAuditLogs);
+    document.getElementById("auditSearchInput").addEventListener("input", renderAuditLogs);
+
+    document.querySelectorAll(".audit-filter-chips .filter-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.querySelectorAll(".audit-filter-chips .filter-chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeAuditCategory = chip.getAttribute("data-cat");
+        renderAuditLogs();
+      });
+    });
+
+    // Escape listener
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeProductModal();
+        closeSpecialistModal();
+        closeResetModal();
+        closeDeployModal();
+      }
+    });
+
+    // Start with Auth Check
+    checkAuth();
+  </script>
+</body>
+</html>
