@@ -478,6 +478,320 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // ==========================================
+  // Mindful Breathing Meditation Engine
+  // ==========================================
+  function initMindfulBreathing() {
+    const section = document.getElementById("meditationSection");
+    if (!section) return;
+
+    const playBtn = document.getElementById("meditationPlayBtn");
+    const playBtnText = document.getElementById("playBtnText");
+    const playIcon = playBtn?.querySelector(".play-icon");
+    const pauseIcon = playBtn?.querySelector(".pause-icon");
+    const resetBtn = document.getElementById("meditationResetBtn");
+    const soundBtn = document.getElementById("meditationSoundBtn");
+    const soundLabel = document.getElementById("soundLabel");
+    const soundIconOn = soundBtn?.querySelector(".sound-icon-on");
+    const soundIconOff = soundBtn?.querySelector(".sound-icon-off");
+
+    const visualWrap = section.querySelector(".meditation-visual-wrap");
+    const bubble = document.getElementById("meditationBubble");
+    const phaseEl = document.getElementById("bubblePhase");
+    const countdownEl = document.getElementById("bubbleCountdown");
+    const promptEl = document.getElementById("bubblePrompt");
+    const progressBar = document.getElementById("meditationProgressBar");
+    const breathsCountEl = document.getElementById("breathsCount");
+    const modeBtns = section.querySelectorAll(".meditation-mode-btn");
+
+    const CIRCUMFERENCE = 2 * Math.PI * 126; // ~791.68px
+    if (progressBar) {
+      progressBar.style.strokeDasharray = `${CIRCUMFERENCE}`;
+      progressBar.style.strokeDashoffset = `${CIRCUMFERENCE}`;
+    }
+
+    // Breathing Patterns
+    const MODES = {
+      calm: {
+        name: "Calm Flow",
+        phases: [
+          { name: "Inhale", type: "inhale", duration: 4, prompt: "Breathe in deeply through your nose", scale: 1.34 },
+          { name: "Exhale", type: "exhale", duration: 4, prompt: "Release gently, let shoulders soften", scale: 0.84 }
+        ]
+      },
+      box: {
+        name: "Box Breathing",
+        phases: [
+          { name: "Inhale", type: "inhale", duration: 4, prompt: "Fill your lungs steadily", scale: 1.34 },
+          { name: "Hold", type: "hold", duration: 4, prompt: "Hold softly, remain centered", scale: 1.34 },
+          { name: "Exhale", type: "exhale", duration: 4, prompt: "Release slowly and completely", scale: 0.84 },
+          { name: "Rest", type: "hold", duration: 4, prompt: "Rest in quiet stillness", scale: 0.84 }
+        ]
+      },
+      relax: {
+        name: "Deep Sleep 4-7-8",
+        phases: [
+          { name: "Inhale", type: "inhale", duration: 4, prompt: "Breathe in quiet tranquility", scale: 1.34 },
+          { name: "Hold", type: "hold", duration: 7, prompt: "Retain the breath with ease", scale: 1.34 },
+          { name: "Exhale", type: "exhale", duration: 8, prompt: "Sigh out tension through your mouth", scale: 0.84 }
+        ]
+      }
+    };
+
+    let currentModeKey = "calm";
+    let isRunning = false;
+    let isSoundEnabled = true;
+    let currentPhaseIndex = 0;
+    let phaseTimeRemaining = 4;
+    let phaseTotalDuration = 4;
+    let totalCompletedBreaths = 0;
+    let animationTimer = null;
+    let audioCtx = null;
+
+    // Web Audio Chime generator
+    function playChime(freq = 432, duration = 1.4, gainLevel = 0.07) {
+      if (!isSoundEnabled) return;
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        if (!audioCtx) {
+          audioCtx = new AudioContextClass();
+        }
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const harmonicOsc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(1400, now);
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, now);
+
+        harmonicOsc.type = "sine";
+        harmonicOsc.frequency.setValueAtTime(freq * 1.5, now);
+
+        gainNode.gain.setValueAtTime(0.0001, now);
+        gainNode.gain.exponentialRampToValueAtTime(gainLevel, now + 0.08);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        osc.connect(gainNode);
+        harmonicOsc.connect(gainNode);
+        gainNode.connect(filter);
+        filter.connect(audioCtx.destination);
+
+        osc.start(now);
+        harmonicOsc.start(now);
+        osc.stop(now + duration + 0.1);
+        harmonicOsc.stop(now + duration + 0.1);
+      } catch (err) {
+        // Audio policy or unsupported: fail silently
+      }
+    }
+
+    function setPhaseUI(phase, initial = false) {
+      if (!bubble || !phaseEl || !countdownEl || !promptEl) return;
+
+      phaseEl.textContent = phase.name;
+      countdownEl.textContent = `${Math.ceil(phaseTimeRemaining)}s`;
+      promptEl.textContent = phase.prompt;
+
+      if (visualWrap) {
+        visualWrap.classList.remove("is-inhale", "is-hold", "is-exhale");
+      }
+      bubble.classList.remove("phase-inhale", "phase-hold", "phase-exhale");
+
+      if (phase.type === "inhale") {
+        if (visualWrap) visualWrap.classList.add("is-inhale");
+        bubble.classList.add("phase-inhale");
+        if (progressBar) progressBar.style.stroke = "var(--gold)";
+        if (!initial) playChime(432, 1.6, 0.08);
+      } else if (phase.type === "hold") {
+        if (visualWrap) visualWrap.classList.add("is-hold");
+        bubble.classList.add("phase-hold");
+        if (progressBar) progressBar.style.stroke = "rgba(245, 238, 225, 0.7)";
+        if (!initial) playChime(528, 1.2, 0.06);
+      } else if (phase.type === "exhale") {
+        if (visualWrap) visualWrap.classList.add("is-exhale");
+        bubble.classList.add("phase-exhale");
+        if (progressBar) progressBar.style.stroke = "#549989";
+        if (!initial) playChime(360, 1.8, 0.07);
+      }
+
+      if (isRunning) {
+        bubble.style.transition = `transform ${phaseTotalDuration}s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.6s ease, border-color 0.4s ease`;
+        bubble.style.transform = `scale(${phase.scale})`;
+      } else {
+        bubble.style.transition = "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
+        bubble.style.transform = "scale(1)";
+      }
+    }
+
+    function updateProgress(fraction) {
+      if (!progressBar) return;
+      const offset = CIRCUMFERENCE * (1 - fraction);
+      progressBar.style.strokeDashoffset = `${offset}`;
+    }
+
+    function tick() {
+      if (!isRunning) return;
+
+      phaseTimeRemaining -= 0.1;
+      if (phaseTimeRemaining <= 0) {
+        const phases = MODES[currentModeKey].phases;
+        currentPhaseIndex = (currentPhaseIndex + 1) % phases.length;
+
+        if (currentPhaseIndex === 0) {
+          totalCompletedBreaths++;
+          if (breathsCountEl) {
+            breathsCountEl.textContent = totalCompletedBreaths;
+            breathsCountEl.style.transform = "scale(1.3)";
+            setTimeout(() => {
+              breathsCountEl.style.transform = "scale(1)";
+            }, 300);
+          }
+        }
+
+        const nextPhase = phases[currentPhaseIndex];
+        phaseTotalDuration = nextPhase.duration;
+        phaseTimeRemaining = nextPhase.duration;
+
+        setPhaseUI(nextPhase);
+        updateProgress(0);
+      } else {
+        if (countdownEl) {
+          countdownEl.textContent = `${Math.ceil(phaseTimeRemaining)}s`;
+        }
+        const fraction = Math.max(0, Math.min(1, (phaseTotalDuration - phaseTimeRemaining) / phaseTotalDuration));
+        updateProgress(fraction);
+      }
+    }
+
+    function startBreathing() {
+      if (isRunning) return;
+      isRunning = true;
+
+      if (playBtnText) playBtnText.textContent = "Pause Session";
+      if (playIcon) playIcon.style.display = "none";
+      if (pauseIcon) pauseIcon.style.display = "block";
+
+      const currentPhase = MODES[currentModeKey].phases[currentPhaseIndex];
+      setPhaseUI(currentPhase);
+
+      clearInterval(animationTimer);
+      animationTimer = setInterval(tick, 100);
+    }
+
+    function pauseBreathing() {
+      if (!isRunning) return;
+      isRunning = false;
+
+      if (playBtnText) playBtnText.textContent = "Resume Inhale";
+      if (playIcon) playIcon.style.display = "block";
+      if (pauseIcon) pauseIcon.style.display = "none";
+
+      clearInterval(animationTimer);
+
+      const computedScale = window.getComputedStyle(bubble).transform;
+      if (computedScale && computedScale !== "none") {
+        bubble.style.transition = "none";
+        bubble.style.transform = computedScale;
+      }
+    }
+
+    function resetBreathing(full = false) {
+      pauseBreathing();
+      currentPhaseIndex = 0;
+      const initialPhase = MODES[currentModeKey].phases[0];
+      phaseTotalDuration = initialPhase.duration;
+      phaseTimeRemaining = initialPhase.duration;
+
+      if (playBtnText) playBtnText.textContent = "Begin Inhale";
+      if (playIcon) playIcon.style.display = "block";
+      if (pauseIcon) pauseIcon.style.display = "none";
+
+      if (visualWrap) {
+        visualWrap.classList.remove("is-inhale", "is-hold", "is-exhale");
+      }
+      bubble.classList.remove("phase-inhale", "phase-hold", "phase-exhale");
+      bubble.style.transition = "transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)";
+      bubble.style.transform = "scale(1)";
+
+      if (phaseEl) phaseEl.textContent = initialPhase.name;
+      if (countdownEl) countdownEl.textContent = `${initialPhase.duration}s`;
+      if (promptEl) promptEl.textContent = initialPhase.prompt;
+
+      if (progressBar) {
+        progressBar.style.strokeDashoffset = `${CIRCUMFERENCE}`;
+      }
+
+      if (full && breathsCountEl) {
+        totalCompletedBreaths = 0;
+        breathsCountEl.textContent = "0";
+      }
+    }
+
+    playBtn?.addEventListener("click", () => {
+      if (isRunning) {
+        pauseBreathing();
+      } else {
+        startBreathing();
+      }
+    });
+
+    resetBtn?.addEventListener("click", () => {
+      resetBreathing(true);
+    });
+
+    soundBtn?.addEventListener("click", () => {
+      isSoundEnabled = !isSoundEnabled;
+      if (soundLabel) {
+        soundLabel.textContent = isSoundEnabled ? "Chime: On" : "Chime: Off";
+      }
+      if (soundIconOn) soundIconOn.style.display = isSoundEnabled ? "block" : "none";
+      if (soundIconOff) soundIconOff.style.display = isSoundEnabled ? "none" : "block";
+
+      if (isSoundEnabled) {
+        playChime(528, 0.8, 0.08);
+      }
+    });
+
+    modeBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const mode = btn.getAttribute("data-mode");
+        if (!mode || !MODES[mode]) return;
+
+        modeBtns.forEach((b) => {
+          const isSelected = b === btn;
+          b.classList.toggle("active", isSelected);
+          b.setAttribute("aria-selected", isSelected ? "true" : "false");
+        });
+
+        currentModeKey = mode;
+        const wasRunning = isRunning;
+        resetBreathing(false);
+        if (wasRunning) {
+          startBreathing();
+        }
+      });
+    });
+
+    window.addEventListener("hashchange", () => {
+      const hash = (location.hash || "").replace("#", "");
+      if (hash && hash !== "home") {
+        pauseBreathing();
+      }
+    });
+
+    resetBreathing(false);
+  }
+
   loadAboutContent();
   loadSpecialists();
+  initMindfulBreathing();
 });
