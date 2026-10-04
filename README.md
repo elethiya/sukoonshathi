@@ -1,6 +1,6 @@
 # Sukoon Saathi — Mental Health & Holistic Wellness Platform
 
-A serene, mobile-first holistic wellness website and store designed with calming aesthetics, zero external payment gateways, a **single unified Google Sheets backend** for instant customer orders, session bookings, and inquiries, and a **private local Go Admin Studio** for seamless content management.
+A serene, mobile-first holistic wellness website and store designed with calming aesthetics, zero external payment gateways, and a **single unified Google Sheets backend** for instant customer orders, session bookings, and inquiries.
 
 ---
 
@@ -39,14 +39,7 @@ A serene, mobile-first holistic wellness website and store designed with calming
                +-----------------------------------------------------+
 
                       +---------------------------------------+
-                      |          EWCPFC by ELETHIYA           |
-                      |     (Local Go Backend in backend/)    |
-                      |  * elethiya website control panels    |
-                      |    for clients                        |
-                      |  * Manages data/ products/specialists |
-                      |  * Live About Page Preview (Stacked)  |
-                      |  * Safe ZIP Backups                   |
-                      |  * 1-Click Deploy & Push to GitHub    |
+                      |     EWCPFC controls this website      |
                       +---------------------------------------+
 ```
 
@@ -112,17 +105,9 @@ The website's catalog and core content are cleanly separated into JSON data file
 
 ---
 
-## EWCPFC — elethiya website control panels for clients (`backend/`)
+## EWCPFC
 
-A dedicated, private Go application engineered by **ELETHIYA** strictly for content editing and zero-risk deployments:
-- **Zero Coupling**: Does NOT host the public static site; runs locally whenever you wish to edit content.
-- **About Page Live Preview**: Edit copy in the upper form and watch an authentic, real-time simulated client preview update directly below it.
-- **Safe ZIP Backups**: Automatic non-destructive `.zip` archives generated prior to any Deploy or Reset in `backend/backups/`.
-- **1-Click GitHub Deploy**: Stages `data/`, commits changes, pushes to your repository, and switches to a clean "Close" button upon completion.
-- **Audit Logging**: The History tab records all administrative changes with search, category filtering, and CSV export.
-- **Scroll Stabilization**: Background page scrolling is locked (`html.modal-open, body.modal-open`) whenever a modal is open, preventing background movement and layout shifts.
-
-See [`backend/README.md`](backend/README.md) for full configuration and run instructions.
+EWCPFC controls this website.
 
 ---
 
@@ -205,9 +190,3 @@ npx serve .
 
 Open `http://localhost:8000` in your web browser.
 
-To start EWCPFC (elethiya website control panels for clients):
-```bash
-cd backend
-go run main.go
-```
-Open `http://localhost:8080` in your browser.

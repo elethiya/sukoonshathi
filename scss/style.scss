@@ -1040,6 +1040,37 @@ footer {
     font-size: 0.82rem;
     color: rgba(245, 238, 225, 0.6);
   }
+
+  .footer-credit {
+    color: rgba(245, 238, 225, 0.75);
+
+    a {
+      text-decoration: none;
+      transition: color 0.2s ease, opacity 0.2s ease;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .credit-brand {
+      color: var(--gold);
+      letter-spacing: 0.5px;
+      font-weight: 700;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    .credit-url {
+      color: rgba(245, 238, 225, 0.75);
+
+      &:hover {
+        color: var(--gold);
+      }
+    }
+  }
 }
 
 // ==========================================
