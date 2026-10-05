@@ -792,7 +792,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // Background Ambient Music System
+  // Background Ambient Music System (Single Meditation Audio)
   // ==========================================
   function initBackgroundMusic() {
     const audio = document.getElementById("bgMusicAudio");
@@ -812,178 +812,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const promptEl = document.getElementById("bgMusicPrompt");
     const promptClose = document.getElementById("bgMusicPromptClose");
 
-    const settingsBtn = document.getElementById("bgMusicSettingsBtn");
-    const card = document.getElementById("bgMusicCard");
-    const cardCloseBtn = document.getElementById("bgMusicCardCloseBtn");
-    const cardTrackTitle = document.getElementById("cardTrackTitle");
-    const cardTrackSub = document.getElementById("cardTrackSub");
-
-    const volSlider = document.getElementById("bgMusicVolSlider");
-    const volVal = document.getElementById("bgMusicVolVal");
     const muteBtn = document.getElementById("bgMusicMuteBtn");
     const volIconHigh = muteBtn?.querySelector(".vol-high");
     const volIconMuted = muteBtn?.querySelector(".vol-muted");
 
-    const trackOptionBtns = widget.querySelectorAll(".track-option-btn");
-
     // State
     let isPlaying = false;
-    let currentTrack = "ambient";
-    let targetVolume = parseFloat(localStorage.getItem("sukoon_bg_music_vol") || "0.35");
-    let previousVolume = targetVolume > 0 ? targetVolume : 0.35;
-    let isMuted = false;
+    let isMuted = localStorage.getItem("sukoon_bg_music_muted") === "true";
+    let targetVolume = 0.35;
     let userPaused = localStorage.getItem("sukoon_bg_music_user_paused") === "true";
     let fadeInterval = null;
-
-    // Web Audio Synthesizer for extra soundscapes
-    let webAudioCtx = null;
-    let synthNodes = [];
-    let synthInterval = null;
-
-    function getAudioContext() {
-      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContextClass) return null;
-      if (!webAudioCtx) {
-        webAudioCtx = new AudioContextClass();
-      }
-      if (webAudioCtx.state === "suspended") {
-        webAudioCtx.resume();
-      }
-      return webAudioCtx;
-    }
-
-    function stopSynth() {
-      if (synthInterval) {
-        clearInterval(synthInterval);
-        synthInterval = null;
-      }
-      synthNodes.forEach((node) => {
-        try {
-          if (node.stop) node.stop();
-          if (node.disconnect) node.disconnect();
-        } catch (e) {}
-      });
-      synthNodes = [];
-    }
-
-    function startSynthBowls() {
-      stopSynth();
-      const ctx = getAudioContext();
-      if (!ctx) return;
-
-      const masterGain = ctx.createGain();
-      const currentVol = isMuted ? 0 : targetVolume;
-      masterGain.gain.setValueAtTime(currentVol * 0.45, ctx.currentTime);
-      masterGain.connect(ctx.destination);
-      synthNodes.push(masterGain);
-
-      // Warm drone at 216Hz and 432Hz
-      const droneOsc = ctx.createOscillator();
-      const droneGain = ctx.createGain();
-      droneOsc.type = "sine";
-      droneOsc.frequency.setValueAtTime(216, ctx.currentTime);
-      droneGain.gain.setValueAtTime(0.08, ctx.currentTime);
-      droneOsc.connect(droneGain);
-      droneGain.connect(masterGain);
-      droneOsc.start();
-      synthNodes.push(droneOsc, droneGain);
-
-      // Play Tibetan singing bowl strike
-      const bowlNotes = [270, 324, 360, 432, 540, 648];
-      function playRandomBowl() {
-        if (!isPlaying || currentTrack !== "bowls") return;
-        const now = ctx.currentTime;
-        const freq = bowlNotes[Math.floor(Math.random() * bowlNotes.length)];
-        const osc = ctx.createOscillator();
-        const oscHarmonic = ctx.createOscillator();
-        const bGain = ctx.createGain();
-        const filter = ctx.createBiquadFilter();
-
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(1600, now);
-
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, now);
-        oscHarmonic.type = "sine";
-        oscHarmonic.frequency.setValueAtTime(freq * 1.5, now);
-
-        bGain.gain.setValueAtTime(0.0001, now);
-        bGain.gain.exponentialRampToValueAtTime(0.22, now + 0.08);
-        bGain.gain.exponentialRampToValueAtTime(0.0001, now + 5.5);
-
-        osc.connect(bGain);
-        oscHarmonic.connect(bGain);
-        bGain.connect(filter);
-        filter.connect(masterGain);
-
-        osc.start(now);
-        oscHarmonic.start(now);
-        osc.stop(now + 6.0);
-        oscHarmonic.stop(now + 6.0);
-      }
-
-      playRandomBowl();
-      synthInterval = setInterval(playRandomBowl, 4200);
-    }
-
-    function startSynthWaves() {
-      stopSynth();
-      const ctx = getAudioContext();
-      if (!ctx) return;
-
-      const bufferSize = ctx.sampleRate * 2;
-      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const output = noiseBuffer.getChannelData(0);
-      let b0 = 0, b1 = 0, b2 = 0;
-      for (let i = 0; i < bufferSize; i++) {
-        const white = Math.random() * 2 - 1;
-        b0 = 0.99886 * b0 + white * 0.0555179;
-        b1 = 0.99332 * b1 + white * 0.0750759;
-        b2 = 0.96900 * b2 + white * 0.1538520;
-        output[i] = (b0 + b1 + b2 + white * 0.5362) * 0.06;
-      }
-
-      const whiteNoise = ctx.createBufferSource();
-      whiteNoise.buffer = noiseBuffer;
-      whiteNoise.loop = true;
-
-      const filter = ctx.createBiquadFilter();
-      filter.type = "lowpass";
-      filter.frequency.setValueAtTime(380, ctx.currentTime);
-
-      const waveGain = ctx.createGain();
-      const currentVol = isMuted ? 0 : targetVolume;
-      waveGain.gain.setValueAtTime(currentVol * 0.35, ctx.currentTime);
-
-      // Low frequency wave oscillator for ocean breathing swell
-      const swellOsc = ctx.createOscillator();
-      const swellGain = ctx.createGain();
-      swellOsc.frequency.setValueAtTime(0.1, ctx.currentTime); // 10s cycle
-      swellGain.gain.setValueAtTime(140, ctx.currentTime);
-
-      swellOsc.connect(filter.frequency);
-      whiteNoise.connect(filter);
-      filter.connect(waveGain);
-      waveGain.connect(ctx.destination);
-
-      whiteNoise.start();
-      swellOsc.start();
-      synthNodes.push(whiteNoise, swellOsc, filter, waveGain);
-    }
-
-    function updateVolumeDisplay(vol) {
-      if (volSlider) volSlider.value = vol;
-      if (volVal) volVal.textContent = `${Math.round(vol * 100)}%`;
-      if (volIconHigh && volIconMuted) {
-        if (vol === 0 || isMuted) {
-          volIconHigh.style.display = "none";
-          volIconMuted.style.display = "block";
-        } else {
-          volIconHigh.style.display = "block";
-          volIconMuted.style.display = "none";
-        }
-      }
-    }
 
     function fadeAudioTo(targetVol, durationMs = 2000) {
       clearInterval(fadeInterval);
@@ -1002,6 +840,19 @@ document.addEventListener("DOMContentLoaded", () => {
           audio.volume = targetVol;
         }
       }, stepTime);
+    }
+
+    function setMuteUI(muted) {
+      isMuted = muted;
+      audio.muted = muted;
+      if (volIconHigh && volIconMuted) {
+        volIconHigh.style.display = muted ? "none" : "block";
+        volIconMuted.style.display = muted ? "block" : "none";
+      }
+      if (muteBtn) {
+        muteBtn.setAttribute("aria-label", muted ? "Unmute ambient music" : "Mute ambient music");
+        muteBtn.title = muted ? "Unmute" : "Mute";
+      }
     }
 
     function setUIState(playing) {
@@ -1023,7 +874,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (labelEl) {
-        labelEl.textContent = playing ? "Calm Playing" : "Calm Paused";
+        labelEl.textContent = playing ? "Calm Music" : "Music Paused";
       }
 
       if (iconPause && iconPlay) {
@@ -1036,59 +887,48 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    function playActiveTrack() {
-      const vol = isMuted ? 0 : targetVolume;
-
-      if (currentTrack === "ambient") {
-        stopSynth();
-        audio.volume = 0.001;
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              setUIState(true);
-              fadeAudioTo(vol, 2500);
-            })
-            .catch(() => {
-              // Blocked by browser autoplay: listen for user gesture
-              setUIState(false);
-              setupGestureListener();
-            });
-        }
-      } else if (currentTrack === "bowls") {
-        audio.pause();
-        startSynthBowls();
-        setUIState(true);
-      } else if (currentTrack === "waves") {
-        audio.pause();
-        startSynthWaves();
-        setUIState(true);
+    function playAudio() {
+      audio.volume = 0.001;
+      audio.muted = isMuted;
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setUIState(true);
+            fadeAudioTo(targetVolume, 2500);
+          })
+          .catch(() => {
+            // Blocked by browser autoplay before user interaction: setup fallback listener
+            setUIState(false);
+            setupGestureListener();
+          });
       }
     }
 
-    function pauseActiveTrack() {
-      if (currentTrack === "ambient") {
-        fadeAudioTo(0, 400);
-        setTimeout(() => {
-          audio.pause();
-          setUIState(false);
-        }, 420);
-      } else {
-        stopSynth();
+    function pauseAudio() {
+      fadeAudioTo(0, 350);
+      setTimeout(() => {
+        audio.pause();
         setUIState(false);
-      }
+      }, 380);
     }
 
     function togglePlayback() {
       if (isPlaying) {
         userPaused = true;
         localStorage.setItem("sukoon_bg_music_user_paused", "true");
-        pauseActiveTrack();
+        pauseAudio();
       } else {
         userPaused = false;
         localStorage.removeItem("sukoon_bg_music_user_paused");
-        playActiveTrack();
+        playAudio();
       }
+    }
+
+    function toggleMute() {
+      const nextMuted = !isMuted;
+      localStorage.setItem("sukoon_bg_music_muted", nextMuted ? "true" : "false");
+      setMuteUI(nextMuted);
     }
 
     function setupGestureListener() {
@@ -1096,7 +936,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const onFirstGesture = () => {
         if (!userPaused) {
-          playActiveTrack();
+          playAudio();
         }
         cleanupListeners();
       };
@@ -1108,10 +948,13 @@ document.addEventListener("DOMContentLoaded", () => {
       events.forEach((ev) => window.addEventListener(ev, onFirstGesture, { passive: true, once: true }));
     }
 
-    // Toggle Button Event
+    // Toggle Button Events
     toggleBtn?.addEventListener("click", togglePlayback);
     topbarMusicBtn?.addEventListener("click", togglePlayback);
     menuMusicToggle?.addEventListener("click", togglePlayback);
+
+    // Mute Button Event
+    muteBtn?.addEventListener("click", toggleMute);
 
     // Prompt Close
     promptClose?.addEventListener("click", (e) => {
@@ -1119,104 +962,12 @@ document.addEventListener("DOMContentLoaded", () => {
       promptEl?.classList.add("hidden");
     });
 
-    // Settings Card Open/Close
-    settingsBtn?.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const isOpen = card?.classList.toggle("open");
-      settingsBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    });
-
-    cardCloseBtn?.addEventListener("click", () => {
-      card?.classList.remove("open");
-      settingsBtn?.setAttribute("aria-expanded", "false");
-    });
-
-    // Close when clicking outside
-    document.addEventListener("click", (e) => {
-      if (card?.classList.contains("open") && !widget.contains(e.target)) {
-        card.classList.remove("open");
-        settingsBtn?.setAttribute("aria-expanded", "false");
-      }
-    });
-
-    // Close on Escape key
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && card?.classList.contains("open")) {
-        card.classList.remove("open");
-        settingsBtn?.setAttribute("aria-expanded", "false");
-      }
-    });
-
-    // Volume Slider Event
-    volSlider?.addEventListener("input", (e) => {
-      const val = parseFloat(e.target.value);
-      targetVolume = val;
-      isMuted = val === 0;
-      localStorage.setItem("sukoon_bg_music_vol", `${val}`);
-
-      if (currentTrack === "ambient") {
-        audio.volume = val;
-      } else if (synthNodes.length > 0) {
-        synthNodes.forEach((node) => {
-          if (node instanceof GainNode) {
-            node.gain.setValueAtTime(val * 0.45, (webAudioCtx || {}).currentTime || 0);
-          }
-        });
-      }
-      updateVolumeDisplay(val);
-    });
-
-    // Mute/Unmute Toggle
-    muteBtn?.addEventListener("click", () => {
-      if (isMuted || targetVolume === 0) {
-        isMuted = false;
-        targetVolume = previousVolume > 0 ? previousVolume : 0.35;
-      } else {
-        previousVolume = targetVolume;
-        isMuted = true;
-        targetVolume = 0;
-      }
-      localStorage.setItem("sukoon_bg_music_vol", `${targetVolume}`);
-      if (currentTrack === "ambient") {
-        audio.volume = targetVolume;
-      }
-      updateVolumeDisplay(targetVolume);
-    });
-
-    // Track Selection
-    trackOptionBtns.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const trackKey = btn.getAttribute("data-track");
-        if (!trackKey || trackKey === currentTrack) return;
-
-        trackOptionBtns.forEach((b) => b.classList.toggle("active", b === btn));
-        currentTrack = trackKey;
-
-        if (cardTrackTitle && cardTrackSub) {
-          if (trackKey === "ambient") {
-            cardTrackTitle.textContent = "Sukoon Waves";
-            cardTrackSub.textContent = "Meditative drone & ocean breath (432Hz)";
-          } else if (trackKey === "bowls") {
-            cardTrackTitle.textContent = "Tibetan Zen Bowls";
-            cardTrackSub.textContent = "Harmonic peaceful meditation bells";
-          } else if (trackKey === "waves") {
-            cardTrackTitle.textContent = "Ocean Tide & Rain";
-            cardTrackSub.textContent = "Gentle pink noise & water swells";
-          }
-        }
-
-        if (isPlaying) {
-          playActiveTrack();
-        }
-      });
-    });
-
-    // Initial Volume setup
-    updateVolumeDisplay(targetVolume);
+    // Initial mute display
+    setMuteUI(isMuted);
 
     // Initial Autoplay trigger on page entrance
     if (!userPaused) {
-      playActiveTrack();
+      playAudio();
     } else {
       setUIState(false);
     }

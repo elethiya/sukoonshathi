@@ -560,7 +560,7 @@
 
 <!-- ===== Ambient Background Music System ===== -->
 <div class="bg-music-widget" id="bgMusicWidget" aria-label="Background Ambient Music Player">
-  <!-- Background Audio Element -->
+  <!-- Background Audio Element (Single Meditation Track) -->
   <audio id="bgMusicAudio" loop preload="auto" src="assets/audio/sukoon-ambient.mp3"></audio>
 
   <!-- Autoplay Interaction Prompt Banner -->
@@ -570,7 +570,7 @@
     <button type="button" class="prompt-close" id="bgMusicPromptClose" aria-label="Dismiss banner">&times;</button>
   </div>
 
-  <!-- Music Pill Control Button -->
+  <!-- Music Pill Control Button (Single Ambient Track) -->
   <div class="bg-music-pill" id="bgMusicPill">
     <button type="button" class="music-toggle-btn" id="bgMusicToggleBtn" aria-label="Play or pause background ambient music" title="Toggle background ambient music">
       <span class="music-equalizer" id="bgMusicEqualizer" aria-hidden="true">
@@ -578,7 +578,7 @@
         <span class="bar bar-2"></span>
         <span class="bar bar-3"></span>
       </span>
-      <span class="music-label" id="bgMusicLabel">Calm Ambient</span>
+      <span class="music-label" id="bgMusicLabel">Calm Music</span>
       <span class="music-state-icon" id="bgMusicStateIcon">
         <!-- Pause Icon when playing -->
         <svg class="icon-pause" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
@@ -586,48 +586,10 @@
         <svg class="icon-play" width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
       </span>
     </button>
-    <button type="button" class="music-settings-btn" id="bgMusicSettingsBtn" aria-label="Open ambient sound controls" aria-expanded="false" title="Music settings">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    <button type="button" class="music-mute-btn" id="bgMusicMuteBtn" aria-label="Mute or unmute ambient music" title="Mute/Unmute">
+      <svg class="vol-high" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+      <svg class="vol-muted" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
     </button>
-  </div>
-
-  <!-- Music Settings Popover Card -->
-  <div class="bg-music-card" id="bgMusicCard" aria-hidden="true">
-    <div class="music-card-header">
-      <div class="card-track-info">
-        <span class="track-badge">432Hz Calm</span>
-        <h4 class="track-title" id="cardTrackTitle">Sukoon Waves</h4>
-        <p class="track-sub" id="cardTrackSub">Meditative drone &amp; ocean breath</p>
-      </div>
-      <button type="button" class="card-close-btn" id="bgMusicCardCloseBtn" aria-label="Close music settings">&times;</button>
-    </div>
-
-    <!-- Volume Bar -->
-    <div class="music-volume-row">
-      <button type="button" class="mute-btn" id="bgMusicMuteBtn" aria-label="Mute or unmute">
-        <svg class="vol-high" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-        <svg class="vol-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-      </button>
-      <input type="range" min="0" max="1" step="0.01" value="0.35" class="music-volume-slider" id="bgMusicVolSlider" aria-label="Background music volume">
-      <span class="volume-val" id="bgMusicVolVal">35%</span>
-    </div>
-
-    <!-- Soundscapes / Tracks selection -->
-    <div class="music-tracks-list">
-      <span class="track-list-label">Calming Soundscapes</span>
-      <button type="button" class="track-option-btn active" data-track="ambient">
-        <span class="track-opt-name">Sukoon Waves (432Hz)</span>
-        <span class="track-opt-desc">Atmospheric drone &amp; singing bells</span>
-      </button>
-      <button type="button" class="track-option-btn" data-track="bowls">
-        <span class="track-opt-name">Tibetan Zen Bowls</span>
-        <span class="track-opt-desc">Harmonic meditation bells</span>
-      </button>
-      <button type="button" class="track-option-btn" data-track="waves">
-        <span class="track-opt-name">Ocean Tide &amp; Rain</span>
-        <span class="track-opt-desc">Gentle pink noise &amp; water swells</span>
-      </button>
-    </div>
   </div>
 </div>
 
