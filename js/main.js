@@ -887,21 +887,80 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    let isAttemptingPlay = false;
+    let gestureListenersAttached = false;
+    const gestureEvents = [
+      "scroll",
+      "wheel",
+      "touchmove",
+      "touchstart",
+      "touchend",
+      "pointerdown",
+      "pointerup",
+      "mousedown",
+      "mouseup",
+      "keydown"
+    ];
+
+    function handleScrollOrInteraction() {
+      if (userPaused || isPlaying || isAttemptingPlay) return;
+      playAudio();
+    }
+
+    function setupGestureListener() {
+      if (gestureListenersAttached) return;
+      gestureListenersAttached = true;
+
+      if (promptEl) {
+        promptEl.classList.remove("hidden");
+      }
+
+      gestureEvents.forEach((ev) => {
+        window.addEventListener(ev, handleScrollOrInteraction, { passive: true, capture: true });
+        document.addEventListener(ev, handleScrollOrInteraction, { passive: true, capture: true });
+      });
+    }
+
+    function cleanupGestureListeners() {
+      if (!gestureListenersAttached) return;
+      gestureListenersAttached = false;
+
+      gestureEvents.forEach((ev) => {
+        window.removeEventListener(ev, handleScrollOrInteraction, { capture: true });
+        document.removeEventListener(ev, handleScrollOrInteraction, { capture: true });
+      });
+
+      if (promptEl) {
+        promptEl.classList.add("hidden");
+      }
+    }
+
     function playAudio() {
-      audio.volume = 0.001;
+      if (userPaused || isPlaying || isAttemptingPlay) return;
+
       audio.muted = isMuted;
+      if (audio.volume === 0 || audio.volume < 0.01) {
+        audio.volume = 0.001;
+      }
+
+      isAttemptingPlay = true;
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise
           .then(() => {
+            isAttemptingPlay = false;
             setUIState(true);
-            fadeAudioTo(targetVolume, 2500);
+            fadeAudioTo(targetVolume, 2000);
+            cleanupGestureListeners();
           })
           .catch(() => {
+            isAttemptingPlay = false;
             // Blocked by browser autoplay before user interaction: setup fallback listener
             setUIState(false);
             setupGestureListener();
           });
+      } else {
+        isAttemptingPlay = false;
       }
     }
 
@@ -931,23 +990,6 @@ document.addEventListener("DOMContentLoaded", () => {
       setMuteUI(nextMuted);
     }
 
-    function setupGestureListener() {
-      if (promptEl) promptEl.classList.remove("hidden");
-
-      const onFirstGesture = () => {
-        if (!userPaused) {
-          playAudio();
-        }
-        cleanupListeners();
-      };
-
-      const events = ["click", "touchstart", "pointerdown", "keydown", "scroll"];
-      function cleanupListeners() {
-        events.forEach((ev) => window.removeEventListener(ev, onFirstGesture, { passive: true }));
-      }
-      events.forEach((ev) => window.addEventListener(ev, onFirstGesture, { passive: true, once: true }));
-    }
-
     // Toggle Button Events
     toggleBtn?.addEventListener("click", togglePlayback);
     topbarMusicBtn?.addEventListener("click", togglePlayback);
@@ -956,7 +998,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Mute Button Event
     muteBtn?.addEventListener("click", toggleMute);
 
-    // Prompt Close
+    // Prompt Banner Events
+    promptEl?.addEventListener("click", (e) => {
+      if (e.target !== promptClose && !promptClose?.contains(e.target)) {
+        if (!userPaused) {
+          playAudio();
+        }
+      }
+    });
+
     promptClose?.addEventListener("click", (e) => {
       e.stopPropagation();
       promptEl?.classList.add("hidden");
@@ -968,6 +1018,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initial Autoplay trigger on page entrance
     if (!userPaused) {
       playAudio();
+      // If user starts at a scrolled position, trigger audio immediately
+      if (window.scrollY > 0) {
+        playAudio();
+      }
     } else {
       setUIState(false);
     }
