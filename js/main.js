@@ -808,10 +808,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const topbarMusicText = document.getElementById("topbarMusicText");
     const menuMusicToggle = document.getElementById("menuMusicToggle");
     const menuMusicText = document.getElementById("menuMusicText");
-
-    const promptEl = document.getElementById("bgMusicPrompt");
-    const promptClose = document.getElementById("bgMusicPromptClose");
-
     const muteBtn = document.getElementById("bgMusicMuteBtn");
     const volIconHigh = muteBtn?.querySelector(".vol-high");
     const volIconMuted = muteBtn?.querySelector(".vol-muted");
@@ -881,86 +877,42 @@ document.addEventListener("DOMContentLoaded", () => {
         iconPause.style.display = playing ? "block" : "none";
         iconPlay.style.display = playing ? "none" : "block";
       }
-
-      if (playing) {
-        promptEl?.classList.add("hidden");
-      }
     }
 
-    let isAttemptingPlay = false;
-    let gestureListenersAttached = false;
-    const gestureEvents = [
-      "scroll",
-      "wheel",
-      "touchmove",
-      "touchstart",
-      "touchend",
-      "pointerdown",
-      "pointerup",
-      "mousedown",
-      "mouseup",
-      "keydown"
-    ];
+    const askModal = document.getElementById("musicAskModal");
+    const btnAccept = document.getElementById("btnMusicAccept");
+    const btnDecline = document.getElementById("btnMusicDecline");
+    const btnAskClose = document.getElementById("btnMusicAskClose");
 
-    function handleScrollOrInteraction() {
-      if (userPaused || isPlaying || isAttemptingPlay) return;
-      playAudio();
+    // Modal helpers
+    function openAskModal() {
+      if (!askModal) return;
+      askModal.classList.add("active");
+      askModal.setAttribute("aria-hidden", "false");
     }
 
-    function setupGestureListener() {
-      if (gestureListenersAttached) return;
-      gestureListenersAttached = true;
-
-      if (promptEl) {
-        promptEl.classList.remove("hidden");
-      }
-
-      gestureEvents.forEach((ev) => {
-        window.addEventListener(ev, handleScrollOrInteraction, { passive: true, capture: true });
-        document.addEventListener(ev, handleScrollOrInteraction, { passive: true, capture: true });
-      });
-    }
-
-    function cleanupGestureListeners() {
-      if (!gestureListenersAttached) return;
-      gestureListenersAttached = false;
-
-      gestureEvents.forEach((ev) => {
-        window.removeEventListener(ev, handleScrollOrInteraction, { capture: true });
-        document.removeEventListener(ev, handleScrollOrInteraction, { capture: true });
-      });
-
-      if (promptEl) {
-        promptEl.classList.add("hidden");
-      }
+    function closeAskModal() {
+      if (!askModal) return;
+      askModal.classList.remove("active");
+      askModal.setAttribute("aria-hidden", "true");
     }
 
     function playAudio() {
-      if (userPaused || isPlaying || isAttemptingPlay) return;
-
       audio.muted = isMuted;
       if (audio.volume === 0 || audio.volume < 0.01) {
         audio.volume = 0.001;
       }
 
-      isAttemptingPlay = true;
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise
           .then(() => {
-            isAttemptingPlay = false;
             setUIState(true);
             fadeAudioTo(targetVolume, 2000);
-            cleanupGestureListeners();
           })
-          .catch(() => {
-            isAttemptingPlay = false;
-            // Blocked by browser autoplay before user interaction: setup fallback listener
+          .catch((err) => {
             setUIState(false);
-            setupGestureListener();
           });
-      } else {
-        isAttemptingPlay = false;
       }
     }
 
@@ -998,30 +950,60 @@ document.addEventListener("DOMContentLoaded", () => {
     // Mute Button Event
     muteBtn?.addEventListener("click", toggleMute);
 
-    // Prompt Banner Events
-    promptEl?.addEventListener("click", (e) => {
-      if (e.target !== promptClose && !promptClose?.contains(e.target)) {
-        if (!userPaused) {
-          playAudio();
-        }
+    // Ask Modal Events
+    btnAccept?.addEventListener("click", () => {
+      sessionStorage.setItem("sukoon_music_decision", "play");
+      userPaused = false;
+      localStorage.removeItem("sukoon_bg_music_user_paused");
+      closeAskModal();
+      playAudio();
+    });
+
+    btnDecline?.addEventListener("click", () => {
+      sessionStorage.setItem("sukoon_music_decision", "silent");
+      userPaused = true;
+      localStorage.setItem("sukoon_bg_music_user_paused", "true");
+      closeAskModal();
+      pauseAudio();
+    });
+
+    btnAskClose?.addEventListener("click", () => {
+      sessionStorage.setItem("sukoon_music_decision", "silent");
+      userPaused = true;
+      closeAskModal();
+      pauseAudio();
+    });
+
+    askModal?.addEventListener("click", (e) => {
+      if (e.target === askModal) {
+        sessionStorage.setItem("sukoon_music_decision", "silent");
+        userPaused = true;
+        closeAskModal();
+        pauseAudio();
       }
     });
 
-    promptClose?.addEventListener("click", (e) => {
-      e.stopPropagation();
-      promptEl?.classList.add("hidden");
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && askModal?.classList.contains("active")) {
+        sessionStorage.setItem("sukoon_music_decision", "silent");
+        userPaused = true;
+        closeAskModal();
+        pauseAudio();
+      }
     });
 
     // Initial mute display
     setMuteUI(isMuted);
 
-    // Initial Autoplay trigger on page entrance
-    if (!userPaused) {
+    // On page entrance: Ask user or respect existing session choice
+    const sessionDecision = sessionStorage.getItem("sukoon_music_decision");
+    if (!sessionDecision) {
+      // First time entering website in this session: prompt user
+      setTimeout(() => {
+        openAskModal();
+      }, 500);
+    } else if (sessionDecision === "play" && !userPaused) {
       playAudio();
-      // If user starts at a scrolled position, trigger audio immediately
-      if (window.scrollY > 0) {
-        playAudio();
-      }
     } else {
       setUIState(false);
     }

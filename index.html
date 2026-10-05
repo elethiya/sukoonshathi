@@ -563,13 +563,6 @@
   <!-- Background Audio Element (Single Meditation Track) -->
   <audio id="bgMusicAudio" loop preload="auto" src="assets/audio/sukoon-ambient.mp3"></audio>
 
-  <!-- Autoplay Interaction Prompt Banner -->
-  <div class="bg-music-prompt" id="bgMusicPrompt" role="status" aria-live="polite">
-    <span class="prompt-icon">♪</span>
-    <span class="prompt-text">Calming music ready · Scroll or tap to listen</span>
-    <button type="button" class="prompt-close" id="bgMusicPromptClose" aria-label="Dismiss banner">&times;</button>
-  </div>
-
   <!-- Music Pill Control Button (Single Ambient Track) -->
   <div class="bg-music-pill" id="bgMusicPill">
     <button type="button" class="music-toggle-btn" id="bgMusicToggleBtn" aria-label="Play or pause background ambient music" title="Toggle background ambient music">
@@ -590,6 +583,32 @@
       <svg class="vol-high" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
       <svg class="vol-muted" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
     </button>
+  </div>
+</div>
+
+<!-- ===== Background Music Welcome Ask Modal ===== -->
+<div class="music-ask-overlay" id="musicAskModal" role="dialog" aria-modal="true" aria-labelledby="musicAskTitle" aria-hidden="true">
+  <div class="music-ask-card">
+    <button type="button" class="music-ask-close" id="btnMusicAskClose" aria-label="Dismiss">&times;</button>
+    <div class="music-ask-icon-wrap" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 18V5l12-2v13"></path>
+        <circle cx="6" cy="18" r="3"></circle>
+        <circle cx="18" cy="16" r="3"></circle>
+      </svg>
+    </div>
+    <span class="music-ask-tag">Mindful Atmosphere</span>
+    <h3 class="music-ask-title" id="musicAskTitle">Play Background Music?</h3>
+    <p class="music-ask-desc">Enhance your peaceful journey with our soothing 432Hz ambient soundscape while you explore Sukoon Shathi.</p>
+    <div class="music-ask-actions">
+      <button type="button" class="btn-music-accept" id="btnMusicAccept">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span>Play Calming Music</span>
+      </button>
+      <button type="button" class="btn-music-decline" id="btnMusicDecline">
+        Continue in Silence
+      </button>
+    </div>
   </div>
 </div>
 
